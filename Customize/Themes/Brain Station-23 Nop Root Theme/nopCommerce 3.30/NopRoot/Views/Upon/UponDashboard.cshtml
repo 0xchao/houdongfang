@@ -1,0 +1,69 @@
+﻿@{
+    //page title
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+   // ViewBag.Title = @T("Admin.Dashboard").Text;
+}
+<div class="section-title">
+    <img src="@Url.Content("~/Administration/Content/images/ico-dashboard.png")" alt="" />
+    @T("Admin.uPonDashboard")
+</div>
+
+<div class="options">
+<a class="k-button" href="@Url.Action("List", "/Plugin/Upon/uPonDashboard/")">View All uPons</a>
+<a class="k-button" href="@Url.Action("ActiveList", "/Plugin/Upon/uPonDashboard/")">View Active uPons</a>
+</div>
+
+<table class="dashboard">
+    @Html.Action("WidgetsByZone", "Widget", new { widgetZone = "admin_dashboard_top" })
+    <tr>
+        <td class="maincol">
+            <div class="section-header">
+                <div class="title">
+                    <img src="@Url.Content("~/Administration/Content/images/ico-stat1.gif")" alt="" />
+                    @T("Admin.Dashboard.UponReports")
+                </div>
+            </div>
+            <table class="stats">
+                <tbody>
+                    <tr>
+                       <td class="orderaveragereport">
+                            <div class="statisticsTitle">
+                                @T("Admin.UponTotalReport")
+                            </div>
+                          
+                           @Html.Action("UponTotalReport", "Upon", new RouteValueDictionary() 
+                            {
+                                { "namespaces", "Nop.Plugin.Upon.Controllers" },
+                                { "area", null }
+                            })
+                          
+                             
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="stats">
+                <tbody>
+                    <tr>
+                       <td class="orderaveragereport">
+                            <div class="statisticsTitle">
+                                @T("Admin.AvailableUponsReport")
+                            </div>
+                          
+                           @Html.Action("AvailableUponsReport", "Upon", new RouteValueDictionary() 
+                            {
+                                { "namespaces", "Nop.Plugin.Upon.Controllers" },
+                                { "area", null }
+                            })
+                          
+                             
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+        </td>
+      
+    </tr>
+    @Html.Action("WidgetsByZone", "Widget", new { widgetZone = "admin_dashboard_bottom" })
+</table>
