@@ -1,0 +1,170 @@
+﻿@using Nop.Plugin.Upon
+@using Nop.Plugin.Upon.Models
+@model UniqueCouponModel
+@using Nop.Web.Framework
+@{
+    Layout = "~/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Plugin/Upon/UniqueCoupon", new { id = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="section-header">
+        <div class="title">
+            <img src="@Url.Content("~/Administration/Content/images/ico-content.png")" alt="" />
+            @T("Admin.ContentManagement.Events.EditUniqueCouponItemDetails") - @Model.Title
+            @Html.ActionLink("(" + T("Admin.ContentManagement.UniqueCoupon.BackToList") + ")", "List", "/Plugin/Upon/UniqueCoupon/")
+        </div>
+        <div class="options">
+            <button type="submit" name="save" value="save" class="k-button">@T("Admin.Common.Save")</button>
+            <button type="submit" name="save" value="save-continue" class="k-button">@T("Admin.Common.SaveContinue")</button>
+            <span id="uniquecouponitem-delete" class="k-button">@T("Admin.Common.Delete")</span>
+        </div>
+    </div>
+    
+    
+    @Html.HiddenFor(model => model.Id)
+ 
+
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Title):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.StartDate):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.StartDate)
+                @Html.ValidationMessageFor(model => model.StartDate)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.EndDate):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.EndDate)
+                @Html.ValidationMessageFor(model => model.EndDate)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Offer):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Offer)
+                @Html.ValidationMessageFor(model => model.Offer)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Restrictions):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Restrictions)
+                @Html.ValidationMessageFor(model => model.Restrictions)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Description):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Quantity):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.DateRange):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(x => x.DateRange)
+            </td>
+        </tr>
+         <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.CouponImageForWebsite):
+            </td>
+            <td class="adminData">
+                @*@Html.TextAreaFor(model => model.BannerCouponImage)*@
+                
+                <input type="file" name="files" id="CouponImageForWebsite" value="@Model.CouponImageForWebsite" />
+                @Html.ValidationMessageFor(model => model.CouponImageForWebsite)
+                @Html.HiddenFor(model => model.CouponImageForWebsite)
+                <img src="/@Model.CouponImageForWebsite" width="200"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.BannerCouponImage):
+            </td>
+            <td class="adminData">
+                @*@Html.TextAreaFor(model => model.BannerCouponImage)*@
+                
+                <input type="file" name="files" id="BannerCouponImage" value="@Model.BannerCouponImage" />
+                @Html.ValidationMessageFor(model => model.BannerCouponImage)
+                @Html.HiddenFor(model => model.BannerCouponImage)
+                <img src="/@Model.BannerCouponImage" width="200"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.StandardCouponImage):
+            </td>
+            <td class="adminData">
+                @*@Html.TextAreaFor(model => model.PrintableCouponImage)*@
+               
+                <input type="file" name="files" id="StandardCouponImage" value="@Model.StandardCouponImage"/>
+                 @Html.HiddenFor(model => model.StandardCouponImage)
+                 <img src="/@Model.StandardCouponImage" width="200"/>
+                @Html.ValidationMessageFor(model => model.StandardCouponImage)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Disclaimer):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.Disclaimer)
+                @Html.ValidationMessageFor(model => model.Disclaimer)
+            </td>
+        </tr>
+		<tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.UPC):
+            </td>
+            <td class="adminData">
+                @Html.TextAreaFor(model => model.UPC)
+                @Html.ValidationMessageFor(model => model.UPC)
+            </td>
+        </tr>
+		 <tr>
+            <td class="adminTitle">
+                @Html.NopLabelFor(model => model.Active):
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Active)
+                @Html.ValidationMessageFor(model => model.Active)
+            </td>
+        </tr>
+    </table>
+  
+}
+@Html.DeleteConfirmation("Delete", "Plugin/Upon/UniqueCoupon", Model.Id, "uniquecouponitem-delete")
+@*@Html.DeleteConfirmation("Admin/Plugin/Upon/UniqueCoupon/Delete/"Model.Id, "uniquecouponitem-delete")*@

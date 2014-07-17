@@ -1,0 +1,33 @@
+﻿@using Nop.Plugin.Upon.Models;
+@using Telerik.Web.Mvc.UI
+@model ImprintedCouponModel
+@{
+    Layout = "";
+    // Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/Content/Upon.css"))
+
+   
+}
+@using (Html.BeginForm())
+{
+   
+    <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                Guid :
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.UniqueId_imprintedCoupon)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                Total :
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Amount)
+            </td>
+        </tr>
+    </table>
+    <button type="submit" name="save" value="save" class="t-button">@T("Redeem")</button>
+  
+}

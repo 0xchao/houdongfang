@@ -1,0 +1,232 @@
+﻿@using Nop.Plugin.Upon.Models
+@model IList<UniqueCouponModel>
+@{
+	Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+	Html.AddTitleParts("Special Coupon Offers");
+	Html.AddMetaDescriptionParts("Special Coupon Offers");
+	Html.AddMetaKeywordParts("Special Coupon Offers");
+	Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/Content/Upon.css"));
+	Html.AppendScriptParts("~/Plugins/Upon/Scripts/Upon.js");
+	Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/Content/smoothness/jquery-ui-1.8.17.custom.css"));
+	Html.AppendScriptParts("~/Plugins/Upon/Scripts/jquery-ui.min.js");
+
+	Html.AddCssFileParts(@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"));
+	Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/assets/countdown/jquery.countdown.css"));
+
+
+	Html.AppendScriptParts("~/Plugins/Upon/assets/countdown/jquery.countdown.js");
+      
+     
+}
+<div class="mainContent">
+	@if(ViewBag.registered == "true")
+ {
+
+	 if(ViewBag.nocoupon == "")
+	 {
+		<h1 class="header1">Available U-Pick Offers!</h1>
+		
+		 for(int i = 0; i < Model.Count; i++)
+		 {
+			var item = Model[i];
+			<div class="UniqueCouponLists" id="tobecovered">
+				@if(item.Quantity <= 0)
+				{
+					item.Id = -1;
+				}
+				else
+				{
+					item.Id = item.Id;
+				}
+				<a href="javascript:UniqueCouponSelected(@item.Id, '@item.Title')">
+					<div class="UniqueCouponTitle">@item.Title</div>
+					<div class="uPon-image">
+						<img  src="@item.CouponImageForWebsite" />
+					</div>
+					<div class="uPon-info-wrapper">
+						<div class="UniqueCouponDescription">@item.Description</div>
+						<div class="UniqueCouponOffer">@item.Offer</div>
+						<div id="countdown"></div>
+						<p id="note"></p>
+						@if(item.Quantity <= 0)
+						{
+							<img src="Plugins/Upon/Content/images/sold.png" class="cover" />
+						}
+					  else
+					  {
+						<div class="uPon-Activation-image"></div>
+						<div class="uPon-Activation-box">
+							
+							<div class="uPon-available">Available:<br />
+								<span class="uPon-Available-Quantity">@item.Quantity</span>
+							</div>
+							<div id="countdown_@(i)">
+								<span class="uPon-Time-Left-Text">Time Left to Activate:</span><br />
+							</div>
+							<p id="note_@(i)'"></p>
+							<div class="clear"></div>
+						</div>
+							<div class="uPon-disclaimer-restrictions">@item.Restrictions @item.Disclaimer</div>
+							<p id="note_@(i)'"></p>
+							var dte = item.EndDate;
+							<script>
+							    var count = 0;
+                        
+							    (function abc() {
+							        var note = $("#note_" + '@i'),
+									ts = new Date('@dte'),
+									newYear = true,
+									differedTime = ts - new Date();
+
+							        if (count == 0) {
+							            setTimeout(function () {
+							                document.location.reload(true);
+							            }, differedTime);
+							        }
+							        count++;
+
+							        $("#countdown_" + '@i').countdown({
+							            timestamp: ts,
+							            callback: function (days, hours, minutes, seconds) {
+
+							                var message = "";
+
+							                message += days + " day" + (days == 1 ? '' : 's') + ", ";
+							                message += hours + " hour" + (hours == 1 ? '' : 's') + ", ";
+							                message += minutes + " minute" + (minutes == 1 ? '' : 's') + " and ";
+							                message += seconds + " second" + (seconds == 1 ? '' : 's') + " <br />";
+
+							                if (newYear) {
+							                    message += "left until the new year!";
+							                }
+							                else {
+							                    message += "left to 10 days from now!";
+							                }
+
+							                note.html(message);
+							            }
+							        });
+
+							    })();
+
+							</script>
+
+						 }
+					</div>
+				</a>
+			</div>
+		 }
+		<div id="dialog">
+			You are selecting <span></span><br />
+			You can choose only one coupon per week. Are you sure you want this coupon for this
+			week? <a class="button blue" href="#" id="yes">
+			<input type="button" value="Yes" /></a> <a class="button gray" href="#" id="no">
+			<input type="button" value="No" onclick="closedialog()" /></a>
+		</div>
+
+	 }
+	 else
+	 {
+		<div>
+			@{Html.RenderPartial("AlreadyChosenUponMessage");}
+		</div>
+	 }
+ }
+ else
+ {
+		<div id="dialoglogin">
+			<a href="@Url.RouteUrl("Login")?returnUrl=%2fspecialCouponOffer"><u><strong>@T("Account.Login")</strong></u></a>
+			or <a href="@Url.RouteUrl("Register")?returnUrl=%2fspecialCouponOffer"><u><strong>@T("Account.Register")</strong></u></a>
+			now to access specials U-Pick Offer
+		</div>
+		<h1 class="header1">Available U-Pick Offers!</h1>
+		
+	 for(int i = 0; i < Model.Count; i++)
+	 {
+		 var item = Model[i];
+         
+		<div class="UniqueCouponLists UniqueCouponListsForUnRegistered@(i)" id="tobecovered">
+			<a href="javascript:showunregisteredpopup()">
+				<div class="UniqueCouponTitle">@item.Title</div>
+				<img src="@item.CouponImageForWebsite" />
+				<div class="uPon-info-wrapper">
+					<div class="UniqueCouponOffer">@item.Offer</div>
+					<div class="UniqueCouponDescription">@item.Description</div>
+					
+					<div id="countdown">
+					</div>
+					<p id="note">
+					</p>
+					@if(item.Quantity <= 0)
+					{
+						<img src="Plugins/Upon/Content/images/sold.png" class="cover" />
+					}
+					else
+					{
+						<div class="uPon-Activation-image"></div>
+						<div class="uPon-Activation-box">
+							
+							<div class="uPon-available">Available:<br />
+								<span class="uPon-Available-Quantity">@item.Quantity</span>
+							</div>
+							<div id="countdown_@(i)">
+								<span class="uPon-Time-Left-Text">Time Left to Activate:</span><br />
+							</div>
+							<p id="note_@(i)'"></p>
+							<div class="clear"></div>
+						</div>
+						<div class="uPon-disclaimer-restrictions">@item.Restrictions @item.Disclaimer</div>
+						var dte = item.EndDate;
+						<script>
+						    var count = 0;
+						    (function abc() {
+						        var note = $("#note_" + '@i'),
+								ts = new Date('@dte'),
+								newYear = true,
+								differedTime = ts - new Date();
+
+						        if (count == 0) {
+						            setTimeout(function () {
+						                document.location.reload(true);
+						            }, differedTime);
+						        }
+						        count++;
+						        if ((new Date()) > ts) {
+						            document.location.reload(true);
+						        }
+
+						        $("#countdown_" + '@i').countdown({
+						            timestamp: ts,
+						            callback: function (days, hours, minutes, seconds) {
+						                var message = "";
+
+						                message += days + " day" + (days == 1 ? '' : 's') + ", ";
+						                message += hours + " hour" + (hours == 1 ? '' : 's') + ", ";
+						                message += minutes + " minute" + (minutes == 1 ? '' : 's') + " and ";
+						                message += seconds + " second" + (seconds == 1 ? '' : 's') + " <br />";
+
+						                if (newYear) {
+						                    message += "left until the new year!";
+						                }
+						                else {
+						                    message += "left to 10 days from now!";
+						                }
+
+						                note.html(message);
+						            }
+						        });
+
+						    })();
+
+						</script>
+					}
+				</div>
+			</a>
+		</div>
+
+	 }
+
+		<input type="hidden" id="total" value="@Model.Count" />
+	   
+ }
+</div>

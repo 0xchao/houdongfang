@@ -1,0 +1,66 @@
+﻿<table class="adminContent">
+    <tr>
+        <td>
+            <div id="UponTotal-report-grid"></div>
+
+            <script>
+                    $(document).ready(function () {
+                        $("#UponTotal-report-grid").kendoGrid({
+                            dataSource: {
+                                type: "json",
+                                transport: {
+                                    read: {
+                                        url: "/Upon/UponTotalReport",
+                                        type: "POST",
+                                        dataType: "json"
+                                    }
+                                },
+                                schema: {
+                                    data: "Data",
+                                    total: "Total",
+                                    errors: "Errors"
+                                },
+                                error: function(e) {
+                                    display_kendoui_grid_error(e);
+                                    // Cancel the changes
+                                    this.cancelChanges();
+                                },
+                                pageSize: 10,
+                                serverPaging: true,
+                                serverFiltering: true,
+                                serverSorting: true
+                            },
+                            pageable: {
+                                refresh: true
+                            },
+                            editable: {
+                                confirmation: false,
+                                mode: "inline"
+                            },
+                            scrollable: false,
+                            columns: [{
+                                field: "UponStatus",
+                                title: "UponStatus"
+                            }, {
+                                field: "ThisWeek",
+                                title: "ThisWeek",
+                                template: '<a href="/Admin/Plugin/Upon/uPonDashboard/FilterImprintedCouponList?status=#= UponStatus #&filterKey=ThisWeek ">#= ThisWeek #</a>'
+                            }, {
+                                field: "ThisMonth",
+                                title: "ThisMonth",
+                                template: '<a href="/Admin/Plugin/Upon/uPonDashboard/FilterImprintedCouponList?status=#= UponStatus #&filterKey=ThisMonth ">#= ThisMonth #</a>'
+                            }, {
+                                field: "ThisYear",
+                                title: "ThisYear",
+                                template: '<a href="/Admin/Plugin/Upon/uPonDashboard/FilterImprintedCouponList?status=#= UponStatus #&filterKey=ThisYear ">#= ThisYear #</a>'
+                            },{
+                                field: "AllTime",
+                                title: "AllTime",
+                                template: '<a href="/Admin/Plugin/Upon/uPonDashboard/FilterImprintedCouponList?status=#= UponStatus #&filterKey=AllTime ">#= AllTime #</a>'
+                            }]
+                        });
+                    });
+            </script>
+        </td>
+    </tr>
+</table>

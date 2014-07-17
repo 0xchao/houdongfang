@@ -1,0 +1,54 @@
+﻿@model AdminHeaderLinksModel
+@using Nop.Web.Models.Common;
+
+<div class="admin-header-links-wrapper">
+    <div class="admin-header-links">
+        <div class="header-links-wrapper">
+            @Html.Action("HeaderLinks", "Common")
+            @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+        </div>
+        @if (Model.IsCustomerImpersonated || Model.DisplayAdminLink)
+        {
+                if (Model.IsCustomerImpersonated)
+                {
+                    <span class="impersonate">@string.Format(T("Account.ImpersonatedAs").Text, Model.ImpersonatedCustomerEmailUsername)
+                        - <a href="@Url.RouteUrl("Logout")" class="finish-impersonation" title="@T("Account.ImpersonatedAs.Finish.Hint")">@T("Account.ImpersonatedAs.Finish")</a>
+                    </span>
+                }
+                if (Model.DisplayAdminLink)
+                {
+                    <a href="@Url.Content("~/admin")" class="administration">@T("Account.Administration")</a>
+                }
+        }
+        <div class="search-box">
+            @Html.Action("SearchBox", "Catalog")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(window).scroll(function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop != 0)
+                $('.admin-header-links-wrapper').stop().animate({ 'opacity': '0.3' }, 400);
+            else
+                $('.admin-header-links-wrapper').stop().animate({ 'opacity': '1' }, 400);
+        });
+
+        $('.admin-header-links-wrapper').hover(
+            function (e) {
+                var scrollTop = $(window).scrollTop();
+                if (scrollTop != 0) {
+                    $('.admin-header-links-wrapper').stop().animate({ 'opacity': '1' }, 400);
+                }
+            },
+            function (e) {
+                var scrollTop = $(window).scrollTop();
+                if (scrollTop != 0) {
+                    $('.admin-header-links-wrapper').stop().animate({ 'opacity': '0.3' }, 400);
+                }
+            }
+        );
+    });
+</script>

@@ -1,0 +1,131 @@
+﻿@using Nop.Plugin.Upon.Models;
+@model IList<UserPageModel>
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+    Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/Content/Upon.css"));
+
+  
+}
+@*@section left
+{
+   
+    @Html.Partial("MyAccountNavigation", Model[0].NavigationModel, new ViewDataDictionary())
+    
+   
+}*@
+<div class="eventDetailsConteiner floatLeft">
+@if (Model[0].Id != -1)
+{
+    for (int i = 0, j = 0; i < Model.Count; i++)
+    {
+        if (Model[i].Status == "Active" && Model[i].ExpirationDate >= DateTime.Now)
+        {
+            if (j == 0)
+            {  <h1 class="header1" style="margin:20px 0 5px 0;border-bottom: 2px solid black">
+                Active U-Pick Offers</h1>}
+            j++;
+        <div class="eventitem activeuPon">
+            <div style="float:left;width:60px">
+             <img src="@Model[i].CouponImageForWebsite" width="60"/>
+             </div>
+			<div style="margin-left:70px;">
+				<div class="UniqueCouponTitle">
+					@Model[i].Title
+				</div>
+				<div style="color:#729b5a;font-size:24px;">@Model[i].Offer</div>
+				<div>
+					@Model[i].Restrictions
+				</div>
+				<div>
+					Expiration Date: @Model[i].ExpirationDate.ToString()
+				</div>
+				<div style="font-size:14px;padding:5px 0;font-weight:bold">
+					<a href="@Model[i].PdfPath">Click here to View or Print(PDF) this offer</a>
+				</div>
+			</div>
+            <div class="clear">
+            </div>
+            @*<div>
+                Status: @Model[i].Status
+            </div>
+            <div>
+                RedemptionDate: @Model[i].RedemptionDate
+            </div>
+            <div>
+                <img src="@Model[i].QrcodeImgPath"/>
+            </div>*@
+
+        </div> 
+        <br />
+        }
+
+    }
+    for (int i = 0, j = 0; i < Model.Count; i++)
+    {
+        if (Model[i].Status != "Active" || Model[i].ExpirationDate < DateTime.Now)
+        {
+            if (j == 0)
+            {
+        <h1 class="header1" style="margin:20px 0 5px 0;border-bottom: 2px solid black">
+            Expired or Redeemed U-Picks</h1>
+            }
+            j++;
+        <div class="eventitem">
+            <div class="UniqueCouponTitle">
+                @Model[i].Title
+            </div>
+            <div class="clear">
+            </div>
+			<div>
+                Status:<span style="font-weight:bold"> @Model[i].Status </span>
+            </div>
+            @*<div>
+                Description: @Model[i].Description
+            </div>
+            <div>
+             <img src="@Model[i].CouponImageForWebsite" width="200"/>
+             </div>
+            <div>
+                Offer: @Model[i].Offer
+            </div>*@
+            @*<div>
+                Restrictions: @Model[i].Restrictions
+            </div>
+            <div>
+                First Name: @Model[i].First_Name
+            </div>
+            <div>
+                Last Name: @Model[i].Last_Name
+            </div>
+            <div>
+                E-mail: @Model[i].Email
+            </div>*@
+            <div>
+                Expiration Date: @Model[i].ExpirationDate.ToString()
+            </div>
+
+            @if (Model[i].RedemptionDate == null)
+            {
+                <div>
+                    RedemptionDate: Not Redeemed
+                </div>
+            }
+            else
+            {
+                <div>
+                    RedemptionDate: @Model[i].RedemptionDate.ToString()
+                </div>
+            }
+            @*<div>
+                <img src="@Model[i].QrcodeImgPath"/>
+            </div>
+            <div>
+                <a href="@Model[i].PdfPath">View PDF</a>
+            </div>*@
+        </div>
+        <br />
+        }
+
+    }
+}
+</div>
