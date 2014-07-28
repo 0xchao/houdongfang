@@ -9,8 +9,8 @@
 	Html.AddScriptParts(@Url.Content("~/Plugins/Upon/Scripts/Upon.js"));
 	Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/Content/smoothness/jquery-ui-1.8.17.custom.css"));
 	Html.AddScriptParts(@Url.Content("~/Plugins/Upon/Scripts/jquery-ui.min.js"));
-
-	Html.AddCssFileParts(@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"));
+	Html.AppendCssFileParts("~/Themes/NopRoot/Content/OpenSansCondensed300.css");
+	//Html.AddCssFileParts(@Url.Content("http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"));
 	Html.AddCssFileParts(@Url.Content("~/Plugins/Upon/assets/countdown/jquery.countdown.css"));
 
 
