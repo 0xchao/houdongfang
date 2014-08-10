@@ -1,16 +1,72 @@
 ﻿@{
-    Layout = "~/Views/Shared/_ColumnsThree.cshtml";
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+    Html.AppendScriptParts("~/Themes/nopModern/Scripts/jquery.jplay.min.js");
+    Html.AppendScriptParts("~/Themes/nopModern/Scripts/InitJPlayer.js");
 }
-
 <div class="page home-page">
     <div class="page-body">
-        @Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })
+        @*@Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })*@
         @Html.Action("HomepageCategories", "Catalog")
-        @Html.Action("HomepageProducts", "Catalog")
-        @Html.Action("HomepageBestSellers", "Catalog")
+        @*@Html.Action("HomepageProducts", "Catalog")
+        @@Html.Action("HomepageBestSellers", "Catalog")
         @Html.Action("HomePageNews", "News")
         @Html.Action("HomePagePolls", "Poll")
-        @Html.Widget("home_page_bottom")
+        @Html.Widget("home_page_bottom")*@
+        <div id="jp_container_1" class="jp-video jp-video-fit">
+            <div class="jp-type-single">
+                <div id="jquery_jplayer_1" class="jp-jplayer jp-video-fit">
+                </div>
+                <div class="jp-gui">
+                    <div class="jp-video-play" style="display: block;">
+                        <a href="javascript:;" class="jp-video-play-icon" tabindex="1">play</a>
+                    </div>
+                    @*<div class="jp-interface">
+                        <div class="jp-progress">
+                            <div class="jp-seek-bar" style="width: 99.99999655636644%;">
+                                <div class="jp-play-bar" style="overflow: hidden; width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="jp-current-time">00:00</div>
+                        <div class="jp-duration">-00:33</div>
+                        <div class="jp-details">
+                            <ul>
+                                <li><span class="jp-title">Big Buck Bunny</span></li>
+                            </ul>
+                        </div>
+                    </div>*@
+                </div>
+                <div class="jp-no-solution" style="display: none;">
+                    <span>Update Required</span>
+                    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                </div>
+            </div>
+        </div>
+        <div class="video-content-wrapper"></div>
+        <aside class="promos" style="padding:10px 0;" data-hires="true">
+            <ul>
+                <li class="first-child">
+                    <a class="promo1" href="/books/">
+                        <img src="/Themes/nopModern/Content/portrait.jpg" height="200" alt="备受喜爱的图书">
+                    </a>
+                </li>
+                <li class="second-child">
+                    <a class="promo2" href="/computers/">
+                        <img src="/Themes/nopModern/Content/bonsai.jpg" height="200" alt="电脑">
+                    </a>
+                </li>
+                <li class="third-child">
+                    <a class="promo3" href="/electronics/">
+                        <img src="/Themes/nopModern/Content/girls.jpg" height="200" alt="电子产品">
+                    </a>
+                </li>
+                <li class="last-child">
+                    <a class="promo4" href="/apparel-shoes/">
+                        <img class="wide" src="/Themes/nopModern/Content/paints.jpg" height="200" alt="">
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
     </div>
 </div>
 

@@ -1635,6 +1635,8 @@
     <Content Include="Themes\Mobile\Content\images\ico-forum-post.gif" />
     <Content Include="Themes\Mobile\Content\images\ico-forum.gif" />
     <Content Include="Themes\Mobile\Content\styles.css" />
+    <Content Include="Themes\nopModern\Content\bonsai.jpg" />
+    <Content Include="Themes\nopModern\Content\girls.jpg" />
     <Content Include="Themes\nopModern\Content\ie6.css" />
     <Content Include="Themes\nopModern\Content\ie7.css" />
     <Content Include="Themes\nopModern\Content\images\ajax_loader_large.gif" />
@@ -1677,9 +1679,19 @@
     <Content Include="Themes\nopModern\Content\images\top-menu-list-image-hover.png" />
     <Content Include="Themes\nopModern\Content\images\top-menu-list-image.png" />
     <Content Include="Themes\nopModern\Content\images\top-menu-triangle.png" />
+    <Content Include="Themes\nopModern\Content\jplayer.pink.flag.css" />
+    <Content Include="Themes\nopModern\Content\jplayer.pink.flag.jpg" />
+    <Content Include="Themes\nopModern\Content\jplayer.pink.flag.seeking.gif" />
+    <Content Include="Themes\nopModern\Content\jplayer.pink.flag.video.play.png" />
+    <Content Include="Themes\nopModern\Content\paints.jpg" />
+    <Content Include="Themes\nopModern\Content\portrait.jpg" />
+    <Content Include="Themes\nopModern\Content\poster.png" />
     <Content Include="Themes\nopModern\Content\styles.css" />
     <Content Include="Themes\nopModern\Content\styles.rtl.css" />
     <Content Include="Themes\nopModern\preview.jpg" />
+    <Content Include="Themes\nopModern\Scripts\InitJPlayer.js" />
+    <Content Include="Themes\nopModern\Scripts\Jplayer.swf" />
+    <Content Include="Themes\nopModern\Scripts\jquery.jplayer.min.js" />
     <Content Include="Themes\NopRoot\Content\bootstrap-3.1.1\css\bootstrap-theme.css" />
     <Content Include="Themes\NopRoot\Content\bootstrap-3.1.1\css\bootstrap-theme.min.css" />
     <Content Include="Themes\NopRoot\Content\bootstrap-3.1.1\css\bootstrap.css" />
@@ -2117,6 +2129,8 @@
     <Content Include="Themes\NopRoot\Content\OpenSans400600.css" />
     <Content Include="Themes\NopRoot\Content\opensans81.woff" />
     <Content Include="Themes\NopRoot\Content\opensans82.woff" />
+    <Content Include="Themes\nopModern\Content\30S.flv" />
+    <Content Include="Themes\nopModern\Views\Shared\_ColumnsOne.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
@@ -2441,7 +2455,7 @@
     <CallTarget Targets="CreatePluginsBinDirectory" />
   </Target>
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\WebApplications\Microsoft.WebApplication.targets" />-->
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />

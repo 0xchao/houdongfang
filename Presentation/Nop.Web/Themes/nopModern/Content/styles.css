@@ -46,6 +46,7 @@ input[type="text"]:disabled{background:none repeat scroll 0 0 #FFF;}
 .master-wrapper-content{float:left;width:1170px;text-align:left;background:none repeat scroll 0 0 #FFFFFF;border-radius:4px 4px 0 0;box-shadow:0 0.5em 2em rgba(0,0,0,0.1);-moz-box-shadow:0 0.5em 2em rgba(0,0,0,0.1);-webkit-box-shadow:0 0.5em 2em rgba(0,0,0,0.1);}
 .master-wrapper-main{font-family:'Segoe UI Light', 'Segoe UI', Arial, Helvetica, 'sans-serif';color:#5C5B5B;}
 /* one column master page */
+.master-wrapper-main .center-full{float:left;width:100%;min-height:400px;background:#FFF;display:inline;border-radius:5px;}
 .master-wrapper-main .center-1{float:left;width:1150px;min-height:400px;padding:10px;background:#FFF;display:inline;border-radius:5px;}
 /* two column master page */
 .master-wrapper-main .side-2{float:left;width:190px;margin:10px 0;display:inline;}
@@ -188,7 +189,7 @@ td.fieldname{font-size:12px;}
 
 
 /* TOPICS */
-.topic-html-content{padding-bottom:5px;}
+.topic-html-content{padding:0 10px 5px 10px;}
 .topic-html-content-title{padding:0 0 5px;clear:both;}
 .topic-html-content-header{font-size:2em;font-weight:normal;}
 .topic-html-content-body{font-size: 1.2em;}
@@ -1331,3 +1332,32 @@ pre{white-space:pre-wrap;white-space:normal;word-wrap:break-word;}
 *       [www.streamlinedesign.co.uk]     *
 *                                        *
 ******************************************/
+
+.promos{
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+}
+
+.promos ul {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    margin: 0 auto;
+    min-width: 1024px;
+    width: 100%;
+    max-width: 1440px;
+    /*height: 200px;*/
+    text-align: center;
+    list-style: none outside;
+}
+
+.promos ul li {
+    position: relative;
+    z-index: 1;
+    float: left;
+    overflow: hidden;
+    margin: 0;
+    width: 25%;
+    /*height: 200px;*/
+}

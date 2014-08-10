@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Presentation/Nop.Web/Controllers/CommonController.cs">
+    <Files>
+      <File FileName="Presentation/Nop.Web/Themes/NopRoot/Views/Home/index.cshtml" Line="1" Column="1" />
+      <File FileName="Presentation/Nop.Web/Themes/NopRoot/Views/Shared/_ColumnsTwoHomepage.cshtml" Line="1" Column="1" />
+      <File FileName="Presentation/Nop.Web/Themes/NopRoot/Views/Shared/_Root.cshtml" Line="1" Column="1" />
+      <File FileName="Presentation/Nop.Web/Controllers/CommonController.cs" Line="26" Column="26" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
