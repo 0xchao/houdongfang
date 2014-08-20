@@ -1636,6 +1636,7 @@
     <Content Include="Themes\Mobile\Content\images\ico-forum.gif" />
     <Content Include="Themes\Mobile\Content\styles.css" />
     <Content Include="Themes\nopModern\Content\bonsai.jpg" />
+    <Content Include="Themes\nopModern\Content\Eposter.jpg" />
     <Content Include="Themes\nopModern\Content\girls.jpg" />
     <Content Include="Themes\nopModern\Content\ie6.css" />
     <Content Include="Themes\nopModern\Content\ie7.css" />
@@ -2131,6 +2132,9 @@
     <Content Include="Themes\NopRoot\Content\opensans82.woff" />
     <Content Include="Themes\nopModern\Content\30S.flv" />
     <Content Include="Themes\nopModern\Views\Shared\_ColumnsOne.cshtml" />
+    <Content Include="Themes\nopModern\Views\Shared\_Root_Home.cshtml" />
+    <Content Include="Themes\nopModern\Content\E.flv" />
+    <Content Include="Themes\nopModern\Views\Shared\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

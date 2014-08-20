@@ -1,0 +1,44 @@
+﻿@model FooterModel
+@using Nop.Web.Models.Common;
+@{
+    Layout = "~/Views/Shared/_Root.Head.cshtml";
+}
+@Html.Widget("body_start_html_tag_after")
+@Html.Partial("_Notifications")
+@*@Html.Action("AdminHeaderLinks", "Common")*@
+<div class="master-wrapper-page">
+    @Html.Action("JavaScriptDisabledWarning", "Common")
+    <div class="header-wrapper">
+        <script type="text/javascript">
+            AjaxCart.init(false, '.header-links .cart-qty', '.header-links .wishlist-qty', '#flyout-cart');
+        </script>
+        @*@Html.Partial("Header")*@
+    </div>
+    <div class="master-wrapper-content">
+        @*<div class="slider-content-wrapper">
+            @Html.Widget("home_page_top")
+        </div>*@
+        @Html.Widget("content_before")
+        @*ajax loading window*@
+        <div class="ajax-loading-block-window" style="display: none">
+            <div class="loading-image">
+            </div>
+        </div>
+        <div class="master-wrapper-main">
+            @RenderBody()
+        </div>
+        @Html.Widget("content_after")
+        @Html.Action("EuCookieLaw", "Common")
+    </div>
+    @Html.Partial("Menu")
+    @*@Html.Action("Footer", "Common")*@
+    <div class="footer">
+        <div class="footer-poweredby" style="border:0">
+            Powered by <a href="http://www.nopcommerce.com/">nopCommerce</a> - <a href="http://www.streamlinedesign.co.uk">Modern Theme by Charlie Atkinson</a>
+        </div>
+        <div class="footer-disclaimer">
+            Copyright © 2014 Your store name. All rights reserved.
+        </div>
+    </div>
+</div>
+@Html.Widget("body_end_html_tag_before")

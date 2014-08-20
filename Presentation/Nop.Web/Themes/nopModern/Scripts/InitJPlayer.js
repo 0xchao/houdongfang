@@ -4,10 +4,10 @@ $(document).ready(function () {
     $("#jquery_jplayer_1").jPlayer({
         ready: function () {
             $(this).jPlayer("setMedia", {
-                title: "Big Buck Bunny",
-                flv: "/Themes/nopModern/Content/30S.flv",
-                poster: "/Themes/nopModern/Content/poster.png"
-            });
+                title: "后东方",
+                flv: "/Themes/nopModern/Content/E.flv",
+                poster: "/Themes/nopModern/Content/Eposter.jpg"
+            }).jPlayer("play");
         },
         swfPath: "/Themes/nopModern/Scripts",
         supplied: "flv",
