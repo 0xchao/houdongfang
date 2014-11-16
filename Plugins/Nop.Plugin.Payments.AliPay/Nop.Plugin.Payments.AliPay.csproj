@@ -78,7 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlipayCore.cs" />
+    <Compile Include="AlipaySubmit.cs" />
     <Compile Include="Controllers\PaymentAliPayController.cs" />
+    <Compile Include="AlipayMD5.cs" />
     <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Models\PaymentInfoModel.cs" />
     <Compile Include="AliPayPaymentProcessor.cs" />

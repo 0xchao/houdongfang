@@ -104,38 +104,6 @@ namespace Nop.Plugin.Payments.AliPay
         }
 
         /// <summary>
-        /// Create URL
-        /// </summary>
-        /// <param name="Para">Para</param>
-        /// <param name="InputCharset">Input charset</param>
-        /// <param name="Key">Key</param>
-        /// <returns>Result</returns>
-        public string CreatUrl(string[] Para, string InputCharset, string Key)
-        {
-            int i;
-            string[] Sortedstr = BubbleSort(Para);
-            StringBuilder prestr = new StringBuilder();
-
-            for (i = 0; i < Sortedstr.Length; i++)
-            {
-                if (i == Sortedstr.Length - 1)
-                {
-                    prestr.Append(Sortedstr[i]);
-
-                }
-                else
-                {
-                    prestr.Append(Sortedstr[i] + "&");
-                }
-
-            }
-
-            prestr.Append(Key);
-            string sign = GetMD5(prestr.ToString(), InputCharset);
-            return sign;
-        }
-
-        /// <summary>
         /// Gets HTTP
         /// </summary>
         /// <param name="StrUrl">Url</param>
@@ -187,64 +155,36 @@ namespace Nop.Plugin.Payments.AliPay
         /// <param name="postProcessPaymentRequest">Payment info required for an order processing</param>
         public void PostProcessPayment(PostProcessPaymentRequest postProcessPaymentRequest)
         {
-            //string gateway = "https://www.alipay.com/cooperate/gateway.do?";
-            string service = "create_direct_pay_by_user";
-
-            string seller_email = _aliPayPaymentSettings.SellerEmail;
-            string sign_type = "MD5";
-            string key = _aliPayPaymentSettings.Key;
-            string partner = _aliPayPaymentSettings.Partner;
-            string input_charset = "utf-8";
-
-            string show_url = "http://www.alipay.com/";
-
-            string out_trade_no = postProcessPaymentRequest.Order.Id.ToString();
-            string subject = _storeContext.CurrentStore.Name;
-            string body = "Order from " + _storeContext.CurrentStore.Name;
             string total_fee = postProcessPaymentRequest.Order.OrderTotal.ToString("0.00", CultureInfo.InvariantCulture);
-
             string notify_url = _webHelper.GetStoreLocation(false) + "Plugins/PaymentAliPay/Notify";
             string return_url = _webHelper.GetStoreLocation(false) + "Plugins/PaymentAliPay/Return";
-            string[] para ={
-                               "service="+service,
-                               "partner=" + partner,
-                               "seller_email=" + seller_email,
-                               "out_trade_no=" + out_trade_no,
-                               "subject=" + subject,
-                               "body=" + body,
-                               "total_fee=" + total_fee,
-                               "show_url=" + show_url,
-                               "payment_type=1",
-                               "notify_url=" + notify_url,
-                               "return_url=" + return_url,
-                               "_input_charset=" + input_charset
-                           };
 
-            string aliay_url = CreatUrl(
-                para,
-                input_charset,
-                key
-                );
-            var post = new RemotePost();
-            post.FormName = "alipaysubmit";
-            post.Url = "https://www.alipay.com/cooperate/gateway.do?_input_charset=utf-8";
-            post.Method = "POST";
+            SortedDictionary<string, string> sParaTemp = new SortedDictionary<string, string>();
+            sParaTemp.Add("partner", _aliPayPaymentSettings.Partner);
+            sParaTemp.Add("_input_charset", "utf-8");
+            sParaTemp.Add("service", "create_partner_trade_by_buyer");
+            sParaTemp.Add("payment_type", "1");
+            sParaTemp.Add("notify_url", notify_url);
+            sParaTemp.Add("return_url", return_url);
+            sParaTemp.Add("seller_email", _aliPayPaymentSettings.SellerEmail);
+            sParaTemp.Add("out_trade_no", postProcessPaymentRequest.Order.Id.ToString());
+            sParaTemp.Add("subject", _storeContext.CurrentStore.Name);
+            sParaTemp.Add("price", total_fee);
+            sParaTemp.Add("quantity", "1");
+            sParaTemp.Add("logistics_fee", "0.00");
+			sParaTemp.Add("logistics_type", "EXPRESS");
+			sParaTemp.Add("logistics_payment", "SELLER_PAY");
+            sParaTemp.Add("body", "Order from " + _storeContext.CurrentStore.Name);
+            sParaTemp.Add("show_url", "");
+            //sParaTemp.Add("receive_name", "");
+            //sParaTemp.Add("receive_address", "");
+            //sParaTemp.Add("receive_zip", "");
+            //sParaTemp.Add("receive_phone", "");
+            //sParaTemp.Add("receive_mobile", "");
 
-            post.Add("service", service);
-            post.Add("partner", partner);
-            post.Add("seller_email", seller_email);
-            post.Add("out_trade_no", out_trade_no);
-            post.Add("subject", subject);
-            post.Add("body", body);
-            post.Add("total_fee", total_fee);
-            post.Add("show_url", show_url);
-            post.Add("return_url", return_url);
-            post.Add("notify_url", notify_url);
-            post.Add("payment_type", "1");
-            post.Add("sign", aliay_url);
-            post.Add("sign_type", sign_type);
-
-            post.Post();
+            //建立请求
+            var submit = new Submit(_aliPayPaymentSettings);
+            submit.BuildRequest(sParaTemp, "get", "确认");
         }
         
         /// <summary>
@@ -372,6 +312,7 @@ namespace Nop.Plugin.Payments.AliPay
             return typeof(PaymentAliPayController);
         }
 
+        #region BasePlugin members
         public override void Install()
         {
             //settings
@@ -379,7 +320,7 @@ namespace Nop.Plugin.Payments.AliPay
             {
                 SellerEmail = "",
                 Key = "",
-                Partner= "",
+                Partner = "",
                 AdditionalFee = 0,
             };
             _settingService.SaveSetting(settings);
@@ -394,10 +335,9 @@ namespace Nop.Plugin.Payments.AliPay
             this.AddOrUpdatePluginLocaleResource("Plugins.Payments.AliPay.Partner.Hint", "Enter partner.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Payments.AliPay.AdditionalFee", "Additional fee");
             this.AddOrUpdatePluginLocaleResource("Plugins.Payments.AliPay.AdditionalFee.Hint", "Enter additional fee to charge your customers.");
-            
+
             base.Install();
         }
-
 
         public override void Uninstall()
         {
@@ -411,9 +351,11 @@ namespace Nop.Plugin.Payments.AliPay
             this.DeletePluginLocaleResource("Plugins.Payments.AliPay.Partner.Hint");
             this.DeletePluginLocaleResource("Plugins.Payments.AliPay.AdditionalFee");
             this.DeletePluginLocaleResource("Plugins.Payments.AliPay.AdditionalFee.Hint");
-            
+
             base.Uninstall();
         }
+        
+        #endregion
         #endregion
 
         #region Properies
