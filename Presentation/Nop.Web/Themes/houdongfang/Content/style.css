@@ -1,0 +1,421 @@
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('http://at.alicdn.com/t/font_1422353160_120903.eot'); /* IE9*/
+  src: url('http://at.alicdn.com/t/font_1422353160_120903.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('http://at.alicdn.com/t/font_1422353160_120903.woff') format('woff'), /* chrome、firefox */
+  url('http://at.alicdn.com/t/font_1422353160_120903.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('http://at.alicdn.com/t/font_1422353160_120903.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+
+.clear{zoom:1;}
+.clear:after{ content:""; display:block; clear:both;}
+*{ margin: 0; padding: 0; }
+html,body{ 
+    width:100%; 
+    height:100%;
+}
+table {border-collapse:collapse}
+fieldset{ border:0; }
+img { border:0; vertical-align: top;}
+address, caption, cite, code, dfn, strong, th, var, optgroup { font-style:inherit; font-weight:inherit; }
+b,strong{ font-weight:normal;}
+del, ins { text-decoration:none; }
+li { list-style:none; }
+caption, th { text-align:left; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
+q:before, q:after { content:''; }
+abbr, acronym { border:0; font-variant:normal; }
+sup { vertical-align:baseline; }
+sub { vertical-align:baseline; }
+legend { color:#000; }
+input, button, textarea, select { *font-size:100%; outline:none;}
+select{height:22px; line-height:18px; padding:2px 0;}
+a {color: #000; text-decoration:none; outline:none; blr:expression(this.onFocus=this.blur());}
+a.red:hover{text-decoration:underline!important;}
+textarea{ resize:none; } 
+em,i{font-style:normal;}
+
+img{ width:100%;}
+.nav{ width:1170px; height:45px; margin:40px auto 0; position:relative; background:url(images/nav@2x.png) no-repeat; background-size:100% 100%; text-align:center;}
+.logo{ width:179px; height:27px; overflow:hidden; position:absolute; left:75px; top:9px;}
+.nav ul{ text-align:center;}
+.nav ul li{ display:inline-block; padding:0 15px; height:45px; font:20px/45px "kaiti"; text-shadow: 1px 1px 1px rgba(0,0,0,0.30);}
+.nav ul li a{ color:#fff; display:inline-block; height:100%; width:100%;}
+
+.shopping{  height:26px; position:absolute; right:37px; top:9px; cursor:pointer;}
+.shopping input{ width:22px; height:22px; border: 2px solid #B33131; border-radius:26px; color:#fff; margin-left:6px; box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.30); line-height:22px; background:url(images/search.png) no-repeat 5px 4px; background-color: #A42020; text-indent:0.8em; }
+.shopping input:-moz-placeholder{ color:#cb4e4e;}
+.shopping input:-ms-input-placeholder{ color:#cb4e4e;}
+.shopping input::-webkit-input-placeholder{ color:#cb4e4e;}
+.shopping img{ width:15px; height:15px; position:absolute; top:6px; right:4px; display:none;}
+.userpanel{ position:absolute; right:18px; top:-22px; font:12px/14px "微软雅黑",Helvetica,Arial,sans-serif;}
+.userpanel a:first-child{margin-right:4px; color:#ab2828;}
+.userpanel a span{ padding-left:8px; color:#ab2828;}
+.userpanel a:first-child a{ font-size:14px;}
+.userpanel a:nth-of-type(4) i{ margin-left:14px; font-size:16px; color:#ab2828;}
+
+.index_banner{ position:relative; width:1170px; height:700px; overflow:hidden; margin:10px auto 40px;}
+.index_banner .index_prev{ position:absolute; left:0;top:325px; width:25px; height:50px; z-index:99;}
+.index_banner .index_next{ position:absolute; right:0;top:325px; width:25px; height:50px; z-index:99;}
+.index_banner>ul>li{ position:absolute; left:0; top:0; width:1170px; height:700px; overflow:hidden; z-index:1; opacity:0; -webkit-transform:scale(0.93,0.93); 
+-moz-transform:scale(0.93,0.93); 
+-ms-transform:scale(0.93,0.93);
+-o-transform:scale(0.93,0.93); 
+transform:scale(0.93,0.93);   
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
+}
+.index_banner>ul>li:nth-of-type(1){ z-index:9;}
+.play_video{ width:110px; height:110px; position:absolute; left:50%; top:50%; margin-top:-55px; margin-left:-55px; cursor:pointer;}
+.index_banner>ul>li.hover{ opacity:1;
+-webkit-transform:scale(1,1);
+-ms-transform:scale(1,1);
+-moz-transform:scale(1,1);
+-o-transform:scale(1,1); 
+transform:scale(1,1); 
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
+
+}
+.index_banner>ul>li.leave{ opacity:0;
+-webkit-transform:scale(0.95,0.95);
+-moz-transform:scale(0.95,0.95);
+-ms-transform:scale(0.95,0.95);
+-o-transform:scale(0.95,0.95); 
+transform:scale(0.95,0.95); 
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
+}
+
+.channel{ width:1170px; margin:0 auto 130px;}
+.channel1,.channel3{ width:388px; height:375px; border:1px solid rgba(171,40,40,0.50); float:left;}
+.channel2{ width:388px; height:375px; float:left; border-top:1px solid rgba(171,40,40,0.50); border-bottom:1px solid rgba(171,40,40,0.50);}
+.channel_title{ width:388px; height:98px; border-bottom:1px solid rgba(171,40,40,0.50); text-align:center; color:#ab2828; transition:0.6s;}
+.channel_title h2{ font:30px/50px "kaiti"; padding-top:6px;}
+.channel_title h3{ font:12px/30px "微软雅黑",Helvetica,Arial,sans-serif; height:30px; color:#404040; position:relative; top:0;
+-webkit-transition:all 0.6s ease;
+-moz-transition:all 0.6s ease; 
+-ms-transition:all 0.6s ease; 
+-o-transition:all 0.6s ease; 
+transition: all 0.6s ease;
+}
+.channel_title h3 span{ border-top:2px solid rgba(255,255,255,0); display:inline-block;}
+.channel_img{ width:388px; height:276px; overflow:hidden;}
+.channel_img img{ position:relative; top:16%; 
+-webkit-transition:all 0.8s ease;
+-moz-transition:all 0.8s ease; 
+-ms-transition:all 0.8s ease; 
+-o-transition:all 0.8s ease; 
+transition: all 0.8s ease;  
+-webkit-transform:scale(1,1); 
+-moz-transform:scale(1,1);
+-ms-transform:scale(1,1);
+-o-transform:scale(1,1);
+transform:scale(1,1);
+}
+.channel>div:hover img{ 
+top:0;  
+-webkit-transform:scale(0.93,0.93);
+-moz-transform:scale(0.93,0.93);
+-ms-transform:scale(0.93,0.93);
+-o-transform:scale(0.93,0.93);
+transform:scale(0.93,0.93);
+}
+.channel>div:hover .channel_title{
+	background-color:#ab2828;
+	color:#fff;
+}
+.channel>div:hover .channel_title h3{
+	top:-4px;
+	color:#fff;
+}
+.channel>div:hover .channel_title h3 span{
+	border-color:rgba(255,255,255,1);
+}
+
+.classify{ width:100%; min-width:1170px; height:50px; position:relative; background-color:#ececec; font:20px/50px "kaiti"; }
+.classify ul{ margin:0 auto; width:850px; }
+.classify ul li{ position:relative; float:left; width:170px; text-align:center;
+-webkit-transition:all 0.6s ease;
+-moz-transition:all 0.6s ease;
+-ms-transition:all 0.6s ease;
+-o-transition:all 0.6s ease;
+transition:all 0.6s ease;
+}
+
+.classify ul li a{ color:#ab2828;}
+.classify ul li i{ font-size:25px; margin-right:15px; color:#ab2828;}
+.classify ul li:hover{ background-color:#ab2828; }
+.classify ul li:hover a{ color:#fff; }
+.classify ul li:hover i{ color:#fff; }
+.footer{ width:100%; min-width:1170px; padding-bottom:50px; padding-top:30px; background-color:#f9f9f9;}
+.footer_cont{  width:1170px; margin:0 auto; }
+.footer_left{width:600px; float:left; color:#404040;}
+.footer_left a{ color:#404040;}
+.footer_left>div{ font:18px/50px "kaiti";}
+.footer_left i{ font-size:25px; margin-right:15px; color:#ab2828;}
+.footer_left>div>strong{ margin-left:64px; font:14px/50px "微软雅黑",Helvetica,Arial,sans-serif; }
+.footer_left>div>strong a:hover{ color:#ab2828;}
+.footer_left>div>strong img{ width:30px; height:25px; margin-top:10px; margin-right:40px;}
+.footer_nav3 strong i{ padding-left:16px; font-size:25px; margin-right:6px;}
+.footer_nav3 strong .weibo i{ padding-left:0;}
+.footer_right{ float:right; width:300px; color:#9b9b9b;}
+.footer_right img{ width:200px; height:29px; margin:18px 2px 24px 98px;}
+.footer_right p{ font:12px/20px "微软雅黑",Helvetica,Arial,sans-serif; text-align:right;}
+.footer_right a{ color:#9b9b9b;}
+.footer_right a:hover{ color:#ab2828;}
+#video{ position:absolute; left:0; top:0; background:#fff; overflow:hidden; z-index:999; display:none;}
+.close{ width:64px; height:64px; position:absolute; right:20px; top:40px; display:none; z-index:9999; cursor:pointer;}
+.close i{ font-size:64px; color:#ab2828; }
+.vjs-tech{width: 100% !important; height: 100% !important; background-color:#fff !important;  margin-top:20px;}
+.vjs-big-play-button { display:none;}
+.vjs-control-bar{ display:none;} 
+
+.iconfont{font-family:"iconfont"; font-size:16px;font-style:normal; -webkit-font-smoothing: antialiased;}
+
+/*商品列表*/
+.list_banner{ width:1170px; height:120px; margin:20px auto 0; border-bottom:1px solid #ab2828; position:relative;}
+.list_banner_pic{ float:left; width:100px; height:100px; margin-top:20px;}
+.list_banner_text{ float:left; width:400px; height:120px; color:#ab2828;}
+.list_banner_text h2{ font:60px/70px "kaiti"; }
+.list_banner_text h3{ font:14px/24px "kaiti";margin-top:25px;}
+.filter{ position:absolute; bottom:0px; right:0; height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; z-index:4;}
+.filter i{ font-size:20px; color:#ab2828; margin:0 10px;}
+.rank,.shopselect{ position:relative; float:left; width:120px; padding-right:30px; text-align:center;}
+.origin{ float:left; width:90px; position:relative; padding-right:30px;  text-align:center;}
+.filter>div{
+-webkit-transition:all ease 0.3s;
+-moz-transition:all ease 0.3s;
+-ms-transition:all ease 0.3s;
+-o-transition:all ease 0.3s;
+transition:all ease 0.3s;		
+}
+.filter>div:hover{ background:#fff; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); background:#ab2828; color:#fff;}
+
+.filter>div>i:nth-of-type(2){ display:block; position:absolute;right:3px; top:0px; font-size:18px;
+-webkit-transition:all ease 0.5s;
+-moz-transition:all ease 0.5s;
+-ms-transition:all ease 0.5s;
+-o-transition:all ease 0.5s;
+transition:all ease 0.5s;
+-webkit-transform:rotate(0deg);
+-moz-transform:rotate(0deg);
+-ms-transform:rotate(0deg);
+-o-transform:rotate(0deg);
+transform:rotate(0deg);
+}
+.filter>div:hover>i{ color:#fff; }
+.filter>div:hover>i:nth-of-type(2){ 
+-webkit-transform:rotate(180deg);
+-moz-transform:rotate(180deg);
+-ms-transform:rotate(180deg);
+-o-transform:rotate(180deg);
+transform:rotate(180deg);
+}
+
+.filter>div>ul{ position:absolute; right:0; top:40px; display:none; font-size:14px;}
+.filter .rank ul,.shopselect ul{ width:150px; text-align:center; background:#fff; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20); border-top:1px solid #ab2828;}
+.filter .rank ul li,.shopselect ul li{ }
+.origin ul{ width:235px;background:#fff;box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20); border-top:3px solid #ab2828; padding:10px;}
+.origin li{ float:left; width:47px; height:40px;}
+.filter a:hover{ color:#ab2828;}
+.catelog{ width:1170px; margin:70px auto 80px; position:relative;top:15px; left:0;}
+.catelog_list{ width:1170px; }
+.catelog_list li{ float:left; width:320px; height:430px; padding:20px; margin-right:45px; margin-bottom:50px; position:relative; top:100px; opacity:0; z-index:3;
+-webkit-transition:-webkit-transform ease 0.5s;
+-moz-transition:-moz-transform ease 0.5s;
+-ms-transition:-ms-transform ease 0.5s;
+-o-transition:-o-transform ease 0.5s;
+transition:transform ease 0.55s;
+-webkit-transform:scale(1,1);
+-moz-transform:scale(1,1);
+-ms-transform:scale(1,1);
+-o-transform:scale(1,1);
+transform:scale(1,1);
+}
+.catelog_list li.last{ margin-right:0;}
+.catelog_list li img{ width:320px; height:320px; }
+.catelog_list li:hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); 
+
+-webkit-transform:scale(1.05,1.05);
+-moz-transform:scale(1.05,1.05);
+-ms-transform:scale(1.05,1.05);
+-o-transform:scale(1.05,1.05);
+transform:scale(1.05,1.05);
+}
+.catelog_list li h2{ width:320px; position:relative; font: 22px/36px "kaiti"; height:36px; margin-top:8px; color:#ab2828;}
+.catelog_list li h2 span{ position:absolute; right:0; font-family:"微软雅黑",Helvetica,Arial,sans-serif;}
+.catelog_list li p{ width:320px;font:14px/21px "微软雅黑",Helvetica,Arial,sans-serif; height:42px; color:#9b9b9b;
+
+      text-justify:distribute-all-lines;
+      text-align-last:left;
+      -moz-text-align-last:left;
+      -webkit-text-align-last:left;
+	  text-align:justify;
+} 
+.catelog_list li h3{ position:relative;font:14px/24px "微软雅黑",Helvetica,Arial,sans-serif; height:24px; }
+.catelog_list li h3 a{ color:#9b9b9b;}
+.catelog_list li h3 a:hover{ color:#ab2828;}
+.catelog_list li h3 .catelog_location{ position:absolute; right:0;}
+.catelog_list li h3 i{ color:#ab2828; font-size:14px;margin-right:6px;}
+.pagenav{ height:50px; position:relative; width:auto;}
+.pagenav ul{ position:absolute; left:100px; top:0; font:20px/50px "微软雅黑",Helvetica,Arial,sans-serif;}
+.pagenav li{ float:left; width:50px; height:50px; text-align:center;}
+.pagenav .prev{ position:absolute; left:-40px; top:0px; }
+.pagenav .next{ position:absolute; right:-40px; top:0px; }
+.pagenav a{ color:#9b9b9b;}
+.pagenav a.on{ color:#ab2828;}
+.pagenav a:hover{ color:#ab2828;}
+
+/*产品详情3*/
+.product_intro{ width:1170px; height:620px; margin:50px auto 50px; position:relative;}
+.product_img{ width:525px; padding-left:50px;}
+.product_Bigimg{ width:525px; height:525px; position:relative;}
+.product_Bigimg img{ width:525px; height:525px; position:absolute;left:0; top:0; display:none;}
+.product_Litimg{ width:525px; height:60px; position:relative; text-align:center; margin-top:25px; line-height:60px;}
+.product_Litimg>img{ width:60px; height:60px; margin-right:10px; margin-left:10px;}
+.product_Litimg>img.hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.product_intro_prev>img,.product_intro_next>img{ width:15px; height:30px;}
+.product_intro_prev{ position:absolute; left:10px; top:15px;font-size:16px;}
+.product_intro_next{ position:absolute; right:10px; top:15px;}
+
+.product_shopping{ position:absolute;right:10px; top:0px; width:330px; height:580px; padding:20px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); font-family:"微软雅黑",Helvetica,Arial,sans-serif;}
+.product_shopping_user{ height:45px;}
+.product_shopping_user h2{ font:12px/14px "微软雅黑",Helvetica,Arial,sans-serif; height:14px;}
+.product_shopping_user h3{ font:22px/24px "kaiti"; height:24px; margin-top:8px;}
+.portrait{ width:45px; height:45px; overflow:hidden; position:absolute;right:20px; top:20px;}
+.product_shopping h4{ position:relative; height:36px; margin-top:20px; font:30px/36px "微软雅黑",Helvetica,Arial,sans-serif; color:#ab2828;}
+.product_shopping h4 span{ position:absolute; bottom:4px; right:0px; font:12px/12px "微软雅黑",Helvetica,Arial,sans-serif; color:#000;}
+.product_shopping p{ height:84px; font-size:14px; line-height:21px; padding-top:16px; padding-bottom:11px; border-top:1px solid #d2d2d2; margin-top:18px;}
+.product_shopping h5{ height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif;}
+.product_shopping_sel{ width:330px; height:50px; text-indent:10px; font-size:16px; line-height:50px; position:relative; z-index:3;}
+.arrow{ width:50px; height:50px; position:absolute; right:0;top:0; z-index:3; }
+.arrow i{ color:#ab2828;}
+.product_shopping_top{ height:44px; width:324px; border:3px solid #ab2828; line-height:44px; position:relative; z-index:4;}
+.product_shopping_sel>ul{ position:absolute;left:0; top:50px;box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); display:none;}
+.product_shopping_sel>ul>li{ height:50px; background-color:#fff; width:330px;}
+.product_shopping_sel>ul>li:hover{ color:#ab2828;}
+.product_shopping_num{ width:330px; height:44px; position:relative; z-index:2;}
+.btn_reduce{ cursor:pointer; line-height:44px; font-size:30px; display:block; width:48px; height:44px; position:absolute;right:47px; top:3px; text-align:center; background:#ab2828; color:#fff;}
+.btn_add{ cursor:pointer; line-height:44px; font-size:30px; display:block; width:44px; height:44px; position:absolute;right:3px; top:3px; text-align:center;background:#ab2828;color:#fff;}
+.product_shopping_num input{ background-color:rgba(255,255,255,0); border:3px solid #ab2828; width:324px; height:44px; font-size:16px; text-indent:8px;}
+.product_shopping_btn{ border-top:1px solid #d2d2d2; margin-top:22px;}
+.product_shopping_btn input{ margin-top:20px; width:330px; height:50px; background:#ab2828; outline:none; border:none; color:#fff; font:22px/50px "kaiti"; text-align:center; cursor:pointer;}
+.product_shopping_footer{ width:330px; height:50px; position:relative; margin-top:20px; text-align:center; font:20px/44px "kaiti"; }
+.share{ position:absolute; right:0; top:0; width:149px; height:44px; border:3px solid #ab2828; cursor:pointer; 
+-webkit-transition:all ease 0.6s;
+-moz-transition:all ease 0.6s;
+-ms-transition:all ease 0.6s;
+-o-transition:all ease 0.6s;
+transition:all ease 0.6s;
+}
+.shop_push{ width:149px; height:44px;border:3px solid #ab2828; cursor:pointer; 
+-webkit-transition:all ease 0.6s;
+-moz-transition:all ease 0.6s;
+-ms-transition:all ease 0.6s;
+-o-transition:all ease 0.6s;
+transition:all ease 0.6s;
+}
+
+.product_cont{ width:100%; min-width:1170px; margin-top:50px;}
+.product_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid rgba(171,40,40,0.50); margin-bottom:50px;}
+.product_tab{ width:1170px; margin:0 auto; height:50px; text-align:center; font:22px/50px "kaiti"; color:#ab2828; position:relative;}
+.product_tab_left{ float:left; width:585px; height:50px; cursor:pointer;}
+.product_tab_right{ float:left; width:585px; height:50px; cursor:pointer;}
+.product_tab_line{ position:absolute;bottom:-2px; left:0; height:3px; width:585px; background-color:#ab2828;}
+.product_run{ position:relative; width:100%; min-width:1170px;}
+.product_info{ width:100%; min-width:1170px;}
+.product_module_wide{ width:100%;min-width:1170px; margin:25px auto;}
+.product_module_normal{ width:1170px;margin:25px auto;}
+
+.service_info_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid rgba(171,40,40,0.50);}
+.service_info_tab{ width:1170px; margin:0 auto; height:50px; text-align:center; font:20px/50px "kaiti"; color:#ab2828; position:relative;}
+.service_info_tab1{ float:left; width:234px; height:50px; cursor:pointer;}
+.service_info_tab2{ float:left; width:234px; height:50px; cursor:pointer;}
+.service_info_tab3{ float:left; width:234px; height:50px; cursor:pointer;}
+.service_info_tab4{ float:left; width:234px; height:50px; cursor:pointer;}
+.service_info_tab5{ float:left; width:234px; height:50px; cursor:pointer;}
+.service_info_line{ position:absolute;bottom:-2px; left:0; height:3px; width:234px; background-color:#ab2828;}
+
+.service_cont{width:1170px; min-height: 110px; margin:20px auto; padding: 20px 0px;box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.service_info_cont1{display:block;}
+.service_info_cont2{display:none;}
+.service_info_cont3{display:none;}
+.service_info_cont4{display:none;}
+.service_info_cont5{display:none;}
+
+.review{ width:1170px; margin:0 auto;display:none;padding-bottom:50px;}
+.review_cont{ padding-bottom:50px;}
+.review_cont>li{ width:1170px; margin:0 auto; padding:20px 0;}
+.review_cont_user{ width:390px;height:60px; position:relative; float:left;}
+.review_cont_user img{ width:60px; height:60px; position:absolute; left:0; top:0;}
+.review_cont_user h2{ margin-left:82px;font:16px/30px "微软雅黑",Helvetica,Arial,sans-serif; margin-bottom:8px; height:30px;}
+.review_cont_user h3{ margin-left:82px;font:12px/22px "微软雅黑",Helvetica,Arial,sans-serif; color:#9b9b9b;}
+.review_cont_text{ width:780px; float:left;}
+.review_cont_text h4{ height:36px; line-height:36px; color:#ab2828;}
+.review_cont_text p{ margin-top:3px; font:14px/21px "微软雅黑",Helvetica,Arial,sans-serif;}
+
+
+.mask,.shopcart{ background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:fixed; left:0; top:0; z-index:1000; display:none;}
+.entry{ width:300px; height:400px; padding:50px 110px; box-shadow: 0px 0px 12px 3px rgba(0,0,0,0.20); margin:0 auto; background:#fff; position:relative;}
+.entry_close,.shopcart_close{ position:absolute;right:20px; top:20px; width:32px; height:32px; cursor:pointer;}
+.entry_close i,.shopcart_close i{ color:#ab2828; font-size:32px;}
+.entry_logo img{ width:245px; margin-left:22px;}
+.entry_1{ width:300px; height:40px; font:20px/40px "kaiti"; border-bottom: 1px solid rgba(171,40,40,0.50); position:relative; cursor:pointer; color:#ab2828; text-align:center; margin-top:30px;}
+.entry_1T{ float:left; width:150px; }
+.entry_1B{ float:left; width:150px; }
+.entry_2{}
+.entry_3{ display:none;}
+.entry_line{ width:150px; height:3px; background:#ab2828; position:absolute; left:0; bottom:-2px;}
+.entry_email{width:300px; height:50px; position:relative; margin-top:22px;}
+.entry_email input,.entry_word input{ border:3px solid #ab2828; width:294px; height:44px; font-size:16px; text-indent:58px; font-family:"微软雅黑",Helvetica,Arial,sans-serif;}
+.entry_word{ width:300px; height:50px; margin-top:22px; position:relative; }
+.entry_email_pic{ width:44px; height:44px; position:absolute; left:3px; top:3px; background:#f2f2f2; line-height:44px; text-align:center;}
+.entry_email_pic i{ color:#ab2828; font-size:18px;}
+.entry_hint{ color:#ab2828; position:relative; height:30px; line-height:30px; font-size:12px;}
+.entry_hint a{ position:absolute;right:0px; top:0; }
+.entry_hint a:hover{ color:#ab2828;}
+.entry_btn{ margin-top:30px;  width:300px; height:50px; cursor:pointer;}
+.entry_btn input{ background:#ab2828; color:#fff; width:100%; height:100%; border:none;font:20px/50px "kaiti"; cursor:pointer;}
+.entry_ready{ text-align:center; height:32px; font-size:12px; line-height:32px;}
+.entry_ready a{ color:#ab2828;}
+.shopcart_close{ right:12px; top:12px;}
+.shopcart_mask{ background-color:#fff; width:420px; padding:40px 40px 50px; margin:0 auto; text-align:center; box-shadow: 0px 0px 12px 3px rgba(0,0,0,0.20); font-size:12px; font-family:"微软雅黑",Helvetica,Arial,sans-serif; position:relative;}
+.shopcart_logo{ width:420px;margin:0 auto; height:20px; padding-bottom:30px; border-bottom: 3px solid #ab2828;}
+.shopcart_logo img{ width:140px;}
+.shopcart2{ border-bottom: 1px solid rgba(171,40,40,0.50);}
+.shopcart .shopcart_reduce{ position:absolute;left:16px;top:27px; width:12px; height:12px; border:1px solid #9b9b9b; line-height:9px; cursor:pointer;}
+.shopcart .shopcart_add{ position:absolute;right:16px;top:27px; width:12px; height:12px; border:1px solid #9b9b9b; line-height:9px; cursor:pointer;}
+
+.shopcart2_1{ width:50px; }
+.shopcart2_2{ width:180px;}
+.shopcart td.quantity{ position:relative; width:90px;}
+.price{ width:80px;}
+.shopcart2_3{ width:20px;}
+.shopcart2_3 i{ font-size:14px; color:#ab2828; cursor:pointer;}
+.shopcart4{ width:420px; height:44px; padding-bottom:35px; border-top:3px solid #ab2828; line-height:44px; position:relative; font-size:14px; text-align:left;}
+.total{ position:absolute; right:0; top:0; height:44px;}
+.shopcart .shopcart_btn input{ width:420px; height:50px; border:none; background:#ab2828; color:#fff; font-size:22px; font-family:"kaiti";}
+
+
+
+
+
+
+
+
+
+
+
+
