@@ -1,0 +1,45 @@
+﻿@model CatalogPagingFilteringModel.SpecificationFilterModel
+@using Nop.Web.Models.Catalog;
+@{
+    var notFilteredItemsGroups = Model.NotFilteredItems.GroupBy(x => x.SpecificationAttributeName);
+}
+@if (Model.Enabled)
+{
+
+    if (Model.NotFilteredItems.Count > 0)
+    {
+        foreach (var group in notFilteredItemsGroups)
+        {
+            var groupList = group.ToList();
+
+            <div id="@groupList[0].SpecificationAttributeName">
+                <i class="iconfont">&#xe60f;</i>@T(groupList[0].SpecificationAttributeName)<i class="iconfont">&#xe602;</i>
+                <ul>
+                    @foreach (var spec in groupList)
+                    {
+                        <li>
+                            <a href="@spec.FilterUrl">@T(spec.SpecificationAttributeOptionName)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+    if (Model.AlreadyFilteredItems.Count > 0)
+    {
+        <div class="already-filtered-items">
+            <div class="filter-title">
+                @T("Filtering.SpecificationFilter.CurrentlyFilteredBy")
+            </div>
+            @foreach (var item in Model.AlreadyFilteredItems)
+            {
+                <div class="item">
+                    <strong>@T(item.SpecificationAttributeName):</strong> @T(item.SpecificationAttributeOptionName)
+                </div>
+            }
+        </div>
+        <div class="remove-filter">
+            <a href="@Model.RemoveFilterUrl">@T("Filtering.SpecificationFilter.Remove")</a>
+        </div>
+    }
+}

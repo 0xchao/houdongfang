@@ -12,11 +12,11 @@ using Nop.Services.Localization;
 
 namespace Nop.Web.Framework.UI.Paging
 {
-	/// <summary>
+    /// <summary>
     /// Renders a pager component from an IPageableModel datasource.
-	/// </summary>
-	public partial class Pager : IHtmlString
-	{
+    /// </summary>
+    public partial class Pager : IHtmlString
+    {
         protected readonly IPageableModel model;
         protected readonly ViewContext viewContext;
         protected string pageQueryName = "page";
@@ -31,24 +31,24 @@ namespace Nop.Web.Framework.UI.Paging
         protected Func<int, string> urlBuilder;
         protected IList<string> booleanParameterNames;
 
-		public Pager(IPageableModel model, ViewContext context)
-		{
+        public Pager(IPageableModel model, ViewContext context)
+        {
             this.model = model;
             this.viewContext = context;
             this.urlBuilder = CreateDefaultUrl;
             this.booleanParameterNames = new List<string>();
-		}
+        }
 
-		protected ViewContext ViewContext 
-		{
-			get { return viewContext; }
-		}
-        
+        protected ViewContext ViewContext
+        {
+            get { return viewContext; }
+        }
+
         public Pager QueryParam(string value)
-		{
+        {
             this.pageQueryName = value;
-			return this;
-		}
+            return this;
+        }
         public Pager ShowTotalSummary(bool value)
         {
             this.showTotalSummary = value;
@@ -89,11 +89,11 @@ namespace Nop.Web.Framework.UI.Paging
             this.individualPagesDisplayedCount = value;
             return this;
         }
-		public Pager Link(Func<int, string> value)
-		{
+        public Pager Link(Func<int, string> value)
+        {
             this.urlBuilder = value;
-			return this;
-		}
+            return this;
+        }
         //little hack here due to ugly MVC implementation
         //find more info here: http://www.mindstorminteractive.com/blog/topics/jquery-fix-asp-net-mvc-checkbox-truefalse-value/
         public Pager BooleanParameterName(string paramName)
@@ -106,10 +106,10 @@ namespace Nop.Web.Framework.UI.Paging
         {
             return ToHtmlString();
         }
-		public virtual string ToHtmlString()
-		{
-            if (model.TotalItems == 0) 
-				return null;
+        public virtual string ToHtmlString()
+        {
+            if (model.TotalItems == 0)
+                return null;
             var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
 
             var links = new StringBuilder();
@@ -134,7 +134,8 @@ namespace Nop.Web.Framework.UI.Paging
                     //previous page
                     if (model.PageIndex > 0)
                     {
-                        links.Append(CreatePageLink(model.PageIndex, localizationService.GetResource("Pager.Previous"), "previous-page"));
+                        //localizationService.GetResource("Pager.Previous")
+                        links.Append(CreatePageLink(model.PageIndex, "&#xe608;", "previous-page iconfont", true));
                     }
                 }
                 if (showIndividualPages)
@@ -159,7 +160,8 @@ namespace Nop.Web.Framework.UI.Paging
                     //next page
                     if ((model.PageIndex + 1) < model.TotalPages)
                     {
-                        links.Append(CreatePageLink(model.PageIndex + 2, localizationService.GetResource("Pager.Next"), "next-page"));
+                        //localizationService.GetResource("Pager.Next")
+                        links.Append(CreatePageLink(model.PageIndex + 2, "&#xe609;", "next-page iconfont", true));
                     }
                 }
                 if (showLast)
@@ -178,7 +180,7 @@ namespace Nop.Web.Framework.UI.Paging
                 result = "<ul>" + result + "</ul>";
             }
             return result;
-		}
+        }
 
         protected virtual int GetFirstIndividualPageIndex()
         {
@@ -212,27 +214,30 @@ namespace Nop.Web.Framework.UI.Paging
             }
             return (model.PageIndex + num);
         }
-		protected virtual string CreatePageLink(int pageNumber, string text, string cssClass)
-		{
+        protected virtual string CreatePageLink(int pageNumber, string text, string cssClass, bool textIsHtml = false)
+        {
             var liBuilder = new TagBuilder("li");
             if (!String.IsNullOrWhiteSpace(cssClass))
                 liBuilder.AddCssClass(cssClass);
 
-			var aBuilder = new TagBuilder("a");
-            aBuilder.SetInnerText(text);
+            var aBuilder = new TagBuilder("a");
+            if (textIsHtml)
+                aBuilder.InnerHtml = text;
+            else
+                aBuilder.SetInnerText(text);
             aBuilder.MergeAttribute("href", urlBuilder(pageNumber));
 
             liBuilder.InnerHtml += aBuilder;
 
             return liBuilder.ToString(TagRenderMode.Normal);
-		}
+        }
 
         protected virtual string CreateDefaultUrl(int pageNumber)
-		{
-			var routeValues = new RouteValueDictionary();
+        {
+            var routeValues = new RouteValueDictionary();
 
-			foreach (var key in viewContext.RequestContext.HttpContext.Request.QueryString.AllKeys.Where(key => key != null))
-			{
+            foreach (var key in viewContext.RequestContext.HttpContext.Request.QueryString.AllKeys.Where(key => key != null))
+            {
                 var value = viewContext.RequestContext.HttpContext.Request.QueryString[key];
                 if (booleanParameterNames.Contains(key, StringComparer.InvariantCultureIgnoreCase))
                 {
@@ -243,8 +248,8 @@ namespace Nop.Web.Framework.UI.Paging
                         value = "true";
                     }
                 }
-				routeValues[key] = value;
-			}
+                routeValues[key] = value;
+            }
 
             if (pageNumber > 1)
             {
@@ -259,8 +264,8 @@ namespace Nop.Web.Framework.UI.Paging
                 }
             }
 
-			var url = UrlHelper.GenerateUrl(null, null, null, routeValues, RouteTable.Routes, viewContext.RequestContext, true);
-			return url;
-		}
-	}
+            var url = UrlHelper.GenerateUrl(null, null, null, routeValues, RouteTable.Routes, viewContext.RequestContext, true);
+            return url;
+        }
+    }
 }

@@ -1,0 +1,63 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var categoryUrl = Url.RouteUrl("Category", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(categoryUrl);
+    }
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@using Nop.Web.Extensions;
+
+<div class="list_banner clear">
+    <div class="list_banner_pic">
+        @Html.Action("CategoryPictureModel", "Catalog", new { categoryId = Model.Id })
+    </div>
+    <div class="list_banner_text">
+        @Html.Raw(Model.Description)
+        @*<h3>@Model.Description</h3>*@
+        <h2>@Model.Name</h2>
+    </div>
+    <div class="filter">
+        <div id="rank">
+            <i class="iconfont">&#xe60e;</i>排序方式<i class="biaozhi iconfont">&#xe602;</i>
+            <ul>
+                @foreach (var sortItem in Model.PagingFilteringContext.AvailableSortOptions)
+                {
+                    <li>
+                        <a href="@sortItem.Value">@sortItem.Text</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        @Html.Partial("_FilterSpecsBox", Model.PagingFilteringContext.SpecificationFilter, new ViewDataDictionary())
+    </div>
+</div>
+<div class="catelog">
+    <ul class="catelog_list clear">
+        @if (Model.Products.Count > 0)
+        {
+            int i = 1;
+            foreach (var product in Model.Products)
+            {
+                string c = i % 3 == 0 ? "last" : "";
+                <li class="@c">
+                    @Html.Partial("_ProductBox", product)
+                </li>
+                i += 1;
+            }
+        }
+    </ul>
+    <div class="pagenav">
+        @Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber")
+    </div>
+</div>

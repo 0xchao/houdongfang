@@ -1,0 +1,31 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Media
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{
+    Html.AddScriptParts("~/Scripts/jquery.magnific-popup.js");
+    Html.AddCssFileParts("~/Content/magnific-popup/magnific-popup.css");
+
+    int productPerRow = EngineContext.Current.Resolve<MediaSettings>().ProductThumbPerRowOnProductDetailsPage;
+}
+<div class="gallery">
+    <div class="picture">
+        <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" id="main-product-img" />
+    </div>
+    @if (Model.PictureModels.Count > 1)
+    {
+        <div class="picture-thumbs">
+            @foreach (var picture in Model.PictureModels)
+            {
+                <a class="thumb-popup-link" href="#" title="@Model.Name" onclick="FullSizeImg('@picture.FullSizeImageUrl')">
+                    <img src="@picture.ImageUrl" alt="@picture.AlternateText" title="@picture.Title" />
+                </a>
+            }
+        </div>
+        <script type="text/javascript">
+            function FullSizeImg(fullSizeImgUrl){
+                $('#main-product-img').attr("src",fullSizeImgUrl);
+            }
+        </script>
+    }
+</div>

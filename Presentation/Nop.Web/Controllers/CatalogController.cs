@@ -1485,6 +1485,24 @@ namespace Nop.Web.Controllers
             return PartialView(listModel);
         }
 
+        [ChildActionOnly]
+        public ActionResult CategoryPictureModel(int categoryId)
+        {
+            var category=_categoryService.GetCategoryById(categoryId);
+            var catModel = category.ToModel();
+
+            int pictureSize = 200;
+            var categoryPictureCacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_PICTURE_MODEL_KEY, category.Id, pictureSize, true, _workContext.WorkingLanguage.Id, _webHelper.IsCurrentConnectionSecured(), _storeContext.CurrentStore.Id);
+            var picture = _pictureService.GetPictureById(category.PictureId);
+            var pictureModel = new PictureModel()
+            {
+                FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
+                ImageUrl = _pictureService.GetPictureUrl(picture, pictureSize),
+                Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), catModel.Name),
+                AlternateText = string.Format(_localizationService.GetResource("Media.Category.ImageAlternateTextFormat"), catModel.Name)
+            };
+            return PartialView(pictureModel);
+        }
         #endregion
 
         #region Manufacturers

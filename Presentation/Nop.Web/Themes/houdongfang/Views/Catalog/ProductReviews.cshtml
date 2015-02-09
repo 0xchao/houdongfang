@@ -1,0 +1,43 @@
+﻿@model ProductReviewsModel
+@using Nop.Web.Models.Catalog;
+<ul class="product-review-list">
+    @foreach (var review in Model.Items)
+    {
+        int ratingPercent = review.Rating * 20;
+        <li class="product-review-item clear">
+            <div class="review-item-head">
+                <div class="review-title">
+                    <strong>@review.Title</strong>
+                </div>
+                <div class="product-review-box">
+                    <div class="rating">
+                        <div style="width: @(ratingPercent)%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-text">
+                @Html.Raw(Nop.Core.Html.HtmlHelper.FormatText(review.ReviewText, false, true, false, false, false, false))
+            </div>
+            <div class="review-info">
+                <span class="user">
+                    <strong>@T("Reviews.From"):</strong>
+                    @if (review.AllowViewingProfiles)
+                    {
+                        <a href="@Url.RouteUrl("CustomerProfile", new { id = review.CustomerId })">@(review.CustomerName)</a>
+                    }
+                    else
+                    {
+                        @review.CustomerName
+                    }
+                </span>
+                <span class="separator">|</span>
+                <span class="date">
+                    <strong>@T("Reviews.Date"):</strong>
+                    @review.WrittenOnStr
+                </span>
+            </div>
+        </li>
+    }
+</ul>
+

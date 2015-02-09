@@ -1,0 +1,105 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@using System.Globalization;
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var productUrl = Url.RouteUrl("Product", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(productUrl);
+    }
+}
+<!--product breadcrumb-->
+<div class="product_intro">
+    <div class="page-body">
+        @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+        {
+            <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
+                <div class="product-essential">
+                    <!--product pictures-->
+                    @Html.Partial("_ProductDetailsPictures", Model)
+                    <div class="product_shopping">
+                        <div class="portrait"><img src="~/Themes/houdongfang/Content/Images/user01.png" /></div>
+                        <div class="product_shopping_user">
+                            <h3>@Model.Name</h3>
+                        </div>
+                        <h4>￥ @Model.ProductPrice.PriceValue.ToString(new CultureInfo("zh-cn")) 元<span><i class="iconfont"></i> 免运费（限中国大陆）</span></h4>
+                        @if (!String.IsNullOrEmpty(Model.ShortDescription))
+                        {
+                            <p>@Html.Raw(Model.ShortDescription)</p>
+                        }
+                        <!--product SKU, manufacturer part number, stock info-->
+                        @Html.Partial("_SKU_Man_Stock", Model)
+                        <!--Back in stock subscription-->
+                        @Html.Partial("_BackInStockSubscription", Model)
+                        <!--price & add to cart-->
+                        @{
+                        var dataDictAddToCart = new ViewDataDictionary();
+                        dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);
+                        @Html.Partial("_AddToCart", Model.AddToCart, dataDictAddToCart)
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="product_cont">
+    <div class="product_thiner">
+        <div class="product_tab  clear">
+            <div class="product_tab_left">商品详情</div>
+            <div class="product_tab_right">商品评论</div>
+            <div class="product_tab_line"></div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $(".product_tab_right").click(function (event) {
+                    var review = $('#reviewPannel');
+                    if (review.innerHTML == null) {
+                        review.load("/productreviews/@Model.Id");
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="product_run">
+        <div class="product_info">
+
+            @if (!String.IsNullOrEmpty(Model.FullDescription))
+            {
+                <div class="full-description" itemprop="description">
+                    @Html.Raw(Model.FullDescription)
+                </div>
+            }
+        </div>
+        <div id="reviewPannel" class="review"></div>
+    </div>
+</div>
+
+<div class="service_info_thiner">
+    <div class="service_info_tab clear">
+        <div class="service_info_tab1">关于后东方</div>
+        <div class="service_info_tab2">质量标准</div>
+        <div class="service_info_tab3">支付方式</div>
+        <div class="service_info_tab4">配送方式</div>
+        <div class="service_info_tab5">退换货保障</div>
+        <p class="service_info_line"></p>
+    </div>
+</div>
+<div class="service_cont">
+    <div class="service_info_cont1"><img src="~/Themes/houdongfang/Content/Images/service_info_cont1@2x.jpg" /></div>
+    <div class="service_info_cont2"><img src="~/Themes/houdongfang/Content/Images/service_info_cont2@2x.jpg" /></div>
+    <div class="service_info_cont3"><img src="~/Themes/houdongfang/Content/Images/service_info_cont3@2x.jpg" /></div>
+    <div class="service_info_cont4"><img src="~/Themes/houdongfang/Content/Images/service_info_cont4@2x.jpg" /></div>
+    <div class="service_info_cont5"><img src="~/Themes/houdongfang/Content/Images/service_info_cont5@2x.jpg" /></div>
+</div>
+

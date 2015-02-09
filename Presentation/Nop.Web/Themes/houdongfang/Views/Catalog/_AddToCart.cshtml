@@ -1,0 +1,31 @@
+﻿@model ProductDetailsModel.AddToCartModel
+@using Nop.Web.Models.Catalog;
+@using Nop.Core.Domain.Orders;
+
+<div class="add-to-cart">
+    @if (Model.UpdatedShoppingCartItemId > 0)
+    {
+        @Html.HiddenFor(x => x.UpdatedShoppingCartItemId)
+    }
+    @if (!Model.DisableBuyButton || !Model.DisableWishlistButton)
+    {
+        <div class="add-to-cart-panel">
+            <h5>> 数量</h5>
+            <div class="product_shopping_num">
+                <i class="iconfont btn_reduce" href="javascript:;">&#xe61d;</i>
+                <i class="iconfont btn_add" href="javascript:;">&#xe61c;</i>
+                @Html.TextBoxFor(model => model.EnteredQuantity, new { @class = "buy_num" })
+            </div>
+            <div class="product_shopping_btn"><input type="button" value="立即购买"></div>
+            <div class="product_shopping_footer">
+                <div class="shop_push">
+                    <input type="button" id="add-to-cart-button-@Model.ProductId" class="button-1 add-to-cart-button" value="加入购物车" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart })', '#product-details-form');return false;" />
+                </div>
+                <div class="share">
+                    <input type="button" id="add-to-wishlist-button-@Model.ProductId" class="button-2 add-to-wishlist-button" value="@T("ShoppingCart.AddToWishlist")" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.Wishlist })', '#product-details-form');return false;" />
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
