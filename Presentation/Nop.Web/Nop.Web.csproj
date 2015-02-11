@@ -1294,6 +1294,15 @@
     <Content Include="Themes\houdongfang\Content\Images\service_info_cont5%402x.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-active.png" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-inactive.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty1.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\ty2.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\ty3.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\ty4.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty5.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty6.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty7.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty8.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty9.png" />
     <Content Include="Themes\houdongfang\Content\Images\user01.png" />
     <Content Include="Themes\houdongfang\Content\Images\video_close.png" />
     <Content Include="Themes\houdongfang\Content\reset.css" />
@@ -2221,7 +2230,6 @@
     <Content Include="Themes\houdongfang\Views\Customer\Login.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\Register.cshtml" />
     <Content Include="Themes\houdongfang\Views\Common\PageNotFound.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Shared\_ColumnsTwo.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Grouped.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Simple.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\_ProductDetailsPictures.cshtml" />
@@ -2233,6 +2241,12 @@
     <Content Include="Themes\houdongfang\Views\Catalog\_AddToCart.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\ProductReviews.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\Search.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\OrderSummary.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\_OrderReviewData.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\OrderTotals.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\Cart.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Checkout\OnePageCheckout.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Checkout\Completed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

@@ -1,0 +1,44 @@
+﻿@model ShoppingCartModel
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.ShoppingCart;
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.ShoppingCart").Text);
+}
+@if (!Model.OnePageCheckoutEnabled)
+{
+    @Html.Action("CheckoutProgress", "Checkout", new { step = CheckoutProgressStep.Cart })
+}
+<div class="page shopping-cart-page">
+    <div class="page-body">
+        <div class="shopping_state">
+            <div class="shopping_state_cont">
+                <ul class="shopping_state_ul clear">
+                    <li class="state1">
+                        <div>
+                            <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty1.jpg" /></div>
+                            <div class="line"></div>
+                            1.购物车列表
+                        </div>
+                    </li>
+                    <li class="state2">
+                        <div>
+                            <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty2.jpg" /></div>
+                            2.填写核对订单信息
+                        </div>
+                    </li>
+                    <li class="state3">
+                        <div>
+                            <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty3.jpg" /></div>
+                            3.成功提交订单
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            @Html.Partial("OrderSummary", Model)
+        </div>
+    </div>
+</div>

@@ -16,16 +16,13 @@
                 <i class="iconfont btn_add" href="javascript:;">&#xe61c;</i>
                 @Html.TextBoxFor(model => model.EnteredQuantity, new { @class = "buy_num" })
             </div>
-            <div class="product_shopping_btn"><input type="button" value="立即购买"></div>
-            <div class="product_shopping_footer">
-                <div class="shop_push">
-                    <input type="button" id="add-to-cart-button-@Model.ProductId" class="button-1 add-to-cart-button" value="加入购物车" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart })', '#product-details-form');return false;" />
-                </div>
-                <div class="share">
-                    <input type="button" id="add-to-wishlist-button-@Model.ProductId" class="button-2 add-to-wishlist-button" value="@T("ShoppingCart.AddToWishlist")" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.Wishlist })', '#product-details-form');return false;" />
-                </div>
+            <div class="product_shopping_btn">
+                <input type="button" id="buy-now-button-@Model.ProductId" value="立即购买" onclick="AjaxCart.addproducttocart_details_mobile('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart })', '#product-details-form', '@Url.RouteUrl("ShoppingCart")');return false;" />
             </div>
-
+            <div class="product_shopping_footer">
+                <input type="button" id="add-to-cart-button-@Model.ProductId" class="shop_push" value="加入购物车" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart })', '#product-details-form');return false;" />
+                <input type="button" id="add-to-wishlist-button-@Model.ProductId" class="share" value="@T("ShoppingCart.AddToWishlist")" data-productid="@Model.ProductId" onclick="AjaxCart.addproducttocart_details('@Url.RouteUrl("AddProductToCart-Details", new { productId = Model.ProductId, shoppingCartTypeId = (int)ShoppingCartType.Wishlist })', '#product-details-form');return false;" />
+            </div>
         </div>
     }
 </div>

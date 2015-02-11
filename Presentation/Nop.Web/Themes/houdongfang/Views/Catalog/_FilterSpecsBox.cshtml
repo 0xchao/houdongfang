@@ -12,7 +12,7 @@
         {
             var groupList = group.ToList();
 
-            <div id="@groupList[0].SpecificationAttributeName">
+            <div class="filter_box">
                 <i class="iconfont">&#xe60f;</i>@T(groupList[0].SpecificationAttributeName)<i class="iconfont">&#xe602;</i>
                 <ul>
                     @foreach (var spec in groupList)

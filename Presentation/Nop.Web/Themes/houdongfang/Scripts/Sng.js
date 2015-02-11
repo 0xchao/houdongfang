@@ -280,7 +280,74 @@ $(function(){
 		Price = false;
 	});
 	
-	
+    /*订单列表*/
+	$('.shopping_state_kuc').css({ left: (220 - $('.shopping_state_kuc').width()) / 2 });
+	var move_ids = Wob = 0;
+	var Chek = true;
+	$('.shopping_state_span2').html(move_ids);
+	$("[name='allcheckbox']").on('click', function () {
+	    if ($(this).prop('checked') == true) {
+	        $('.shopping_state_th1>input').prop('checked', true);
+	    } else {
+	        $('.shopping_state_th1>input').prop('checked', false);
+	    }
+	});
+
+	$(".shopping_state_add").click(function () {
+	    var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]');
+	    shopping_state_price.val(parseInt(shopping_state_price.val()) + 1);
+	    //console.log(parseInt(shopping_state_price.val()));
+	});
+	$(".shopping_state_reduce").click(function () {
+	    var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]');
+
+	    if (parseInt(shopping_state_price.val()) > 0) {
+	        shopping_state_price.val(parseInt(shopping_state_price.val()) - 1);
+        }
+
+	});
+
+    //var str = 123.456;
+    //alert(str.toFixed(2));
+    /**/
+	$('.checkout_info_top').on('click', function () {
+	    $('.checkout_info1>ul').not($(this)).slideUp(180);
+	    $(this).siblings('ul').slideDown(240);
+	});
+	$('.checkout_info1>ul>li').on('click', function () {
+	    $(this).parent().siblings('.checkout_info_top').html($(this).html());
+	    $(this).parent('ul').slideUp(240);
+	});
+	$('.checkout_address_add').on('click', function () {
+	    $('.checkout_address_list').css({ display: 'block' });
+	    $(this).css({ display: 'none' });
+	});
+	$('.checkout_address_close').on('click', function () {
+	    $(this).parents('.checkout_address_list').css({ display: 'none' });
+	    $('.checkout_address_add').css({ display: 'block' });
+
+	});
+	$("[name='checkout_bill']").on('click', function () {
+	    if ($('.checkout_bill_2').find("input").prop("checked") == true) {
+	        $('.checkout_bill_details').fadeIn();
+	    } else {
+	        $('.checkout_bill_details').fadeOut();
+	    }
+	});
+
+	$('.checkout_cont_li').on('click', function () {
+	    $(this).animate({ opacity: 1 }, 240);
+	    $('.checkout_cont_li').not($(this)).animate({ opacity: 0.3 }, 240);
+
+	});
+
+	$('.shopping_inner_sub').find("input").on('click', function () {
+	    $('.pay_mask').fadeIn();
+	});
+	$('.pay_close').on('click', function () {
+	    $('.pay_mask').fadeOut();
+	});
+
 	
 	
 	

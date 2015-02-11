@@ -4,7 +4,7 @@
 @using Nop.Web.Models.Catalog;
 @using System.Globalization;
 @{
-    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+    Layout = "~/Views/Shared/_Root.cshtml";
 
     //title, meta
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
@@ -32,7 +32,7 @@
                         <div class="product_shopping_user">
                             <h3>@Model.Name</h3>
                         </div>
-                        <h4>￥ @Model.ProductPrice.PriceValue.ToString(new CultureInfo("zh-cn")) 元<span><i class="iconfont"></i> 免运费（限中国大陆）</span></h4>
+                        <h4> @Model.ProductPrice.Price 元<span><i class="iconfont"></i> 免运费（限中国大陆）</span></h4>
                         @if (!String.IsNullOrEmpty(Model.ShortDescription))
                         {
                             <p>@Html.Raw(Model.ShortDescription)</p>
