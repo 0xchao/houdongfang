@@ -1236,6 +1236,7 @@
     <Content Include="Themes\DefaultClean\Content\images\top-menu-triangle.png" />
     <Content Include="Themes\DefaultClean\Content\responsive.css" />
     <Content Include="Themes\houdongfang\Content\font_1422353160_120903_iconfont.svg" />
+    <Content Include="Themes\houdongfang\Content\Images\ad_banner1%402x.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\banner01%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\banner02%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\banner03%402x.png" />
@@ -1294,8 +1295,20 @@
     <Content Include="Themes\houdongfang\Content\Images\service_info_cont5%402x.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-active.png" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-inactive.png" />
+    <Content Include="Themes\houdongfang\Content\Images\thunm_close.png" />
     <Content Include="Themes\houdongfang\Content\Images\ty1.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\ty10.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty11.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty12.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty13.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty14.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty15.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty16.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty17.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty18.png" />
+    <Content Include="Themes\houdongfang\Content\Images\ty19.png" />
     <Content Include="Themes\houdongfang\Content\Images\ty2.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\ty20.png" />
     <Content Include="Themes\houdongfang\Content\Images\ty3.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\ty4.png" />
     <Content Include="Themes\houdongfang\Content\Images\ty5.png" />
@@ -2247,6 +2260,19 @@
     <Content Include="Themes\houdongfang\Views\ShoppingCart\Cart.cshtml" />
     <Content Include="Themes\houdongfang\Views\Checkout\OnePageCheckout.cshtml" />
     <Content Include="Themes\houdongfang\Views\Checkout\Completed.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\Info.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\_ColumnsTwo.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\MyAccountNavigation.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\Avatar.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\ChangePassword.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\Orders.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\Addresses.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\AddressEdit.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\AddressAdd.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\Wishlist.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\_CreateOrUpdateAddress.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Order\Thumbnails.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\ReturnRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

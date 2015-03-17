@@ -40,6 +40,7 @@ em,i{font-style:normal;}
 img{ width:100%;}
 .nav{ width:1170px; height:45px; margin:40px auto 0; position:relative; background:url(images/nav@2x.png) no-repeat; background-size:100% 100%; text-align:center;}
 .logo{ width:179px; height:27px; overflow:hidden; position:absolute; left:75px; top:9px;}
+.logo img{width:100%;}
 .nav ul{ text-align:center;}
 .nav ul li{ display:inline-block; padding:0 15px; font:20px/45px "kaiti"; text-shadow: 1px 1px 1px rgba(0,0,0,0.30);}
 .nav ul li a{ color:#fff; display:inline-block; height:100%; width:100%;}
@@ -647,7 +648,7 @@ transform:scale(1.05,1.05);
 
 .checkout_address{ width:1170px; margin:0 auto; text-align:left;}
 .checkout_title{ position:relative; text-indent:20px; height:60px; font:20px/60px "微软雅黑",Helvetica,Arial,sans-serif; padding-bottom:20px; color:#ab2828;}
-.checkout_title a{ display:inline-block; height:21px; width:6px; background:#ab2828; position:absolute;left:0; top:20px;}
+.checkout_title label{ display:inline-block; height:21px; width:6px; background:#ab2828; position:absolute;left:0; top:20px;}
 .checkout_cont{ font:16px/32px "微软雅黑",Helvetica,Arial,sans-serif;}
 .checkout_cont>li{ float:left; width:370px; margin-right:30px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); height:195px;  margin-bottom:30px; opacity:0.5; cursor:pointer;}
 .checkout_cont>li.active{ opacity:1;}
@@ -773,3 +774,144 @@ transform:scale(1.05,1.05);
 .opc .step-title:after{display:block;content:".";clear:both;font-size:0;line-height:0;height:0;overflow:hidden;}
 .opc .order-summary-content .cart-footer{background:none!important;}
 
+.shopping_state_tab .selected-checkout-attributes{margin:0;padding:10px 5px 10px 0;width:100%;text-align:right;vertical-align:middle;color:#353434;}
+.shopping_state_tab .checkout-attributes{margin:10px 0;padding:10px 20px;background:none repeat scroll 0 0 #F7F5E8;border:1px dotted #D3D3D3;clear:both;text-align:left}
+.shopping_state_tab .checkout-attributes .text-prompt{font-weight:bold;}
+.shopping_state_tab .checkout-attributes ul.option-list{padding:0px;margin:0px;}
+.shopping_state_tab .checkout-attributes ul.option-list li{list-style:none;}
+.shopping_state_tab .checkout-attributes .textbox{width:300px;}
+.shopping_state_tab .checkout-attributes textarea{width:300px;height:150px;}
+.shopping_state_tab .checkout-attributes ul.color-squares li{display:inline;}
+.shopping_state_tab .checkout-attributes ul.color-squares .color-container{position:relative;display:inline-block;border:solid 1px #999;padding:1px;margin-bottom:5px;}
+.shopping_state_tab .checkout-attributes ul.color-squares .selected-value .color-container{border-color:#075899;border-width:2px;padding:0;}
+.shopping_state_tab .checkout-attributes ul.color-squares .color{display:inline-block;width:18px;height:18px;}
+.shopping_state_tab .checkout-attributes ul.color-squares label{cursor:pointer;position:relative;}
+.shopping_state_tab .checkout-attributes ul.color-squares input{height:0;overflow:hidden;z-index:-10000;position:absolute;float:none;}
+
+/*Profile*/
+.profile_slidebar_banner{ width:1170px; padding:30px 0;}
+.profile_slidebar{ width:1170px; margin:0 auto; text-align:center; font:14px/32px "微软雅黑",Helvetica,Arial,sans-serif; padding:30px 0;}
+.profile_slidebar_left{ width:270px; float:left; padding-bottom:96px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.profile_slidebar_pic{ width:270px; height:100px; position:relative;}
+.profile_slidebar_pic_mask{ position: absolute; left:85px; top: 0; width: 100px; height: 100px; box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.35); border-radius: 50%; }
+.profile_slidebar_pic img{ width:100px; height:100px;  border-radius:50%; }
+.profile_slidebar_left h2{ color:#ab2828; margin-bottom:28px; margin-top:10px;}
+.profile_slidebar_list>li.profile_slidebar_title { color:#ab2828; font-size:18px; border-bottom:3px solid #ab2828; display:inline-block; height:32px; padding-top:28px; margin-bottom:12px;}
+.profile_slidebar_list>li>a.on{ color:#ab2828;}
+.profile_slidebar_right{ width:870px; float:left; margin-left:30px;}
+.profile_slidebar_right1 .profile_slidebar_state{ width:870px; margin-top:136px; margin-bottom:50px;}
+.profile_slidebar_right1 .profile_slidebar_state img{ width:230px; height:230px;}
+.profile_slidebar_right1 h2{ line-height:52px; color:#ab2828;}
+.profile_slidebar_btn input{ background:#ab2828; color:#fff; font:22px/50px "kaiti"; border:none; width:177px; height:50px;}
+
+.profile_slidebar_right{ width:870px; margin-left:30px; font-size:12px;}
+.profile_tab1{ }
+.profile_tab1_tr1{ background:#ab2828; color:#fff;}
+.profile_tab1_tr2{ height:20px;}
+.profile_tab1_td2{ text-align:left;}
+.profile_tab1_tr3{ height:30px; background:#ececec; color:#9d9d9d; border-right:1px solid #ececec;
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_tab1_tr3_td1{ text-align:left; padding-left:20px;}
+.profile_tab1_tr3_td3{ text-align:right; padding-right:15px;}
+.profile_tab1_td1 img{ width:60px; height:60px; padding:10px 0 10px;}
+.profile_tab1_tr4{ border:1px solid #ececec;
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_tab1_tr4 .profile_tab1_td1{ width:80px; border:none;}
+.profile_tab1_tr4 .profile_tab1_td5{ border:1px solid #ececec; 
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_tab1_tr4 .profile_tab1_td5 h3{ color:#ab2828; line-height:24px;}
+.profile_tab1_tr4 .profile_tab1_td5 h4{ line-height:24px;}
+.profile_tab1_btn1,.profile_tab1_btn2{ width:70px; height:24px; border:none 0; background:#ab2828; color:#fff; font-size:12px; cursor:pointer;}
+.profile_tab1_btn2{ background:#ececec;}
+.profile_tab1_tr3_td2{ color:#ab2828;}
+.profile_tab1_bg{ 
+
+}
+.profile_tab1_tr3 .profile_tab1_tr3_td2{
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_tab1_bg:hover .profile_tab1_tr3{ color:#fff; background:#ab2828;  border-right:1px solid #ab2828;}
+.profile_tab1_bg:hover .profile_tab1_tr3 .profile_tab1_tr3_td2{ color:#fff;}
+.profile_tab1_bg:hover .profile_tab1_tr4{ border-color:#ab2828;}
+.profile_tab1_bg:hover .profile_tab1_tr4 .profile_tab1_td5{ border-color:#ab2828;}
+
+.profile_slidebar_right2 .checkout_title{text-align:left;}
+
+.profile_cmb1{ width:412px; height:46px; border:2px solid #d2d2d2; position:relative; margin-bottom:20px; text-align:right; font-size:14px;
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_cmb1_left{ width:100px; height:46px; position:absolute; left:0; top:0; background:#f4f4f4; line-height:46px;text-align:center;}
+.profile_cmb1 input{ width:312px; height:46px; border:none; text-indent:15px;}
+.profile_cmb2{ width:416px; height:50px; position:relative;}
+.profile_cmb2 input.profile_cmb1_sub1{ position:absolute; right:0; top:0; height:50px; border:none; width:177px; background:#ab2828; color:#fff; font:22px/50px "kaiti";}
+
+.profile_cmb1_right{ position:absolute; left:416px; top:0; color:#ab2828; text-align:left; line-height:46px; padding:0 20px; width:200px;}
+/*.profile_slidebar_right2 .checkout_cont_li{ margin-right:130px;}
+.profile_slidebar_right2 .checkout_cont_li.last{ margin-right:0;}*/
+.profile_slidebar_right2 .checkout_cont{ text-align:left;}
+
+.profile_slidebar_right2 .checkout_cont .checkout_cont_li,.profile_slidebar_right2 .checkout_cont .checkout_address_add,.profile_slidebar_right2 .checkout_cont .checkout_address_list{ position:relative; margin-left:30px;}
+.profile_slidebar_right2 .checkout_cont .checkout_cont_li:hover .profile_li_close{ opacity:1;}
+.profile_li_close{ position:absolute; right:-19px; top:-19px; width:38px; height:38px; opacity:0; 
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
+}
+.profile_order_tab{ position:absolute; right:0; top:14px; font-size:12px; background:#ab2828; line-height:30px; height:30px; width:160px; border:2px solid #ab2828; text-align:center; text-indent:0; cursor:pointer;}
+.profile_order_tab span{ display:inline-block; width:80px; height:30px; position:relative; z-index:3; color:#fff;}
+.profile_order_tab span.profile_order_tab_span1{ color:#ab2828;}
+.profile_order_tab_ponk{ position:absolute;left:0; top:0; width:80px; height:30px; background:#fff; z-index:2;}
+
+
+.profile_order_ul li{ position:relative; width:230px; padding:20px;box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15); margin-right:30px; margin-bottom:30px; float:left; height:278px; max-height:278px;}
+.profile_order_ul li:hover .profile_li_close{ opacity:1;}
+.profile_order_ul li.last{ margin-right:0;}
+.profile_order_ul li h2{ height:28px; font:18px/28px "kaiti"; margin-top:20px; position:relative; text-align:left; color:#ab2828;}
+.profile_order_ul li h2 span{ position:absolute; right:0; top:0;}
+.profile_order_ul li .profile_li_close img{ width:39px; height:39px;}
+.profile_order_mon { display:none;}
+.profile_order_mon li{ position:relative; width:140px; padding:20px 65px;box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15); margin-right:30px; margin-bottom:30px; float:left; height:268px; max-height:278px; line-height:32px;}
+.profile_order_mon li:hover .profile_li_close{ opacity:1;}
+.profile_order_mon li .profile_order_mon_pic{ position:relative;}
+.profile_order_mon li .profile_order_mon_pic img{ border-radius:50%; }
+.profile_order_mon_mask{ position:absolute; left:0; top:0; width:140px; height:140px; box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.35); border-radius:50%;}
+.profile_order_mon li.last{ margin-right:0;}
+.profile_order_mon li h3{ font-family:"kaiti"; font-size:20px; height:32px; margin-top:18px; margin-bottom:2px; color:#ab2828;}
+.profile_order_mon li h4,.profile_order_mon li h5{ height:32px; }
+
+.profile_setup{ padding:20px 105px 50px; box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.15); text-align:left; font-size:12px; line-height:24px;}
+.profile_setup h2{ text-align:center; font:20px/32px "kaiti"; margin-bottom:20px;}
+.profile_setup h2 span{ border-bottom:2px solid #ab2828; color:#ab2828; display:inline-block; line-height:32px;}
+.profile_setup h3{ line-height:60px;  font-size:14px; height:60px;}
+.profile_setup h4{ font-size:14px; height:24px; margin-top:20px;}
+.profile_setup_pub{ text-align:center; margin-top:30px; line-height:12px; position:relative; padding-left:30px;}
+.profile_setup_pub input{ height:12px; width:12px; position:absolute; left:250px; top:1px;}
+.profile_setup_sub{ text-align:center;}
+.profile_setup_sub input{ width:177px; height:50px; background-color:#f4f4f4; color:#fff; font-size:22px; cursor:pointer; border:none; margin-top:16px; font-family:"kaiti";}
+
+.avatar{ width:100px; height:100px;  border-radius:50%; }

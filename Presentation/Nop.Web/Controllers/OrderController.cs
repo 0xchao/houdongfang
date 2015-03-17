@@ -22,12 +22,13 @@ using Nop.Web.Extensions;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Security;
 using Nop.Web.Models.Order;
+using Nop.Services.Media;
 
 namespace Nop.Web.Controllers
 {
     public partial class OrderController : BasePublicController
     {
-		#region Fields
+        #region Fields
 
         private readonly IOrderService _orderService;
         private readonly IShipmentService _shipmentService;
@@ -43,6 +44,7 @@ namespace Nop.Web.Controllers
         private readonly ICountryService _countryService;
         private readonly IProductAttributeParser _productAttributeParser;
         private readonly IWebHelper _webHelper;
+        private readonly IPictureService _pictureService;
 
         private readonly OrderSettings _orderSettings;
         private readonly TaxSettings _taxSettings;
@@ -53,19 +55,19 @@ namespace Nop.Web.Controllers
 
         #endregion
 
-		#region Constructors
+        #region Constructors
 
-        public OrderController(IOrderService orderService, 
+        public OrderController(IOrderService orderService,
             IShipmentService shipmentService, IWorkContext workContext,
             ICurrencyService currencyService, IPriceFormatter priceFormatter,
             IOrderProcessingService orderProcessingService, IDateTimeHelper dateTimeHelper,
             IPaymentService paymentService, ILocalizationService localizationService,
             IPdfService pdfService, IShippingService shippingService,
             ICountryService countryService, IProductAttributeParser productAttributeParser,
-            IWebHelper webHelper, 
+            IWebHelper webHelper,
             CatalogSettings catalogSettings, OrderSettings orderSettings,
             TaxSettings taxSettings, PdfSettings pdfSettings,
-            ShippingSettings shippingSettings, AddressSettings addressSettings)
+            ShippingSettings shippingSettings, AddressSettings addressSettings, IPictureService pictureService)
         {
             this._orderService = orderService;
             this._shipmentService = shipmentService;
@@ -88,6 +90,7 @@ namespace Nop.Web.Controllers
             this._pdfSettings = pdfSettings;
             this._shippingSettings = shippingSettings;
             this._addressSettings = addressSettings;
+            this._pictureService = pictureService;
         }
 
         #endregion
@@ -294,6 +297,13 @@ namespace Nop.Web.Controllers
             var orderItems = _orderService.GetAllOrderItems(order.Id, null, null, null, null, null, null);
             foreach (var orderItem in orderItems)
             {
+                string imgUrl=string.Empty;
+                if(orderItem.Product.ProductPictures.Count>0)
+                {
+                    var picture = orderItem.Product.ProductPictures.FirstOrDefault();
+                    imgUrl = _pictureService.GetPictureUrl(picture.PictureId);
+                }
+
                 var orderItemModel = new OrderDetailsModel.OrderItemModel()
                 {
                     Id = orderItem.Id,
@@ -303,6 +313,7 @@ namespace Nop.Web.Controllers
                     ProductSeName = orderItem.Product.GetSeName(),
                     Quantity = orderItem.Quantity,
                     AttributeInfo = orderItem.AttributeDescription,
+                    ProductImageUrl = imgUrl
                 };
                 model.Items.Add(orderItemModel);
 
@@ -340,13 +351,13 @@ namespace Nop.Web.Controllers
             if (order == null)
                 throw new Exception("order cannot be loaded");
             var model = new ShipmentDetailsModel();
-            
+
             model.Id = shipment.Id;
             if (shipment.ShippedDateUtc.HasValue)
                 model.ShippedDate = _dateTimeHelper.ConvertToUserTime(shipment.ShippedDateUtc.Value, DateTimeKind.Utc);
             if (shipment.DeliveryDateUtc.HasValue)
                 model.DeliveryDate = _dateTimeHelper.ConvertToUserTime(shipment.DeliveryDateUtc.Value, DateTimeKind.Utc);
-            
+
             //tracking number and shipment information
             model.TrackingNumber = shipment.TrackingNumber;
             var srcm = _shippingService.LoadShippingRateComputationMethodBySystemName(order.ShippingRateComputationMethodSystemName);
@@ -377,7 +388,7 @@ namespace Nop.Web.Controllers
                     }
                 }
             }
-            
+
             //products in this shipment
             model.ShowSku = _catalogSettings.ShowProductSku;
             foreach (var shipmentItem in shipment.ShipmentItems)
@@ -402,7 +413,7 @@ namespace Nop.Web.Controllers
 
             //order details model
             model.Order = PrepareOrderDetailsModel(order);
-            
+
             return model;
         }
 
@@ -419,6 +430,20 @@ namespace Nop.Web.Controllers
 
             var model = PrepareOrderDetailsModel(order);
 
+            return View(model);
+        }
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult Thumbnails(IList<int> orderIds)
+        {
+            List<OrderDetailsModel> model = new List<OrderDetailsModel>();
+            foreach (int orderId in orderIds)
+            {
+                var order = _orderService.GetOrderById(orderId);
+                if (order == null || order.Deleted || _workContext.CurrentCustomer.Id != order.CustomerId)
+                    continue;
+                model.Add(PrepareOrderDetailsModel(order));
+            }
             return View(model);
         }
 

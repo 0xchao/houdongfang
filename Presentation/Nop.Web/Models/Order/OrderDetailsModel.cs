@@ -77,6 +77,7 @@ namespace Nop.Web.Models.Order
             public string SubTotal { get; set; }
             public int Quantity { get; set; }
             public string AttributeInfo { get; set; }
+            public string ProductImageUrl { get; set; }
         }
 
         public partial class TaxRate : BaseNopModel
