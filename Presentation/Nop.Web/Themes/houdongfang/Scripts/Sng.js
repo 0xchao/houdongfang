@@ -87,6 +87,9 @@ $(function(){
 			if(a < 0){ 
 				a = $('.index_banner>ul>li').length - 1;	
 			}
+			if(a == 0){ 
+				$('.play_video').eq(0).fadeIn();
+			}
 			$('.index_banner>ul>li').eq(a).addClass('hover').siblings().removeClass('leave');		
 			b = a;
 			setTimeout(function(){Ser=true;},1000);
@@ -105,7 +108,7 @@ $(function(){
 	$('.shopping input').blur(function(){
 		$(this).attr('placeholder','');
 		$(this).animate({width:22},function(){
-			$(this).css({backgroundImage:'url("http://www.houdongfang.com/Themes/houdongfang/content/images/search.png")',textIndent:30});
+			$(this).css({backgroundImage:'url(images/search.png)',textIndent:30});
 			$(this).siblings('img').css({display:'none'});
 		});
 		
@@ -113,25 +116,22 @@ $(function(){
 	
 	/*商品列表的排序*/
 	$('.filter>div').mouseenter(function(){
-		//$(this).find('i:last').html('&#xe610');
 		$(this).find('ul').stop().slideDown();
 		$('.filter>div').not($(this)).find('ul').stop().slideUp(200);	
-		//$('.filter>div').not($(this)).find('i:last').html('&#xe611');
 	}).mouseleave(function () {
 		$('.filter>div').find('ul').slideUp(200);
-		//$(this).find('i:last').html('&#xe611');
   	});
-	$('.pagenav>ul').css({width:$('.pagenav>ul>li').length*50});
-	$('.pagenav>ul').css({left:(1170-$('.pagenav>ul>li').length*50)/2});
+	$('.pagenav>ul').css({width:$('.pagenav>ul>li').length*50,left:(1170-$('.pagenav>ul>li').length*50)/2});
+	$('.ordernav>ul').css({width:$('.ordernav>ul>li').length*50,left:(870-$('.ordernav>ul>li').length*50)/2});
 	
 	/*单件商品详情展示*/
 	var Cop1 = Cop2 = Cop3 = Cop4 = 0;
-	$('.product_Bigimg>img').eq(0).fadeIn();
-	$('.product_Litimg>img').on('click',function(){
-		var product_Litimg_nums = $(this).index();
+	$('.picture>img').eq(0).fadeIn();
+	$('.picture_thumbs>img').on('click',function(){
+		var picture_thumbs_nums = $(this).index();
 		$(this).addClass('hover').siblings().removeClass('hover');
-		$('.product_Bigimg>img').eq(product_Litimg_nums).fadeIn().siblings().fadeOut();
-		Cop1 = product_Litimg_nums;
+		$('.picture>img').eq(picture_thumbs_nums).fadeIn().siblings().fadeOut();
+		Cop1 = picture_thumbs_nums;
 	});
 	$('.product_intro_prev').on('click',function(){
 		Cop3 = Cop1;	
@@ -139,18 +139,18 @@ $(function(){
 		if( Cop3 < 0 ){
 			Cop3 = 0;	
 		}
-		$('.product_Litimg>img').eq(Cop3).addClass('hover').siblings().removeClass('hover');
-		$('.product_Bigimg>img').eq(Cop3).fadeIn().siblings().fadeOut();
+		$('.picture_thumbs>img').eq(Cop3).addClass('hover').siblings().removeClass('hover');
+		$('.picture>img').eq(Cop3).fadeIn().siblings().fadeOut();
 		Cop1 = Cop3;	
 	});
 	$('.product_intro_next').on('click',function(){
 		Cop3 = Cop1;	
 		Cop3++;
-		if( Cop3 > $('.product_Bigimg>img').length - 1 ){
-			Cop3 = $('.product_Bigimg>img').length - 1;	
+		if( Cop3 > $('.picture>img').length - 1 ){
+			Cop3 = $('.picture>img').length - 1;	
 		}
-		$('.product_Litimg>img').eq(Cop3).addClass('hover').siblings().removeClass('hover');
-		$('.product_Bigimg>img').eq(Cop3).fadeIn().siblings().fadeOut();
+		$('.picture_thumbs>img').eq(Cop3).addClass('hover').siblings().removeClass('hover');
+		$('.picture>img').eq(Cop3).fadeIn().siblings().fadeOut();
 		Cop1 = Cop3;	
 	});
 
@@ -193,6 +193,10 @@ $(function(){
 		$('.service_cont>div').eq($(this).index()).css({display:"block"}).siblings('div').css({display:'none'});
 		$(this).siblings('p').animate({left:234*$(this).index()},420,'swing');
 	});
+	
+	/*登录、注册框*/
+	var H = $('body').height();
+	
 	$('.entry_1B').on('click',function(){
 		$('.entry_3').css({display:"block"});
 		$('.entry_2').css({display:'none'});
@@ -202,26 +206,6 @@ $(function(){
 		$('.entry_2').css({display:"block"});
 		$('.entry_3').css({display:'none'});
 		$('.entry_line').animate({left:0},420,'swing');
-	});
-	
-	/*登录、注册框*/
-	var H = $('body').height();
-	$('.entry').css({marginTop:(H-500)/2});
-	
-	$('.deng').on('click',function(){
-		$('.mask').fadeIn();
-		$('.entry_2').css({display:"block"});
-		$('.entry_3').css({display:'none'});
-		$('.entry_line').animate({left:0},420,'swing');
-	});
-	$('.zhu').on('click',function(){
-		$('.mask').fadeIn();
-		$('.entry_3').css({display:"block"});
-		$('.entry_2').css({display:'none'});
-		$('.entry_line').animate({left:150},420,'swing');
-	});
-	$('.entry_close').on('click',function(){
-		$('.mask').fadeOut();
 	});
 	/*购物车弹窗*/
 	$('.cart').on('click',function(){
@@ -280,74 +264,220 @@ $(function(){
 		Price = false;
 	});
 	
-    /*订单列表*/
-	$('.shopping_state_kuc').css({ left: (220 - $('.shopping_state_kuc').width()) / 2 });
+	/*订单列表*/
+	$('.shopping_state_kuc').css({left:(220-$('.shopping_state_kuc').width())/2});
 	var move_ids = Wob = 0;
 	var Chek = true;
 	$('.shopping_state_span2').html(move_ids);
-	$("[name='allcheckbox']").on('click', function () {
-	    if ($(this).prop('checked') == true) {
-	        $('.shopping_state_th1>input').prop('checked', true);
-	    } else {
-	        $('.shopping_state_th1>input').prop('checked', false);
-	    }
+	$("[name='is_move']").on('click',function(){
+		move_ids = Wob;
+		if($(this).prop('checked')==true){
+			move_ids++;
+			setTotal();
+		}else{
+			move_ids--;
+			setTotal();
+		}
+		if( move_ids == 0 ){
+			move_ids = 0;
+		}
+		if( move_ids >= $("[name='is_move']").length ){
+			move_ids = $("[name='is_move']").length;
+			$('.shopping_state_th1>input').prop('checked',true);
+		}
+		if( move_ids < $("[name='is_move']").length ){
+			$("[name='allcheckbox']").prop('checked',false);
+		}
+		Wob = move_ids;
+		$('.shopping_state_span2').html(Wob);
 	});
+	$("[name='allcheckbox']").on('click',function(){
+		if( $(this).prop('checked') == true ){
+			$('.shopping_state_th1>input').prop('checked',true);
+			move_ids = $("[name='is_move']").length;
+		}else{
+			$('.shopping_state_th1>input').prop('checked',false);
+			move_ids = 0;
+		}
+		Wob = move_ids;
 
-	$(".shopping_state_add").click(function () {
-	    var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]');
-	    shopping_state_price.val(parseInt(shopping_state_price.val()) + 1);
-	    //console.log(parseInt(shopping_state_price.val()));
+		$('.shopping_state_span2').html(Wob);
 	});
-	$(".shopping_state_reduce").click(function () {
-	    var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]');
+	$('.shopping_state_span1').html($('.shopping_state_tr').length);
+	
+	$(".shopping_state_add").click(function(){ 
+		var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]'); 
+		shopping_state_price.val(parseInt(shopping_state_price.val())+1);
+		//console.log(parseInt(shopping_state_price.val()));
+		var Zstate_price = Math.round(parseInt(shopping_state_price.val())*$(this).parents('.shopping_state_tr').find('.shopping_state_th4>span').html()*100)/100;
+		
+		if( parseInt(Zstate_price) == parseFloat(Zstate_price) ){
+			Zstate_price = String(Zstate_price)+'.00';
+		}else if( parseInt(Zstate_price*10) == Math.round(Zstate_price*10) ){
+			Zstate_price = String(Zstate_price)+'0';
+		}else if(parseInt(Zstate_price*100) == Math.round(Zstate_price*100)){
+			Zstate_price = Zstate_price;
+		}
+		
+		$(this).parents('.shopping_state_tr').find('.shopping_state_th6>span').html(Zstate_price);
+		
+		if($(this).parents('.shopping_state_tr').find("input[name='is_move']").prop("checked")==true){
+			setTotal(); 
+		}
+	});
+	$(".shopping_state_reduce").click(function(){ 
+		var shopping_state_price = $(this).parents('.shopping_state_tr').find('input[class*=text_box]'); 
+		
+		shopping_state_price.val(parseInt(shopping_state_price.val())-1);
+		
+		if(parseInt(shopping_state_price.val())<1){
+			$(this).parents('.shopping_state_tr').find("input[name='is_move']").prop("checked",false);
+			shopping_state_price.val(0); 
+		} 
+		
+		var Zstate_price = Math.round(parseInt(shopping_state_price.val())*$(this).parents('.shopping_state_tr').find('.shopping_state_th4>span').html()*100)/100;
+		
+		if( parseInt(Zstate_price) == parseFloat(Zstate_price) ){
+			Zstate_price = String(Zstate_price)+'.00';
+		}else if( parseInt(Zstate_price*10) == Math.round(Zstate_price*10) ){
+			Zstate_price = String(Zstate_price)+'0';
+		}else if(parseInt(Zstate_price*100) == Math.floor(Zstate_price*100)){
+			Zstate_price = Zstate_price;
+		}
+		$(this).parents('.shopping_state_tr').find('.shopping_state_th6>span').html(Zstate_price);		
+		if($(this).parents('.shopping_state_tr').find("input[name='is_move']").prop("checked")==true){
+			setTotal(); 
+		}
+	});
+	function setTotal(){ 
+		var senp = 0; 	
+		$(".shopping_state_tr").each(function(){ 
+			if($(this).find("input[name='is_move']").prop("checked")==true){
+				senp += Math.round($(this).find('.shopping_state_th6>span').html()*100)/100?Math.round($(this).find('.shopping_state_th6>span').html()*100)/100:0;
+				
+			}
+		}); 	
+		$(".shopping_state_span3").html(senp.toFixed(2)); 	
+	} 
+	
+	/*初始设置小计的值*/
+	$(".shopping_state_tr").each(function(){ 		
+		var Mstate_tr = (Math.floor(parseFloat(($(this).children('.shopping_state_th4').find('span').text()*100)))/100)*$(this).find('.text_box').val();
+			
+		if( parseInt(Mstate_tr) == parseFloat(Mstate_tr) ){
+			Mstate_tr = String(Mstate_tr)+'.00';
+		}else if( parseInt(Mstate_tr*10) == Math.round(Mstate_tr*10) ){
+			Mstate_tr = String(Mstate_tr)+'0';
+		}else if(parseInt(Mstate_tr*100) == Math.round(Mstate_tr*100)){
+			Mstate_tr = Mstate_tr;
+		}
+		
+		$(this).children('.shopping_state_th6').find('span').html(Mstate_tr);
+		
+		if( !$(this).find('.shopping_state_th5_one').get(0) ){
+			$(this).children('.shopping_state_th6').find('span').html('0.00');
+		}
+	});
+	var shopping_state_tr_len = $(".shopping_state_tr").length;
 
-	    if (parseInt(shopping_state_price.val()) > 0) {
-	        shopping_state_price.val(parseInt(shopping_state_price.val()) - 1);
-        }
+	$('.shopping_state_th7>i').on('click',function(){
+		$(this).parents('.shopping_state_tr').fadeOut();
+		shopping_state_tr_len--;
+		if($(this).parents('.shopping_state_tr').find("input[name='is_move']").prop("checked")==true){
+			Wob--;
+		}
+		$('.shopping_state_span1').html(shopping_state_tr_len);	
+		$('.shopping_state_span2').html(Wob);
+	});
+	//var str = 123.456;
+	//alert(str.toFixed(2));
+	/**/
+	$('.checkout_info_top').on('click',function(){
+		$('.checkout_info1>ul').not($(this)).slideUp(180);
+		$(this).siblings('ul').slideDown(240);	
+	});
+	$('.checkout_info1>ul>li').on('click',function(){
+		$(this).parent().siblings('.checkout_info_top').html($(this).html());
+		$(this).parent('ul').slideUp(240);
+	});
+	$('.checkout_address_add').on('click',function(){
+		$('.checkout_address_list').css({display:'block'});
+		$(this).css({display:'none'});
+	});
+	$('.checkout_address_close').on('click',function(){
+		$(this).parents('.checkout_address_list').css({display:'none'});
+		$('.checkout_address_add').css({display:'block'});
+		
+	});
+	$("[name='checkout_bill']").on('click',function(){
+		if($('.checkout_bill_2').find("input").prop("checked")==true){
+			$('.checkout_bill_details').fadeIn();
+		}else{
+			$('.checkout_bill_details').fadeOut();
+		}
+	});
+	
+	$('.checkout_address .checkout_cont_li').on('click',function(){
+		$(this).animate({opacity:1},240);
+		$('.checkout_address .checkout_cont_li').not($(this)).animate({opacity:0.3},240);
+		
+	});
+	
+	$('.shopping_inner_sub').find("input").on('click',function(){
+		$('.pay_mask').fadeIn();
+	});
+	$('.pay_close').on('click',function(){
+		$('.pay_mask').fadeOut();
+	});
+	/*订单基本资料*/
+	$('.profile_cmb1>input').on('focus',function(){
+		$(this).parent().css({borderColor:'#ab2828'},300);
+	});
+	$('.profile_cmb1>input').on('blur',function(){
+		$(this).parent().css({borderColor:'#d2d2d2'});
+	});
+	/*收货地址删除*/
+	$('.profile_li_close').on('click',function(){
+		$(this).parent().fadeOut();
+	});
+	/*商品/店铺的切换*/
+	$('.profile_order_tab_span2').on('click',function(){
+		$(this).css({color:'#ab2828'});
+		$(this).siblings('span').css({color:'#fff'});
+		$('.profile_order_ul').css({display:'none'});
+		$('.profile_order_mon').css({display:'block'});
+		$('.profile_order_tab_ponk').animate({left:80});
 
 	});
-
-    //var str = 123.456;
-    //alert(str.toFixed(2));
-    /**/
-	$('.checkout_info_top').on('click', function () {
-	    $('.checkout_info1>ul').not($(this)).slideUp(180);
-	    $(this).siblings('ul').slideDown(240);
+	$('.profile_order_tab_span1').on('click',function(){
+		$(this).css({color:'#ab2828'});
+		$(this).siblings('span').css({color:'#fff'});
+		$('.profile_order_ul').css({display:'block'});
+		$('.profile_order_mon').css({display:'none'});
+		$('.profile_order_tab_ponk').animate({left:0});
 	});
-	$('.checkout_info1>ul>li').on('click', function () {
-	    $(this).parent().siblings('.checkout_info_top').html($(this).html());
-	    $(this).parent('ul').slideUp(240);
+	
+	$('.profile_setup_pub input').on('click',function(){
+		if( $(this).prop('checked') == true){
+			$(this).parent().siblings('.profile_setup_sub').find('input').css({backgroundColor:'#ab2828'});	
+		}else{
+			$(this).parent().siblings('.profile_setup_sub').find('input').css({backgroundColor:'#f4f4f4'});	
+		}
+	
 	});
-	$('.checkout_address_add').on('click', function () {
-	    $('.checkout_address_list').css({ display: 'block' });
-	    $(this).css({ display: 'none' });
-	});
-	$('.checkout_address_close').on('click', function () {
-	    $(this).parents('.checkout_address_list').css({ display: 'none' });
-	    $('.checkout_address_add').css({ display: 'block' });
-
-	});
-	$("[name='checkout_bill']").on('click', function () {
-	    if ($('.checkout_bill_2').find("input").prop("checked") == true) {
-	        $('.checkout_bill_details').fadeIn();
-	    } else {
-	        $('.checkout_bill_details').fadeOut();
-	    }
-	});
-
-	$('.checkout_cont_li').on('click', function () {
-	    $(this).animate({ opacity: 1 }, 240);
-	    $('.checkout_cont_li').not($(this)).animate({ opacity: 0.3 }, 240);
-
-	});
-
-	$('.shopping_inner_sub').find("input").on('click', function () {
-	    $('.pay_mask').fadeIn();
-	});
-	$('.pay_close').on('click', function () {
-	    $('.pay_mask').fadeOut();
-	});
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

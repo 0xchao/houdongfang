@@ -6,9 +6,7 @@
   url('font_1422353160_120903.woff') format('woff'), /* chrome、firefox */
   url('font_1422353160_120903.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
   url('font_1422353160_120903_iconfont.svg') format('svg'); /* iOS 4.1- */
-}
-
-
+  }
 .clear{zoom:1;}
 .clear:after{ content:""; display:block; clear:both;}
 *{ margin: 0; padding: 0; }
@@ -38,7 +36,7 @@ textarea{ resize:none; }
 em,i{font-style:normal;}
 
 img{ width:100%;}
-.nav{ width:1170px; height:45px; margin:40px auto 0; position:relative; background:url(images/nav@2x.png) no-repeat; background-size:100% 100%; text-align:center;}
+.nav{ width:1170px; height:45px; margin:40px auto 0; position:relative; background:url(Images/nav@2x.png) no-repeat; background-size:100% 100%; text-align:center;}
 .logo{ width:179px; height:27px; overflow:hidden; position:absolute; left:75px; top:9px;}
 .logo img{width:100%;}
 .nav ul{ text-align:center;}
@@ -46,16 +44,17 @@ img{ width:100%;}
 .nav ul li a{ color:#fff; display:inline-block; height:100%; width:100%;}
 
 .shopping{  height:26px; position:absolute; right:37px; top:9px; cursor:pointer;}
-.shopping input{ width:22px; height:22px; border: 2px solid #B33131; border-radius:26px; color:#fff; margin-left:6px; box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.30); line-height:22px; background:url(images/search.png) no-repeat 5px 4px; background-color: #A42020; text-indent:0.8em; }
+.shopping input{ width:22px; height:22px; border: 2px solid #B33131; border-radius:26px; color:#fff; margin-left:6px; box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.30); line-height:22px; background:url(Images/search.png) no-repeat 5px 4px; background-color: #A42020; text-indent:0.8em; }
 .shopping input:-moz-placeholder{ color:#cb4e4e;}
 .shopping input:-ms-input-placeholder{ color:#cb4e4e;}
 .shopping input::-webkit-input-placeholder{ color:#cb4e4e;}
 .shopping img{ width:15px; height:15px; position:absolute; top:6px; right:4px; display:none;}
 .userpanel{ position:absolute; right:18px; top:-22px; font:12px/14px "微软雅黑",Helvetica,Arial,sans-serif;}
-.userpanel a:first-child{margin-right:4px; color:#ab2828;}
-.userpanel a span{ padding-left:8px; color:#ab2828;}
-.userpanel a:first-child a{ font-size:14px;}
-.userpanel a:nth-of-type(4) i{ margin-left:14px; font-size:16px; color:#ab2828;}
+/*页面调整修改*/
+.userpanel i{ margin:0 7px 0 14px;color:#ab2828; font-size:14px;}
+.userpanel a span{ color:#ab2828;}
+/*57行.cart   前后端差异，前端不做修改*/
+.userpanel .cart i{ margin-left:14px; font-size:16px; color:#ab2828;}
 
 .index_banner{ position:relative; width:1170px; height:700px; overflow:hidden; margin:10px auto 40px;}
 .index_banner .index_prev{ position:absolute; left:0;top:325px; width:25px; height:50px; z-index:99;}
@@ -160,20 +159,22 @@ transition:all 0.6s ease;
 .classify ul li:hover{ background-color:#ab2828; }
 .classify ul li:hover a{ color:#fff; }
 .classify ul li:hover i{ color:#fff; }
-.footer{ width:100%; min-width:1170px; padding-bottom:50px; padding-top:30px; background-color:#f9f9f9;}
-.footer_cont{  width:1170px; margin:0 auto; }
-.footer_left{width:600px; float:left; color:#404040;}
-.footer_left a{ color:#404040;}
-.footer_left>div{ font:18px/50px "kaiti";}
-.footer_left i{ font-size:25px; margin-right:15px; color:#ab2828;}
-.footer_left>div>strong{ margin-left:64px; font:14px/50px "微软雅黑",Helvetica,Arial,sans-serif; }
-.footer_left>div>strong a:hover{ color:#ab2828;}
-.footer_left>div>strong img{ width:30px; height:25px; margin-top:10px; margin-right:40px;}
-.footer_nav3 strong i{ padding-left:16px; font-size:25px; margin-right:6px;}
-.footer_nav3 strong .weibo i{ padding-left:0;}
-.footer_right{ float:right; width:300px; color:#9b9b9b;}
-.footer_right img{ width:200px; height:29px; margin:18px 2px 24px 98px;}
-.footer_right p{ font:12px/20px "微软雅黑",Helvetica,Arial,sans-serif; text-align:right;}
+/*第一部分更新内容footer样式修改，html文件同样有调整*/
+.foot{ width:100%; min-width:1170px; padding-bottom:40px; padding-top:24px; background-color:#f9f9f9;}
+.footer{ width:1170px; margin:0 auto; position:relative;}
+.footer_cont{ width:750px; color:#404040;}
+.footer_cont a{ color:#404040;}
+.footer_cont_1{ float:left; width:150px;}
+.footer_cont_1 h2{ font:bold 14px/66px "微软雅黑",Helvetica,Arial,sans-serif;}
+.footer_nav1{ font:14px/32px "微软雅黑",Helvetica,Arial,sans-serif; }
+.footer_nav1 a{color:#868686; display:inline-block; height:28px;}
+.footer_nav1 a:hover{ border-bottom:2px solid #ab2828;}
+.footer_right{ position:absolute; right:0; top:24px; width:300px; color:#9b9b9b; text-align:right; border-left:1px solid #969696;}
+.footer_right img{ width:200px; height:29px; margin-left:98px; margin-bottom:43px;}
+.footer_right img{ width:200px; height:29px; margin-left:98px; margin-bottom:43px;}
+.weibo,.weixin{ font:16px/52px "微软雅黑",Helvetica,Arial,sans-serif; display:inline-block; height:52px; margin-left:12px;}
+.weibo i,.weixin i{ font-size:28px; color:#ab2828; line-height:32px;margin-right:10px;}
+.footer_right p{ font:12px/22px "微软雅黑",Helvetica,Arial,sans-serif; }
 .footer_right a{ color:#9b9b9b;}
 .footer_right a:hover{ color:#ab2828;}
 #video{ position:absolute; left:0; top:0; background:#fff; overflow:hidden; z-index:999; display:none;}
@@ -186,11 +187,9 @@ transition:all 0.6s ease;
 .iconfont{font-family:"iconfont"; font-size:16px;font-style:normal; -webkit-font-smoothing: antialiased;}
 
 /*商品列表*/
-.list_banner{ width:1170px; height:120px; margin:20px auto 0; border-bottom:1px solid #ab2828; position:relative;}
-.list_banner_pic{ float:left; width:100px; height:100px; margin-top:20px;}
-.list_banner_text{ float:left; width:400px; height:120px; color:#ab2828;}
-.list_banner_text h2{ font:60px/70px "kaiti"; }
-.list_banner_text h3{ font:14px/24px "kaiti";margin-top:25px;}
+.list_banner{ width:1170px; margin:20px auto 0; border-bottom:1px solid #d2d2d2; position:relative;}
+.list_banner_text{ color:#ab2828;}
+.list_banner_text h2{ font:30px/46px "kaiti";}
 .filter{ position:absolute; bottom:0px; right:0; height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; z-index:4;}
 .filter i{ font-size:20px; color:#ab2828; margin:0 10px;}
 .filter .filter_box { position:relative; float:left; width:120px; padding-right:30px; text-align:center;}
@@ -227,7 +226,8 @@ transform:rotate(180deg);
 
 .filter>div>ul{ position:absolute; right:0; top:40px; display:none; font-size:14px;}
 .filter a:hover{ color:#ab2828;}
-.catelog{ width:1170px; margin:70px auto 80px; position:relative;top:15px; left:0;}
+.catelog{ width:1170px; margin:0px auto 80px; position:relative;top:15px; left:0;}
+.catelog_banner{ padding:10px 0 30px 0;}
 .catelog_list{ width:1170px; }
 .catelog_list li{ float:left; width:320px; height:430px; padding:20px; margin-right:45px; margin-bottom:50px; position:relative; top:100px; opacity:0; z-index:3;
 -webkit-transition:-webkit-transform ease 0.5s;
@@ -266,58 +266,64 @@ transform:scale(1.05,1.05);
 .catelog_list li h3 a:hover{ color:#ab2828;}
 .catelog_list li h3 .catelog_location{ position:absolute; right:0;}
 .catelog_list li h3 i{ color:#ab2828; font-size:14px;margin-right:6px;}
+/*此部分前端已按后端调整，由后端统一生成翻页按钮，位置居中即可（静态页面中订单中心翻页按钮位置错误，可忽略）*/
 .pagenav{ height:50px; position:relative; width:auto;}
-.pagenav ul{ position:absolute; left:100px; top:0; font:20px/50px "微软雅黑",Helvetica,Arial,sans-serif;}
+.pagenav ul{ position:absolute; left:100px; top:0;font:20px/50px "微软雅黑",Helvetica,Arial,sans-serif;}
 .pagenav li{ float:left; width:50px; height:50px; text-align:center;}
-.pagenav .previous-page{ position:absolute; left:-40px; top:0px; }
-.pagenav .next-page{ position:absolute; right:-40px; top:0px; }
+.pagenav .previous_page{ position:absolute; left:-40px; top:0px; }
+.pagenav .next_page{ position:absolute; right:-40px; top:0px; }
 .pagenav a{ color:#9b9b9b;}
 .pagenav a.current-page{ color:#ab2828;}
 .pagenav a:hover{ color:#ab2828;}
 
 /*产品详情3*/
-.product_intro{ width:1170px; height:620px; margin:50px auto 50px; position:relative;}
-.gallery{ width:525px; padding-left:50px;}
-.picture{ width:525px; height:525px; position:relative;}
-.picture img{ width:525px; height:525px; position:absolute;left:0; top:0;}
-.picture-thumbs{ width:525px; height:60px; position:relative; text-align:center; margin-top:25px; line-height:60px;}
-.picture-thumbs img{ width:60px; height:60px; margin-right:10px; margin-left:10px;}
-.picture-thumbs img.hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.product_intro{ width:1170px; margin:10px auto 0px; position:relative;}
+.product_intro_title{ height:40px; font:14px/40px "微软雅黑",Helvetica,Arial,sans-serif; color:#ab2828;}
+.product_intro_title a{ color:#ab2828;}
+.product_intro_title span{  padding:10px;}
+.gallery{ width:798px; border:1px solid #d2d2d2; border-right:none; height:618px; }
+.picture{ width:525px; height:525px; position:relative; margin:0 auto;}
+/*此部分为后端bug，商品图片点击需出现阴影效果，后端调整*/
+.picture img{ width:525px; height:525px; position:absolute;left:0; top:0; display:none;}
+.picture img .hover{ display:block;}
+.picture_thumbs{ width:525px; height:60px; position:relative; text-align:center; margin:0 auto; line-height:60px;}
+.picture_thumbs img{ width:60px; height:60px; margin-right:10px; margin-left:10px;}
+.picture_thumbs img.hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
 .product_intro_prev img,.product_intro_next img{ width:15px; height:30px;}
 .product_intro_prev{ position:absolute; left:10px; top:15px;font-size:16px;}
 .product_intro_next{ position:absolute; right:10px; top:15px;}
 
-.product_shopping{ position:absolute;right:10px; top:0px; width:330px; height:580px; padding:20px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); font-family:"微软雅黑",Helvetica,Arial,sans-serif;}
+.product_shopping{ position:absolute;right:0px; top:40px; width:330px; height:578px; padding:20px; border:1px solid #d2d2d2; _box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); font-family:"微软雅黑",Helvetica,Arial,sans-serif;}
 .product_shopping_user{ height:45px;}
-.product_shopping_user h2{ font:12px/14px "微软雅黑",Helvetica,Arial,sans-serif; height:14px;}
-.product_shopping_user h3{ font:22px/24px "kaiti"; height:24px; margin-top:8px;}
+.product_shopping_user h2{ font:20px/30px "kaiti";}
 .portrait{ width:45px; height:45px; overflow:hidden; position:absolute;right:20px; top:20px;}
-.product_shopping h4{ position:relative; height:36px; margin-top:20px; font:30px/36px "微软雅黑",Helvetica,Arial,sans-serif; color:#ab2828;}
+.product_shopping h4{ position:relative; height:36px; margin-top:20px; font:24px/36px "微软雅黑",Helvetica,Arial,sans-serif; color:#ab2828;}
 .product_shopping h4 span{ position:absolute; bottom:4px; right:0px; font:12px/12px "微软雅黑",Helvetica,Arial,sans-serif; color:#000;}
 .product_shopping p{ height:84px; font-size:14px; line-height:21px; padding-top:16px; padding-bottom:11px; border-top:1px solid #d2d2d2; margin-top:18px;}
-.product_shopping h5{ height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif;}
+.product_shopping h5{ height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; position:relative;}
+.product_shopping h5 a{ position:absolute; right:0; top:0; color:#ab2828; font-size:12px;}
 .product_shopping_sel{ width:330px; height:50px; text-indent:10px; font-size:16px; line-height:50px; position:relative; z-index:3;}
 .arrow{ width:50px; height:50px; position:absolute; right:0;top:0; z-index:3; }
 .arrow i{ color:#ab2828;}
-.product_shopping_top{ height:44px; width:324px; border:3px solid #ab2828; line-height:44px; position:relative; z-index:4;}
+.product_shopping_top{ height:48px; width:328px; border:1px solid #ab2828; line-height:48px; position:relative; z-index:4;}
 .product_shopping_sel ul{ position:absolute;left:0; top:50px;box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); display:none;}
 .product_shopping_sel ul li{ height:50px; background-color:#fff; width:330px;}
 .product_shopping_sel ul li:hover{ color:#ab2828;}
-.product_shopping_num{ width:330px; height:44px; position:relative; z-index:2;}
-.btn_reduce{ cursor:pointer; line-height:44px; font-size:30px; display:block; width:48px; height:44px; position:absolute;right:47px; top:3px; text-align:center; background:#ab2828; color:#fff;}
-.btn_add{ cursor:pointer; line-height:44px; font-size:30px; display:block; width:44px; height:44px; position:absolute;right:3px; top:3px; text-align:center;background:#ab2828;color:#fff;}
-.product_shopping_num input{ background-color:rgba(255,255,255,0); border:3px solid #ab2828; width:324px; height:44px; font-size:16px; text-indent:8px;}
+.product_shopping_num{ width:330px; height:48px; position:relative; z-index:2;}
+.btn_reduce{ cursor:pointer; line-height:48px; font-size:30px; display:block; width:48px; height:48px; position:absolute;right:49px; top:1px; text-align:center; background:#ab2828; color:#fff;}
+.btn_add{ cursor:pointer; line-height:48px; font-size:30px; display:block; width:48px; height:48px; position:absolute;right:1px; top:1px; text-align:center;background:#ab2828;color:#fff;}
+.product_shopping_num input{ background-color:rgba(255,255,255,0); border:1px solid #ab2828; width:328px; height:48px; font-size:16px; text-indent:8px;}
 .product_shopping_btn{ border-top:1px solid #d2d2d2; margin-top:22px;}
 .product_shopping_btn input{ margin-top:20px; width:330px; height:50px; background:#ab2828; outline:none; border:none; color:#fff; font:22px/50px "kaiti"; text-align:center; cursor:pointer;}
-.product_shopping_footer{ width:330px; height:50px; position:relative; margin-top:20px; font:20px/44px "kaiti"; }
-.share{ position:absolute; right:0; top:0; width:149px; height:44px; border:3px solid #ab2828; cursor:pointer; 
+.product_shopping_footer{ width:330px; height:50px; position:relative; margin-top:20px; text-align:center; font:20px/48px "kaiti"; }
+.share{ position:absolute; right:0; top:0; width:148px; height:48px; border:1px solid #ab2828; cursor:pointer; 
 -webkit-transition:all ease 0.6s;
 -moz-transition:all ease 0.6s;
 -ms-transition:all ease 0.6s;
 -o-transition:all ease 0.6s;
 transition:all ease 0.6s;
 }
-.shop_push{ width:149px; height:44px;border:3px solid #ab2828; cursor:pointer; 
+.shop_push{ width:148px; height:48px;border:1px solid #ab2828; cursor:pointer; 
 -webkit-transition:all ease 0.6s;
 -moz-transition:all ease 0.6s;
 -ms-transition:all ease 0.6s;
@@ -326,7 +332,7 @@ transition:all ease 0.6s;
 }
 
 .product_cont{ width:100%; min-width:1170px; margin-top:50px;}
-.product_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid rgba(171,40,40,0.50); margin-bottom:50px;}
+.product_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid #d2d2d2; margin-bottom:50px;}
 .product_tab{ width:1170px; margin:0 auto; height:50px; text-align:center; font:22px/50px "kaiti"; color:#ab2828; position:relative;}
 .product_tab_left{ float:left; width:585px; height:50px; cursor:pointer;}
 .product_tab_right{ float:left; width:585px; height:50px; cursor:pointer;}
@@ -336,7 +342,7 @@ transition:all ease 0.6s;
 .product_module_wide{ width:100%;min-width:1170px; margin:25px auto;}
 .product_module_normal{ width:1170px;margin:25px auto;}
 
-.service_info_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid rgba(171,40,40,0.50);}
+.service_info_thiner{ width:100%; min-width:1170px; height:50px; border-bottom:1px solid #d2d2d2;}
 .service_info_tab{ width:1170px; margin:0 auto; height:50px; text-align:center; font:20px/50px "kaiti"; color:#ab2828; position:relative;}
 .service_info_tab1{ float:left; width:234px; height:50px; cursor:pointer;}
 .service_info_tab2{ float:left; width:234px; height:50px; cursor:pointer;}
@@ -363,16 +369,23 @@ transition:all ease 0.6s;
 .review_cont_text h4{ height:36px; line-height:36px; color:#ab2828;}
 .review_cont_text p{ margin-top:3px; font:14px/21px "微软雅黑",Helvetica,Arial,sans-serif;}
 
-
-.mask,.shopcart{ background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:fixed; left:0; top:0; z-index:1000; display:none;}
-.entry{ width:300px; height:400px; padding:50px 110px; box-shadow: 0px 0px 12px 3px rgba(0,0,0,0.20); margin:0 auto; background:#fff; position:relative;}
-.entry_close,.shopcart_close{ position:absolute;right:20px; top:20px; width:32px; height:32px; cursor:pointer;}
-.entry_close i,.shopcart_close i{ color:#ab2828; font-size:32px;}
+.foring{ width:700px; margin:120px auto 210px; position:relative;}
+.foring_pic{ position:absolute;left:0; top:0; width:240px; height:140px; border-right:2px solid #d2d2d2;}
+.foring_pic img{ width:153px; height:125px;}
+.foring_int{width:520px; margin-left:328px; }
+.foring_int h3{ font:30px/61px "微软雅黑",Helvetica,Arial,sans-serif; }
+.foring_int h4{ width:192px; height:55px; text-align:center; margin-top:50px; font:20px/55px "微软雅黑",Helvetica,Arial,sans-serif; background:#ab2828;}
+.foring_int h4 a{ color:#fff;}
+.shopcart{ background-color:rgba(0,0,0,0.3); width:100%; height:100%; position:fixed; left:0; top:0; z-index:1000; display:none;}
+.sigin{ width:1170px; margin:80px auto; position:relative;}
+.sigin_ban{width:798px; height:507px; background:url(Images/siginbg.jpg) no-repeat; background-size:100%; position:absolute;left:0; top:0px;}
+.entry{ width:300px; padding:35px; padding-bottom:0; border:1px solid #d2d2d2; background:#fff; position:relative; margin-left:798px;}
+.shopcart_close{ position:absolute;right:20px; top:20px; width:32px; height:32px; cursor:pointer;}
+.shopcart_close i{ color:#ab2828; font-size:32px;}
 .entry_logo img{ width:245px; margin-left:22px;}
 .entry_1{ width:300px; height:40px; font:20px/40px "kaiti"; border-bottom: 1px solid rgba(171,40,40,0.50); position:relative; cursor:pointer; color:#ab2828; text-align:center; margin-top:30px;}
 .entry_1T{ float:left; width:150px; }
 .entry_1B{ float:left; width:150px; }
-.entry_2{}
 .entry_3{ display:none;}
 .entry_line{ width:150px; height:3px; background:#ab2828; position:absolute; left:0; bottom:-2px;}
 .entry_email{width:300px; height:50px; position:relative; margin-top:22px;}
@@ -380,12 +393,12 @@ transition:all ease 0.6s;
 .entry_word{ width:300px; height:50px; margin-top:22px; position:relative; }
 .entry_email_pic{ width:44px; height:44px; position:absolute; left:3px; top:3px; background:#f2f2f2; line-height:44px; text-align:center;}
 .entry_email_pic i{ color:#ab2828; font-size:18px;}
-.entry_hint{ color:#ab2828; position:relative; height:30px; line-height:30px; font-size:12px;}
+.entry_hint{ color:#ab2828; position:relative; height:36px; line-height:36px; font-size:12px;}
 .entry_hint a{ position:absolute;right:0px; top:0; }
 .entry_hint a:hover{ color:#ab2828;}
-.entry_btn{ margin-top:30px;  width:300px; height:50px; cursor:pointer;}
+.entry_btn{ margin-top:10px;  width:300px; height:50px; cursor:pointer;}
 .entry_btn input{ background:#ab2828; color:#fff; width:100%; height:100%; border:none;font:20px/50px "kaiti"; cursor:pointer;}
-.entry_ready{ text-align:center; height:32px; font-size:12px; line-height:32px;}
+.entry_ready{ text-align:center; height:52px; font-size:12px; line-height:52px;}
 .entry_ready a{ color:#ab2828;}
 .shopcart_close{ right:12px; top:12px;}
 .shopcart_mask{ background-color:#fff; width:420px; padding:40px 40px 50px; margin:0 auto; text-align:center; box-shadow: 0px 0px 12px 3px rgba(0,0,0,0.20); font-size:12px; font-family:"微软雅黑",Helvetica,Arial,sans-serif; position:relative;}
@@ -612,9 +625,9 @@ transition:all ease 0.6s;
     position: absolute;
     right:200px; top:20px; 
 }
-.shopping_state_return input{ width:177px; height:50px; background-color:#f4f4f4; color:#ab2828; font-size:22px; cursor:pointer;}
+.shopping_state_return input{width:177px; height:50px; background-color:#f4f4f4; color:#ab2828; font-size:22px; cursor:pointer;}
 .shopping_state_settle{ position:absolute; right:0; top:20px; width:177px; height:50px;}
-.shopping_state_settle button { width:177px; height:50px; background-color:#ab2828; color:#fff; font-size:22px; font-family:"kaiti";cursor:pointer;	}
+.shopping_state_settle button{ width:177px; height:50px; background-color:#ab2828; color:#fff; font-size:22px; font-family:"kaiti";cursor:pointer;	}
 
 .cart_frame{ width:1170px; margin:0 auto; color:#ab2828; font-size:18px;} 
 .cart_frame_title{ line-height:90px; position:relative; font-family:"微软雅黑",Helvetica,Arial,sans-serif; text-indent:22px;}
@@ -737,7 +750,7 @@ transform:scale(1.05,1.05);
 .shopping_inner>p.shopping_inner_4 img{ width:60px; margin-top:2px;}
 
 .shopping_inner_sub{ width:870px; text-align:center;}
-.shopping_inner_sub a{ display:inline-block; width:177px; margin-right:20px; height:50px; background:#f4f4f4; font:22px/50px "kaiti"; color:#ab2828;}
+.shopping_inner_sub a{ display:inline-block; width:177px; margin-right:10px; height:50px; background:#f4f4f4; font:22px/50px "kaiti"; color:#ab2828;}
 .shopping_inner_sub input{ width:177px; height:50px; background:#ab2828; font:22px/50px "kaiti"; color:#fff; border:none; cursor:pointer;}
 
 .pay_mask{ position:fixed; left:0; top:0; height:100%; width:100%; display:none; background-color:rgba(0,0,0,0.4);z-index:1;}
@@ -787,11 +800,11 @@ transform:scale(1.05,1.05);
 .shopping_state_tab .checkout-attributes ul.color-squares .color{display:inline-block;width:18px;height:18px;}
 .shopping_state_tab .checkout-attributes ul.color-squares label{cursor:pointer;position:relative;}
 .shopping_state_tab .checkout-attributes ul.color-squares input{height:0;overflow:hidden;z-index:-10000;position:absolute;float:none;}
-
 /*Profile*/
 .profile_slidebar_banner{ width:1170px; padding:30px 0;}
-.profile_slidebar{ width:1170px; margin:0 auto; text-align:center; font:14px/32px "微软雅黑",Helvetica,Arial,sans-serif; padding:30px 0;}
-.profile_slidebar_left{ width:270px; float:left; padding-bottom:96px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+/*后端整合bug，无用户头像，所以顶部高度不同*/
+.profile_slidebar{ width:1170px; margin:0 auto; text-align:center; font:14px/32px "微软雅黑",Helvetica,Arial,sans-serif; padding-bottom:60px;}
+.profile_slidebar_left{ width:270px; float:left; padding-top:45px; padding-bottom:96px; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
 .profile_slidebar_pic{ width:270px; height:100px; position:relative;}
 .profile_slidebar_pic_mask{ position: absolute; left:85px; top: 0; width: 100px; height: 100px; box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.35); border-radius: 50%; }
 .profile_slidebar_pic img{ width:100px; height:100px;  border-radius:50%; }
@@ -915,3 +928,32 @@ transition:all ease 0.35s;
 .profile_setup_sub input{ width:177px; height:50px; background-color:#f4f4f4; color:#fff; font-size:22px; cursor:pointer; border:none; margin-top:16px; font-family:"kaiti";}
 
 .avatar{ width:100px; height:100px;  border-radius:50%; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
