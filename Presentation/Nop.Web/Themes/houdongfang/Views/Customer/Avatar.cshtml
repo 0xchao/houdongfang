@@ -1,0 +1,49 @@
+﻿@model CustomerAvatarModel
+@using Nop.Web.Models.Customer;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+@using (Html.BeginRouteForm("CustomerAvatar", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="profile_slidebar_right">
+        <div class="profile_slidebar_right2">
+            <div class="checkout_title">
+                @T("Account.Avatar")
+                <label />
+            </div>
+            <div class="message-error">
+                @Html.ValidationSummary(true)
+            </div>
+            <div class="form-fields">
+                @if (!String.IsNullOrEmpty(Model.AvatarUrl))
+                {
+                    <div class="avatar">
+                        <img src="@(Model.AvatarUrl)" alt="avatar" />
+                    </div>
+                }
+            </div>
+            <div class="profile_cmb1">
+                <div class="profile_cmb1_left">@T("Common.Upload")</div>
+                <input type="text" class="input" id="pic_path" onclick="$('#uploadedFile').trigger('click')" readonly>
+                <input type="file" name="uploadedFile" id="uploadedFile" style="visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+            </div>
+            <div class="info">
+                @T("Account.Avatar.UploadRules")
+            </div>
+            <div class="profile_cmb2">
+                <input type="submit" name="upload-avatar" class="profile_cmb1_sub1" value="@T("Common.Upload")" />
+                @if (!String.IsNullOrEmpty(Model.AvatarUrl))
+                {
+                    <input type="submit" name="remove-avatar" class="profile_cmb1_sub1" value="@T("Account.Avatar.RemoveAvatar")" />
+                }
+            </div>
+        </div>
+    </div>
+}
