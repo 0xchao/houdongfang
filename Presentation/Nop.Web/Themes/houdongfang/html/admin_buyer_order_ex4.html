@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>消费者后台 - 申请开店 | 后东方</title>
+<link rel="stylesheet" type="text/css" href="../Content/style.css"/>
+<script type="text/javascript" src="../Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="../Scripts/Sng.js"></script>
+
+</head>
+<body>
+
+<div class="shopcart">
+    <div class="shopcart_mask">
+        <div class="shopcart_close"><i class="iconfont">&#xe61b;</i></div>
+        <div class="shopcart_logo"><img src="../Content/Images/footer_logo@2x.png" /></div>
+        <table width="420" height="auto" border="0" cellspacing="0" cellpadding="0">
+            <tr height="70" class="shopcart2">
+                <td class="shopcart2_1"><img src="../Content/Images/product01P.jpg" /></td>
+                <td class="shopcart2_2">纯天然有机生姜</td>
+                <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                <td class="price">￥ <span>123.00</span></td>
+                <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+            </tr>
+            <tr height="70" class="shopcart2">
+                <td class="shopcart2_1"><img src="../Content/Images/product02P.jpg" /></td>
+                <td class="shopcart2_2">纯天然有机生姜</td>
+                <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                <td class="price">￥ <span>456.34</span></td>
+                <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+            </tr>
+            <tr height="70" class="shopcart3">
+                <td class="shopcart2_1"><img src="../Content/Images/product03P.jpg" /></td>
+                <td class="shopcart2_2">纯天然有机生姜</td>
+                <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                <td class="price">￥ <span>25.00</span></td>
+                <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+            </tr>
+        </table>
+        <div class="shopcart4">购物车总计<div class="total">￥ <span>2837.00</span></div></div>
+
+        <div class="shopcart_btn"><input type="button" value="立即结算"/></div>                   
+   </div> 
+</div>
+<div class="nav">
+    <div class="logo"><a href="index.html"><img src="../Content/Images/logo@2x.png" /></a></div>
+    <ul class="clear">
+        <li><a href="product_list.html">在线商城</a></li>
+        <li><a href="#">线下商城</a></li>
+        <li><a href="#">后东方博客</a></li>
+        <li><a href="#">关于后东方</a></li>
+    </ul>
+    <div class="shopping clear"><input type="text" placeholder=""  /> <img src="../Content/Images/search@2x.png" /></div>
+    <div class="userpanel">	
+        <a href=""><i class="iconfont">&#xe60b;</i>管理后台</a><a href=""><i class="iconfont">&#xe60b;</i></a><a class="deng" href="signin&&login.html">Angle</a><a href="signin&&login.html"><i class="iconfont">&#xe61e;</i>收藏夹</a><a class="cart" href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a>
+    </div>
+</div> 
+<div class="profile_slidebar clear">
+	<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
+	<div class="profile_slidebar_left">
+    	<div class="profile_slidebar_pic"><img src="../Content/Images/ty11.png" />
+            <div class="profile_slidebar_pic_mask"></div>
+        </div>
+        <h2>Angle</h2>
+        <ul class="profile_slidebar_list">
+            <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
+            <li><a href="admin_buyer_order_ex1.html">我的订单</a></li>
+            <li><a href="admin_buyer_order_ex2.html">未支付订单</a></li>
+            <li><a href="admin_buyer_order_ex3.html">退换货订单</a></li>
+            <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
+            <li><a href="admin_buyer_order_ex4.html" class="on">个人信息</a></li>
+            <li><a href="admin_buyer_order_ex5.html">收货地址</a></li>
+            <li><a href="admin_buyer_order_ex6.html">我的收藏</a></li>
+            <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
+            <li><a href="admin_buyer_order_ex7.html">申请开店</a></li>
+        </ul>
+    </div>
+    <div class="profile_slidebar_right">
+    	<div class="profile_slidebar_right2">
+        	<div class="checkout_title">基本资料
+                <a href="javascript:;"></a>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">用户名</div><input type="text" />
+                <div class="profile_cmb1_right">用户名已存在</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">邮&nbsp;&nbsp;箱</div><input type="text" />
+                <div class="profile_cmb1_right">邮箱未验证</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">手&nbsp;&nbsp;机</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">头&nbsp;&nbsp;像</div>
+                <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
+                <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+            </div>
+            <div class="profile_cmb2">
+            	<input class="profile_cmb1_sub1" type="submit" value="保存资料" />
+            </div>
+            <div class="checkout_title">修改密码
+                <a href="javascript:;"></a>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">旧密码</div><input type="password" />
+                <div class="profile_cmb1_right">输入错误</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">新密码</div><input type="password" />
+                <div class="profile_cmb1_right">密码太短</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">确认密码</div><input type="password" />
+                <div class="profile_cmb1_right">两次输入不一致</div>
+            </div>
+            <div class="profile_cmb2">
+            	<input class="profile_cmb1_sub1" type="submit" value="修改密码" />
+            </div>
+        </div>
+    </div>
+</div>      
+<div class="classify">
+    <ul class="clear">
+        <li><a href="product_list.html"><i class="iconfont">&#xe611;</i>实木家具</a></li>
+        <li><a href="product_list.html"><i class="iconfont">&#xe612;</i>原创服饰</a></li>
+        <li><a href="product_list.html"><i class="iconfont">&#xe613;</i>地标食品</a></li>
+        <li><a href="product_list.html"><i class="iconfont">&#xe614;</i>原创手工</a></li>
+        <li><a href="product_list.html"><i class="iconfont">&#xe615;</i>原产茶叶</a></li>
+    </ul>
+</div>
+<div class="footer">
+    <div class="footer_cont clear">
+        <div class="footer_left">
+            <div class="footer_nav1"><i class="iconfont">&#xe616;</i>购物指南<strong><a href="">新手入门</a> | <a href="">购物流程</a> | <a href="">支付方式</a> | <a href="">配送售后</a> | <a href="">常见问题</a></strong></div>
+            <div class="footer_nav2"><i class="iconfont">&#xe617;</i>商业合作<strong><a href="">学生开店</a> | <a href="">学校合作</a> | <a href="">商家加盟</a> | <a href="">投资合作</a> | <a href="">人才招聘</a></strong></div>
+            <div class="footer_nav3"><i class="iconfont">&#xe618;</i>关注我们<strong><a class="weibo" href=""><i class="iconfont">&#xe600;</i>官方微博</a><a class="weixin" href=""><i class="iconfont">&#xe601;</i>官方微信</a></strong></div>
+            
+        </div>
+        <div class="footer_right">
+            <img src="../Content/Images/footer_logo@2x.png"/>
+            <p>Copyright.  2014  houdongfang.com</p>
+            <p>All Right Reserved.备案号:京B2-3789473023</p>
+            <p><a href="">隐私说明</a> | <a href="">版权声明</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
