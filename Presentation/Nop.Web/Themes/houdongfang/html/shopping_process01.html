@@ -43,16 +43,24 @@
 </div>
 <div class="nav">
     <div class="logo"><a href="index.html"><img src="../Content/Images/logo@2x.png" /></a></div>
-    <ul class="clear">
+    <ul class="nav_title clear">
         <li><a href="product_list.html">在线商城</a></li>
         <li><a href="#">线下商城</a></li>
         <li><a href="#">后东方博客</a></li>
         <li><a href="#">关于后东方</a></li>
     </ul>
     <div class="shopping clear"><input type="text" placeholder=""  /> <img src="../Content/Images/search@2x.png" /></div>
-    <div class="userpanel">	
-        <a href=""><i class="iconfont">&#xe60b;</i>管理后台</a><a href=""><i class="iconfont">&#xe60b;</i></a><a class="deng" href="signin&&login.html">Angle</a><a href="signin&&login.html"><i class="iconfont">&#xe61e;</i>收藏夹</a><a class="cart" href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a>
-    </div>
+    <ul class="userpanel clear">	
+        <li><a href=""><i class="iconfont">&#xe60b;</i>管理后台</a></li>
+        <li class="deng"><i class="iconfont">&#xe60b;</i><a href="signin&&login.html">Angle</a></li>
+        <li class="collect"><i class="iconfont">&#xe61e;</i>收藏夹<i class="iconfont collect_aspect">&#xe603;</i>
+        	<ul>
+            	<li><a href="">收藏商品</a></li>
+                <li><a href="">收藏店铺</a></li>
+            </ul>
+        </li>
+        <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
+    </ul>
 </div> 
 
 <div class="shopping_state">
@@ -182,6 +190,21 @@
         <div class="shopping_state_price">共<span class="shopping_state_span1">5</span>件商品
         	<div class="shopping_state_total">已选<span class="shopping_state_span2">4</span>件商品（不含运费）：<a href="javascript:;"> ￥ <span class="shopping_state_span3">0.00</span>元</a></div>
         </div>
+        
+        <div class="shopping_state_bill">
+            <div class="checkout_title">填写发票信息
+                <label></label>
+            </div>
+            <div class="shopping_bill_1"><input type="radio" name="shopping_bill" />个人</div>
+            <div class="shopping_bill_2"><input type="radio" name="shopping_bill" />单位
+                <div class="shopping_bill_details">
+                    <input class="bill_details" type="text" placeholder="单位抬头" />
+                    <input class="bill_btn" type="button" value="确认" />
+                    <input class="bill_close" type="button" value="取消" />
+                </div>
+            </div>
+            <p>温馨提示：发票的金额不包括京东卡/京东E卡、优惠券和京豆支付部分</p>
+        </div>
         <div class="shopping_state_sil">
         	<div class="shopping_state_return"><input type="button" value="返回购物" /></div>
             <div class="shopping_state_settle"><button>立即结算</button></div>
@@ -189,7 +212,7 @@
 	</div>
 </div>
 
-<div class="cart_frame">
+<!--<div class="cart_frame">
     <div class="cart_frame_title">猜你喜欢
     	<div class="cart_frame_tit_1"></div>
         <div class="cart_frame_tit_2"><i class="iconfont"></i>换一换</div>
@@ -208,7 +231,7 @@
             <h2>纯正蜂蜜<span>￥126</span></h2>
         </li>
     </ul>
-</div>
+</div>-->
 <div class="foot">
     <div class="footer">
         <ul class="footer_cont clear">
