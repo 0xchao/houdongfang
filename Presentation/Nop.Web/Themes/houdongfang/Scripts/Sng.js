@@ -113,7 +113,9 @@ $(function(){
 		});
 		
 	});
-	
+	$('.collect').hover(function(){
+		$(this).find('ul').stop().slideToggle();	
+	});
 	/*商品列表的排序*/
 	$('.filter>div').mouseenter(function(){
 		$(this).find('ul').stop().slideDown();
@@ -409,11 +411,12 @@ $(function(){
 		$('.checkout_address_add').css({display:'block'});
 		
 	});
-	$("[name='checkout_bill']").on('click',function(){
-		if($('.checkout_bill_2').find("input").prop("checked")==true){
-			$('.checkout_bill_details').fadeIn();
+	
+	$("[name='shopping_bill']").on('click',function(){
+		if($('.shopping_bill_2').find("input").prop("checked")==true){
+			$('.shopping_bill_details').fadeIn();
 		}else{
-			$('.checkout_bill_details').fadeOut();
+			$('.shopping_bill_details').fadeOut();
 		}
 	});
 	
