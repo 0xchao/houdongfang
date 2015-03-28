@@ -65,108 +65,93 @@
 </div> 
 
 <div class="shopping_state">
-    <div class="shopping_state_cont">
-        <ul class="shopping_state_ul clear">
-            <li class="state1"><a href="shopping_process01.html">
-                <div class="state1_pic"><img src="../Content/Images/ty1.jpg" /></div> 
-            1.购物车列表</a></li>
-            <li class="state2"><a href="shopping_process02.html">
-                <div class="state1_pic"><img src="../Content/Images/ty2.jpg" /></div>
-                <div class="line"></div>
-            2.填写核对订单信息</a></li>
-            <li class="state3"><a href="shopping_process03.html">
-                <div class="state1_pic"><img src="../Content/Images/ty3.jpg" /></div>
-            3.成功提交订单</a></li>
-        </ul>		
-    </div>
-            
+<div class="catelog_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
     <div class="checkout_address">
-        <div class="checkout_title">选择收货地址
-            <label></label>
+    	<h2><span>1</span>选择收货地址</h2>
+        <div class="checkout_cont clear">
+        	<div class="checkout_cont_sel">
+            	<select class="checkout_cont_fours"><option>湖北省</option><option>广东省</option><option>北京市</option></select>
+            	<a href="javascript:;">+添加新地址</a>
+            </div>
+            <ul class="checkout_cont_ul">
+            	<li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">姓名</div>
+            	</li>
+                <li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">手机号</div>
+            	</li>
+                <li class="checkout_ipt">
+                    <select class="checkout_cont_fours">
+                    	<option>湖北省</option>
+                    	<option>北京市</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours">
+                    	<option>武汉市</option>
+                    	<option>昌平区</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours last">
+                    	<option>长沙市</option>
+                    	<option>朝阳区</option>
+                    	<option>上海市</option>
+                    </select>
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">详细地址</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">邮政编码</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+            </ul>
+            <button class="checkout_cont_btn">保存资料</button>
         </div>
-        <ul class="checkout_cont clear">
-            <li class="checkout_cont_li  active">
-                <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                <div class="checkout_cont_name">刘德华<span>139-9737-9974</span></div>
-                <h2><span>湖北省</span><span>武汉市</span><span>洪山区</span></h2>
-                <p>民族大道中南民族大学北区学生公寓6b-621</p>
-            </li>
-            <li class="checkout_cont_li">
-                <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                <div class="checkout_cont_name">刘德华<span>139-9737-9974</span></div>
-                <h2><span>湖北省</span><span>武汉市</span><span>洪山区</span></h2>
-                <p>民族大道中南民族大学北区学生公寓6b-621</p>
-            </li>
-            <li class="last checkout_address_list">
-                <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                <div class="checkout_write"><input type="text" placeholder="姓名" /><input type="text" placeholder="手机号码" /></div>
-                <div class="checkout_info clear">
-                    <div class="checkout_info1">
-                        <div class="checkout_info_top">湖北省</div>
-                        <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                        <ul>
-                            <li>湖南省</li>
-                            <li>广东省</li>
-                            <li>四川省</li>
-                        </ul>
-                    </div>
-                    <div class="checkout_info1">
-                        <div class="checkout_info_top">武汉市</div>
-                        <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                        <ul>
-                            <li>仙桃市</li>
-                            <li>荆州市</li>
-                            <li>襄樊市</li>
-                        </ul>
-                    </div>
-                    <div class="checkout_info1">
-                        <div class="checkout_info_top">洪山区</div>
-                        <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                        <ul>
-                            <li>洪山区</li>
-                            <li>洪山区</li>
-                            <li>洪山区</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="checkout_cont_address"><input type="text" placeholder="详细地址" /></div>
-                <div class="checkout_address_btn">
-                    <input type="button" value="确认"/>
-                    <div class="checkout_address_close">取消</div>
-                
-                </div>
-            </li>
-            <li class="last checkout_address_add"><i class="iconfont">&#xe61c;</i></li>
-        </ul>
-    </div>
-    
-    <div class="checkout_bill">
-        <div class="checkout_title">填写发票信息
-            <label></label>
+        <h2><span>2</span>选择配送方式</h2>
+        <div class="checkout_cont clear">  	
+            <div class="checkout_cont_mail"><img src="../Content/Images/ty7.png" /><input type="radio" name="mail_bill_give" /></div>
+            <div class="checkout_cont_mail"><img src="../Content/Images/ty6.png" /><input type="radio" name="mail_bill_give" /></div>
+            <button class="checkout_cont_btn">确认</button><a class="back_btn" href="">返回</a>
+            
         </div>
-        <div class="checkout_bill_1"><input type="radio" name="checkout_bill" />个人</div>
-        <div class="checkout_bill_2"><input type="radio" name="checkout_bill" />单位
-            <div class="checkout_bill_details">
-                <input class="bill_details" type="text" placeholder="单位抬头" />
-                <input class="bill_btn" type="button" value="确认" />
-                <input class="bill_close" type="button" value="取消" />
+        <h2><span>3</span>选择支付方式</h2>
+        <div class="checkout_cont clear">  
+        	<div class="checkout_cont_mail"><img src="../Content/Images/ty5.png" /><input type="radio" checked/></div>
+            <button class="checkout_cont_btn">确认</button><a class="back_btn" href="">返回</a>
+        </div>
+        <h2><span>4</span>确认支付信息</h2>
+        <div class="checkout_cont clear">  
+        	<div class="checkout_cont_zoom">
+            	<img src="../Content/Images/ty5.png" />
+            	<p>请在新打开的支付页面进行支付<br>支付完成前请不要关闭此支付验证窗口</p>
+            	<button class="checkout_cont_zoom_btn">支付成功</button><a class="checkout_cont_zoom_back" href="">支付遇到问题？</a>
             </div>
         </div>
-        <p>温馨提示：发票的金额不包括京东卡/京东E卡、优惠券和京豆支付部分</p>
-        <div class="checkout_title">选择支付方式
-            <label></label>
+        <h2><span>5</span>确认订单</h2>
+        <div class="checkout_cont clear">  
+        	<div class="shopping_inner">
+        	<div class="shopping_inner_logo"><img src="../Content/Images/footer_logo@2x.png" /><a href="javascript:;">订单提交成功，请于<em>58分31秒</em>内付款</a></div>
+            <p class="shopping_inner_1">订单编号：HDF015020327596<a href="javascript:;">交易时间：<span>2015-02-04 12:03</span></a></p>
+            <p>商品总额<a href="javascript:;"><span>128</span>元</a></p>
+			<p>运费<a href="javascript:;"><span>22</span>元</a></p>
+            <p>总计费用<a href="javascript:;"><span>150</span>元</a></p>
+			<p class="shopping_inner_2">支付方式<a href="javascript:;"><img src="../Content/Images/ty8.png" /></a></p>
+			<p>收件人<a href="javascript:;">马英九</a></p>
+            <p>联系电话<a href="javascript:;">13885966789</a></p>
+            <p class="shopping_inner_3">收件地址
+            	<a href="javascript:;">
+                	<span>湖北省</span> <span>武汉市</span> <span>洪山区</span><br><em>民族大道中南民族大学北区学生公寓6B-621</em>
+                </a>
+            </p>
+            <p>发票信息<a href="javascript:;">单位 <span>中南民族大学</span></a></p>
+            <p class="shopping_inner_4">配送方式<a href="javascript:;"><img src="../Content/Images/ty9.png" /></a></p>
+            <div class="shopping_inner_sub">
+            	<a href="product_list.html">继续购物</a>
+                <a target="_blank" href="http://www.alipay.com"><input type="submit" value="立即支付" /></a>
+            </div>
         </div>
-        <div class="checkout_bill_pic"><img src="../Content/Images/ty5.png" /><input type="radio" checked/></div>
-        <div class="checkout_title">选择支付方式
-            <label></label>
         </div>
-        <ul class="checkout_bill_give clear">
-        	<li><img src="../Content/Images/ty7.png" /><input type="radio" name="bill_give" /></li>
-            <li><img src="../Content/Images/ty6.png" /><input type="radio" name="bill_give" /></li>
-       	</ul>   
     </div>
-    
-    <div class="checkout_list">
+    <!--<div class="checkout_list">
         <div class="checkout_title">确认商品及留言
             <label></label>
         </div>
@@ -220,7 +205,7 @@
                 <div class="checkout_sil_settle"><a href="shopping_process03.html"><input type="submit" value="立即结算" /></a></div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <div class="foot">
