@@ -62,14 +62,16 @@
         </li>
         <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
     </ul>
-</div> 
+</div>
+<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div> 
 <div class="profile_slidebar clear">
-	<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
+	
 	<div class="profile_slidebar_left">
     	<div class="profile_slidebar_pic"><img src="../Content/Images/ty11.png" />
             <div class="profile_slidebar_pic_mask"></div>
         </div>
         <h2>Angle</h2>
+        <h3>中央美术学院</h3>
         <ul class="profile_slidebar_list">
             <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
             <li><a href="admin_buyer_order_ex1.html">我的订单</a></li>
@@ -86,64 +88,83 @@
     <div class="profile_slidebar_right">
     	<div class="profile_slidebar_right2">
         	<div class="checkout_title">收货地址
-                <a href="javascript:;"></a>
+                <label></label>
             </div>
-            <ul class="checkout_cont clear">
-                <li class="checkout_cont_li active">
-                    <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                    <div class="checkout_cont_name">刘德华<span>139-9737-9974</span></div>
-                    <h2><span>湖北省</span><span>武汉市</span><span>洪山区</span></h2>
-                    <p>民族大道中南民族大学北区学生公寓6b-621</p>
-                    <div class="profile_li_close"><img src="../Content/Images/thunm_close.png" /></div>
-                </li>
-                <li class="checkout_cont_li active">
-                    <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                    <div class="checkout_cont_name">刘双清<span>155-5555-5555</span></div>
-                    <h2><span>山东省</span><span>济南市</span><span>历城区</span></h2>
-                    <p>青山不改绿水长流社区勿忘心安大楼62211</p>
-                    <div class="profile_li_close"><img src="../Content/Images/thunm_close.png" /></div>
-                </li>
-                <li class="checkout_address_list">
-                    <div class="checkout_cont_pic"><img src="../Content/Images/ty4.png" /></div>
-                    <div class="checkout_write"><input type="text" placeholder="姓名" /><input type="text" placeholder="手机号码" /></div>
-                    <div class="checkout_info clear">
-                        <div class="checkout_info1">
-                            <div class="checkout_info_top">湖北省</div>
-                            <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                            <ul>
-                                <li>湖南省</li>
-                                <li>广东省</li>
-                                <li>四川省</li>
-                            </ul>
-                        </div>
-                        <div class="checkout_info1">
-                            <div class="checkout_info_top">武汉市</div>
-                            <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                            <ul>
-                                <li>仙桃市</li>
-                                <li>荆州市</li>
-                                <li>襄樊市</li>
-                            </ul>
-                        </div>
-                        <div class="checkout_info1">
-                            <div class="checkout_info_top">洪山区</div>
-                            <div class="checkout_info_arrow"><i class="iconfont">&#xe607;</i></div>
-                            <ul>
-                                <li>洪山区</li>
-                                <li>洪山区</li>
-                                <li>洪山区</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="checkout_cont_address"><input type="text" placeholder="详细地址" /></div>
-                    <div class="checkout_address_btn">
-                        <input type="button" value="确认"/>
-                        <div class="checkout_address_close">取消</div>
-                    
-                    </div>
-                </li>
-                <li class="last checkout_address_add"><i class="iconfont">&#xe61c;</i></li>
+            <ul class="checkout_cont_ul checkout_cont_harv">
+            	<li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">姓名</div>
+            	</li>
+                <li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">手机号</div>
+            	</li>
+                <li class="checkout_ipt">
+                    <select class="checkout_cont_fours">
+                    	<option>湖北省</option>
+                    	<option>北京市</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours">
+                    	<option>武汉市</option>
+                    	<option>昌平区</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours last">
+                    	<option>长沙市</option>
+                    	<option>朝阳区</option>
+                    	<option>上海市</option>
+                    </select>
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">详细地址</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">邮政编码</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+                <li class="checkout_ipt">
+                    <button>保存资料</button>
+            	</li>
             </ul>
+           	<div class="checkout_title">基本资料
+                <label></label>
+            </div>
+           <table width="800" border="0" cellspacing="0" cellpadding="0" class="checkout_cont_harv_tab">
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+            </table>
+
         </div>
     </div>
 </div>      

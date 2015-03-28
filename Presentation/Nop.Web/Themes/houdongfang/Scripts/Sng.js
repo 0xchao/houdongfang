@@ -411,7 +411,7 @@ $(function(){
 		$('.checkout_address_add').css({display:'block'});
 		
 	});
-	
+	/*发票联*/
 	$("[name='shopping_bill']").on('click',function(){
 		if($('.shopping_bill_2').find("input").prop("checked")==true){
 			$('.shopping_bill_details').fadeIn();
@@ -426,19 +426,34 @@ $(function(){
 		
 	});
 	
-	$('.shopping_inner_sub').find("input").on('click',function(){
+	/*$('.shopping_inner_sub').find("input").on('click',function(){
 		$('.pay_mask').fadeIn();
 	});
 	$('.pay_close').on('click',function(){
 		$('.pay_mask').fadeOut();
-	});
+	});*/
+	
 	/*订单基本资料*/
 	$('.profile_cmb1>input').on('focus',function(){
-		$(this).parent().css({borderColor:'#ab2828'},300);
+		$(this).css({borderColor:'#ab2828'},300);
 	});
 	$('.profile_cmb1>input').on('blur',function(){
-		$(this).parent().css({borderColor:'#d2d2d2'});
+		$(this).css({borderColor:'#d2d2d2'});
 	});
+	$('.checkout_cont_fours').on('focus',function(){
+		$(this).css({borderColor:'#ab2828'},300);
+	});
+	$('.checkout_cont_fours').on('blur',function(){
+		$(this).css({borderColor:'#d2d2d2'});
+	});
+	
+	/*$('.checkout_cont_mail input').on('click',function(){
+		if( $(this).prop('checked') == true){
+			$(this).parent().css({borderColor:'#ab2828'});
+		}else{
+			$(this).parent().css({borderColor:'#ececec'});
+		}
+	});*/
 	/*收货地址删除*/
 	$('.profile_li_close').on('click',function(){
 		$(this).parent().fadeOut();
