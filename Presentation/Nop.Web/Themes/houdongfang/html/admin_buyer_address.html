@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>消费者后台 - 我的订单 | 后东方</title>
+<title>消费者后台 - 收货地址 | 后东方</title>
 <link rel="stylesheet" type="text/css" href="../Content/style.css"/>
 <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="../Scripts/Sng.js"></script>
 
 </head>
 <body>
+
 <div class="shopcart">
     <div class="shopcart_mask">
         <div class="shopcart_close"><i class="iconfont">&#xe61b;</i></div>
@@ -61,33 +62,110 @@
         </li>
         <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
     </ul>
-</div> 
-<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
+</div>
+<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div> 
 <div class="profile_slidebar clear">
 	
 	<div class="profile_slidebar_left">
-    	<div class="profile_slidebar_pic"><img src="../Content/Images/ty11.png" /></div>
+    	<div class="profile_slidebar_pic"><img src="../Content/Images/ty11.png" />
+            <div class="profile_slidebar_pic_mask"></div>
+        </div>
         <h2>Angle</h2>
+        <h3>中央美术学院</h3>
         <ul class="profile_slidebar_list">
             <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
-            <li><a href="javascript:;">我的订单</a></li>
-            <li><a href="javascript:;">未支付订单</a></li>
-            <li><a href="javascript:;">退换货订单</a></li>
+            <li><a href="admin_buyer_order_list.html">我的订单</a></li>
+            <li><a href="admin_buyer_order_nopay.html">未支付订单</a></li>
+            <li><a href="admin_buyer_order_ruturn.html">退换货订单</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
-            <li><a href="javascript:;">个人信息</a></li>
-            <li><a href="javascript:;">收货地址</a></li>
-            <li><a href="javascript:;">我的收藏</a></li>
-            <li><a href="javascript:;">修改密码</a></li>
+            <li><a href="admin_buyer_info.html">个人信息</a></li>
+            <li><a href="admin_buyer_address.html" class="on">收货地址</a></li>
+            <li><a href="wishlist_cell.html">我的收藏</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
-            <li><a href="javascript:;">申请开店</a></li>
+            <li><a href="admin_buyer_store_terms.html">申请开店</a></li>
         </ul>
     </div>
     <div class="profile_slidebar_right">
-    	<div class="profile_slidebar_right1">
-    		<div class="profile_slidebar_state"><img src="../Content/Images/ty10.png" /></div>
-            <h2>目前没有订单，先去购物吧！</h2>
-            <div class="profile_slidebar_btn"><a href=""><input type="button" value="开始购物" /></a></div>
-    	</div>
+    	<div class="profile_slidebar_right2">
+        	<div class="checkout_title">收货地址
+                <label></label>
+            </div>
+            <ul class="checkout_cont_ul checkout_cont_harv">
+            	<li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">姓名</div>
+            	</li>
+                <li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
+                    <div class="checkout_ipt_left">手机号</div>
+            	</li>
+                <li class="checkout_ipt">
+                    <select class="checkout_cont_fours">
+                    	<option>湖北省</option>
+                    	<option>北京市</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours">
+                    	<option>武汉市</option>
+                    	<option>昌平区</option>
+                    	<option>上海市</option>
+                    </select>
+                    <select class="checkout_cont_fours last">
+                    	<option>长沙市</option>
+                    	<option>朝阳区</option>
+                    	<option>上海市</option>
+                    </select>
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">详细地址</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+                <li class="checkout_ipt">
+                    <div class="checkout_ipt_left">邮政编码</div><input class="checkout_cont_fours" type="text" />
+            	</li>
+                <li class="checkout_ipt">
+                    <button>保存资料</button>
+            	</li>
+            </ul>
+           	<div class="checkout_title">基本资料
+                <label></label>
+            </div>
+           <table width="800" border="0" cellspacing="0" cellpadding="0" class="checkout_cont_harv_tab">
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+                <tr>
+                    <td class="email_inner">刘德华</td>
+                    <td>18501256233</td>
+                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
+                    <td>10086</td>
+                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                </tr>
+            </table>
+
+        </div>
     </div>
 </div>      
 <div class="foot">
