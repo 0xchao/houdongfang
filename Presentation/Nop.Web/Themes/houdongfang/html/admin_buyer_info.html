@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>消费者后台 - 个人资料 | 后东方</title>
+<title>消费者后台 - 申请开店 | 后东方</title>
 <link rel="stylesheet" type="text/css" href="../Content/style.css"/>
 <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="../Scripts/Sng.js"></script>
@@ -74,54 +74,60 @@
         <h3>中央美术学院</h3>
         <ul class="profile_slidebar_list">
             <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
-            <li><a href="admin_buyer_order_ex1.html">我的订单</a></li>
-            <li><a href="admin_buyer_order_ex2.html">未支付订单</a></li>
-            <li><a href="admin_buyer_order_ex3.html">退换货订单</a></li>
+            <li><a href="admin_buyer_order_list.html">我的订单</a></li>
+            <li><a href="admin_buyer_order_nopay.html">未支付订单</a></li>
+            <li><a href="admin_buyer_order_ruturn.html">退换货订单</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
-            <li><a href="admin_buyer_order_ex4.html">个人信息</a></li>
-            <li><a href="admin_buyer_order_ex5.html">收货地址</a></li>
-            <li><a href="admin_buyer_order_ex6.html">我的收藏</a></li>
+            <li><a href="admin_buyer_info.html" class="on">个人信息</a></li>
+            <li><a href="admin_buyer_address.html">收货地址</a></li>
+            <li><a href="wishlist_cell.html">我的收藏</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
-            <li><a href="admin_buyer_order_ex7.html" class="on">申请开店</a></li>
+            <li><a href="admin_buyer_store_terms.html">申请开店</a></li>
         </ul>
     </div>
     <div class="profile_slidebar_right">
     	<div class="profile_slidebar_right2">
-        	<div class="checkout_title">申请开店
-               	<label></label>
+        	<div class="checkout_title">基本资料
+                <label></label>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">姓&nbsp;&nbsp;名</div><input type="text" />
+            	<div class="profile_cmb1_left">用户名</div><input type="text" />
+                <div class="profile_cmb1_right">用户名已存在</div>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">手机号</div><input type="text" />
+            	<div class="profile_cmb1_left">邮&nbsp;&nbsp;箱</div><input type="text" />
+                <div class="profile_cmb1_right">邮箱未验证</div>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">身份证号</div><input type="text" />
+            	<div class="profile_cmb1_left">手&nbsp;&nbsp;机</div><input type="text" />
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">身份证扫描</div>
-                <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
-                <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
-            </div>
-           <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">所在地</div><input type="text" />
-            </div>
-            <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">在读学校</div><input type="text" />
-            </div>
-            <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">学生证号</div><input type="text" />
-            </div>
-            <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">学生证扫描</div>
+            	<div class="profile_cmb1_left">头&nbsp;&nbsp;像</div>
                 <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
                 <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
             </div>
             <div class="profile_cmb2">
             	<input class="profile_cmb1_sub1" type="submit" value="保存资料" />
             </div>
-    	</div>
+            <div class="checkout_title">修改密码
+                <label></label>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">旧密码</div><input type="password" />
+                <div class="profile_cmb1_right">输入错误</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">新密码</div><input type="password" />
+                <div class="profile_cmb1_right">密码太短</div>
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">确认密码</div><input type="password" />
+                <div class="profile_cmb1_right">两次输入不一致</div>
+            </div>
+            <div class="profile_cmb2">
+            	<input class="profile_cmb1_sub1" type="submit" value="修改密码" />
+            </div>
+        </div>
     </div>
 </div>      
 <div class="foot">

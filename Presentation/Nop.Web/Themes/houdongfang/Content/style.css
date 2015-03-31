@@ -925,10 +925,28 @@ transition:all ease 0.35s;
 -o-transition:all ease 0.35s;
 transition:all ease 0.35s;
 }
+
 .profile_cmb1_left{ width:100px; height:48px; position:absolute; left:1px; top:1px; background:#f4f4f4; line-height:50px;text-align:center;}
 .profile_cmb1 input{ width:368px; height:48px; border:none; text-indent:120px; border:1px solid #d2d2d2;}
 .profile_cmb2{ width:370px; height:50px; position:relative; margin-left:20px;  margin-bottom:20px;}
 .profile_cmb2 input.profile_cmb1_sub1{ position:absolute; right:0; top:0; height:50px; border:none; width:177px; background:#ab2828; color:#fff; font:22px/50px "kaiti";}
+
+.product_upload_input{
+	float: left;
+}
+.product_upload_button{
+	 height:50px; border:none; width:177px; background:#ab2828; color:#fff; font:22px/50px "kaiti"; float: left;
+}
+.profile_cmb1 .product_editor{
+	width: 800px;height: 378px;overflow: hidden;
+}
+
+ul.product_upload_img{
+	width: 800px; height: 200px;overflow: hidden; 
+}
+ul.product_upload_img li{
+	width: 100px ; height: 100px; margin:20px 20px 20px 0px; float: left; border: 1px solid #D2D2D2;
+}
 
 .profile_cmb1_right{ position:absolute; left:370px; top:0; color:#ab2828; text-align:left; line-height:46px; padding:0 20px; width:200px;}
 /*.profile_slidebar_right2 .checkout_cont_li{ margin-right:130px;}

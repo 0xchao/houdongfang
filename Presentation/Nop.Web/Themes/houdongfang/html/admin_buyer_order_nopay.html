@@ -2,14 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>消费者后台 - 收货地址 | 后东方</title>
+<title>消费者后台 - 未付款订单 | 后东方</title>
 <link rel="stylesheet" type="text/css" href="../Content/style.css"/>
 <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="../Scripts/Sng.js"></script>
 
 </head>
 <body>
-
 <div class="shopcart">
     <div class="shopcart_mask">
         <div class="shopcart_close"><i class="iconfont">&#xe61b;</i></div>
@@ -62,8 +61,8 @@
         </li>
         <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
     </ul>
-</div>
-<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div> 
+</div> 
+<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
 <div class="profile_slidebar clear">
 	
 	<div class="profile_slidebar_left">
@@ -74,97 +73,76 @@
         <h3>中央美术学院</h3>
         <ul class="profile_slidebar_list">
             <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
-            <li><a href="admin_buyer_order_ex1.html">我的订单</a></li>
-            <li><a href="admin_buyer_order_ex2.html">未支付订单</a></li>
-            <li><a href="admin_buyer_order_ex3.html">退换货订单</a></li>
+            <li><a href="admin_buyer_order_list.html">我的订单</a></li>
+            <li><a href="admin_buyer_order_nopay.html" class="on">未支付订单</a></li>
+            <li><a href="admin_buyer_order_ruturn.html">退换货订单</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
-            <li><a href="admin_buyer_order_ex4.html">个人信息</a></li>
-            <li><a href="admin_buyer_order_ex5.html" class="on">收货地址</a></li>
-            <li><a href="admin_buyer_order_ex6.html">我的收藏</a></li>
+            <li><a href="admin_buyer_info.html">个人信息</a></li>
+            <li><a href="admin_buyer_address.html">收货地址</a></li>
+            <li><a href="wishlist_cell.html">我的收藏</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
-            <li><a href="admin_buyer_order_ex7.html">申请开店</a></li>
+            <li><a href="admin_buyer_store_terms.html">申请开店</a></li>
         </ul>
     </div>
     <div class="profile_slidebar_right">
     	<div class="profile_slidebar_right2">
-        	<div class="checkout_title">收货地址
-                <label></label>
-            </div>
-            <ul class="checkout_cont_ul checkout_cont_harv">
-            	<li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
-                    <div class="checkout_ipt_left">姓名</div>
-            	</li>
-                <li class="checkout_ipt"><input class="checkout_cont_fours" type="text" />
-                    <div class="checkout_ipt_left">手机号</div>
-            	</li>
-                <li class="checkout_ipt">
-                    <select class="checkout_cont_fours">
-                    	<option>湖北省</option>
-                    	<option>北京市</option>
-                    	<option>上海市</option>
-                    </select>
-                    <select class="checkout_cont_fours">
-                    	<option>武汉市</option>
-                    	<option>昌平区</option>
-                    	<option>上海市</option>
-                    </select>
-                    <select class="checkout_cont_fours last">
-                    	<option>长沙市</option>
-                    	<option>朝阳区</option>
-                    	<option>上海市</option>
-                    </select>
-            	</li>
-                <li class="checkout_ipt">
-                    <div class="checkout_ipt_left">详细地址</div><input class="checkout_cont_fours" type="text" />
-            	</li>
-                <li class="checkout_ipt">
-                    <div class="checkout_ipt_left">邮政编码</div><input class="checkout_cont_fours" type="text" />
-            	</li>
-                <li class="checkout_ipt">
-                    <button>保存资料</button>
-            	</li>
-            </ul>
-           	<div class="checkout_title">基本资料
-                <label></label>
-            </div>
-           <table width="800" border="0" cellspacing="0" cellpadding="0" class="checkout_cont_harv_tab">
-                <tr>
-                    <td class="email_inner">刘德华</td>
-                    <td>18501256233</td>
-                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
-                    <td>10086</td>
-                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+            <table class="profile_tab1" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="profile_tab1_tr1">
+                	<td width="100" class="profile_tab1_td1"></td>
+                    <td width="280" class="profile_tab1_td2">商品详情</td>
+                    <td width="130" class="profile_tab1_td3">数量</td>
+                    <td width="130" class="profile_tab1_td4">金额</td>
+                    <td width="150" class="profile_tab1_td5">状态</td>
+                    <td width="150" class="profile_tab1_td6">操作</td>
                 </tr>
-                <tr>
-                    <td class="email_inner">刘德华</td>
-                    <td>18501256233</td>
-                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
-                    <td>10086</td>
-                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+            </tbody>
+                <tr class="profile_tab1_tr2"></tr>
+            <tbody class="profile_tab1_bg">
+                <tr class="profile_tab1_tr3">
+                	<td colspan="2" class="profile_tab1_tr3_td1">订单号：<span>HDF102384578</span></td>
+                    <td colspan="2" class="profile_tab1_tr3_td2">订单保留时间<span>59分43秒</span></td>
+                    <td colspan="2" class="profile_tab1_tr3_td3">交易时间：2015-02-04 12：03</td>
                 </tr>
-                <tr>
-                    <td class="email_inner">刘德华</td>
-                    <td>18501256233</td>
-                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
-                    <td>10086</td>
-                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                <tr class="profile_tab1_tr4">
+                	<td class="profile_tab1_td1"><img src="../Content/Images/product01.png" /></td>
+                    <td class="profile_tab1_td2"><h2>后东方云库</h2><h3>规格：XML</h3></td>
+                    <td class="profile_tab1_td3">1</td>
+                    <td class="profile_tab1_td4">￥ <span>1800.00</span></td>
+                    <td class="profile_tab1_td5" rowspan="3"><h3>未付款</h3><h4><a href="">订单详情</a></h4></td>
+                    <td class="profile_tab1_td6" rowspan="3"><input class="profile_tab1_btn1" type="submit" value="立即支付" /><input class="profile_tab1_btn2" type="submit" value="取消订单" /></td>
                 </tr>
-                <tr>
-                    <td class="email_inner">刘德华</td>
-                    <td>18501256233</td>
-                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
-                    <td>10086</td>
-                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                <tr class="profile_tab1_tr4">
+                	<td class="profile_tab1_td1"><img src="../Content/Images/product02.png" /></td>
+                    <td class="profile_tab1_td2"><h2>台湾高山茶</h2><h3>规格：200g</h3></td>
+                    <td class="profile_tab1_td3">2</td>
+                    <td>￥ <span>120.00</span></td>
                 </tr>
-                <tr>
-                    <td class="email_inner">刘德华</td>
-                    <td>18501256233</td>
-                    <td>湖北省 武汉市 洪山区 民族大道学生公寓 </td>
-                    <td>10086</td>
-                    <td><a href="javascript:;">编辑</a> | <a href="javascript:;">删除</a></td>
+                <tr class="profile_tab1_tr4">
+                	<td class="profile_tab1_td1"><img src="../Content/Images/product03.png" /></td>
+                    <td class="profile_tab1_td2"><h2>潮汕大米</h2><h3>规格：5000g</h3></td>
+                    <td class="profile_tab1_td3">4</td>
+                    <td>￥ <span>190.00</span></td>
                 </tr>
+            </tbody>
+            <tr class="profile_tab1_tr2"></tr>
+            <tbody class="profile_tab1_bg">
+                <tr class="profile_tab1_tr3">
+                	<td colspan="2" class="profile_tab1_tr3_td1">订单号：<span>HDF102384578</span></td>
+                    <td colspan="2" class="profile_tab1_tr3_td2">订单保留时间<span>59分43秒</span></td>
+                    <td colspan="2" class="profile_tab1_tr3_td3">交易时间：2015-02-04 12：03</td>
+                </tr>
+                <tr class="profile_tab1_tr4">
+                	<td class="profile_tab1_td1"><img src="../Content/Images/product05.png" /></td>
+                    <td class="profile_tab1_td2"><h2>纯天然有机生姜</h2><h3>规格：200g</h3></td>
+                    <td class="profile_tab1_td3">12</td>
+                    <td class="profile_tab1_td4">￥ <span>120.00</span></td>
+                    <td class="profile_tab1_td5"><h3>未付款</h3><h4><a href="">订单详情</a></h4></td>
+                    <td class="profile_tab1_td6"><input class="profile_tab1_btn1" type="submit" value="立即支付" /><input class="profile_tab1_btn2" type="submit" value="取消订单" /></td>
+                </tr>
+            </tbody>
             </table>
-
+        
         </div>
     </div>
 </div>      

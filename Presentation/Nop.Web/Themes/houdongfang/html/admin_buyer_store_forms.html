@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>消费者后台 - 申请开店 | 后东方</title>
+<title>消费者后台 - 个人资料 | 后东方</title>
 <link rel="stylesheet" type="text/css" href="../Content/style.css"/>
 <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="../Scripts/Sng.js"></script>
@@ -74,35 +74,54 @@
         <h3>中央美术学院</h3>
         <ul class="profile_slidebar_list">
             <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
-            <li><a href="admin_buyer_order_ex1.html">我的订单</a></li>
-            <li><a href="admin_buyer_order_ex2.html">未支付订单</a></li>
-            <li><a href="admin_buyer_order_ex3.html">退换货订单</a></li>
+            <li><a href="admin_buyer_order_list.html">我的订单</a></li>
+            <li><a href="admin_buyer_order_nopay.html">未支付订单</a></li>
+            <li><a href="admin_buyer_order_ruturn.html">退换货订单</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
-            <li><a href="admin_buyer_order_ex4.html">个人信息</a></li>
-            <li><a href="admin_buyer_order_ex5.html">收货地址</a></li>
-            <li><a href="admin_buyer_order_ex6.html">我的收藏</a></li>
+            <li><a href="admin_buyer_info.html">个人信息</a></li>
+            <li><a href="admin_buyer_address.html">收货地址</a></li>
+            <li><a href="wishlist_cell.html">我的收藏</a></li>
             <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
-            <li><a href="admin_buyer_order_ex7.html" class="on">申请开店</a></li>
+            <li><a href="admin_buyer_store_terms.html" class="on">申请开店</a></li>
         </ul>
     </div>
     <div class="profile_slidebar_right">
     	<div class="profile_slidebar_right2">
         	<div class="checkout_title">申请开店
-                <label></label>
+               	<label></label>
             </div>
-            <div class="profile_setup">
-            	<h2><span>后东方商城学生开店条例</span></h2>
-                <h3>1、开店资格条件判断：</h3>
-                <p>阿里巴巴工作人员无法创建淘宝店铺<br>一个身份证只能创建一个淘宝店铺<br>同账户如创建过U站或其他站点则无法创建淘宝店铺，可更换账户开店<br>同账户如创建过天猫店铺则无法创建淘宝店铺，可更换账户开店<br>同账户如在1688有过经营行为（发过供应产品信息、下单订购诚信通服务、卖家发起订单、报价、下单订购实地认证、开通旺铺、企业账户注册入口注册的企业账户）则无法创建淘宝店铺，可更换账户开店<br>淘宝账户如果违规被淘宝处罚永久禁止创建店铺，则无法创建淘宝店铺</p>
-                <h3>2、店铺创建成功后会出现的三种店铺异常规则：</h3>
-                <p>A、出售中的宝贝数量连续3周为0件，系统会发送旺旺及邮件提醒您“宝贝数量连续3周为0件，必须发布宝贝，否则您的店铺将有可能暂时释放”；</p>
- 				<p>B、出售中的宝贝数量连续5周为0件，店铺会暂时释放，此时点击“查看我的店铺”店铺不能正常显示；系统会发送旺旺及邮件告诉您“店铺已经暂时释放，但是我们将为您的店铺名保留一周，请任意发布一件闲置宝贝或上架仓库中的宝贝，24小时后，店铺即可恢复之前开店状态”， 店铺激活后店铺信誉、装修、订购的服务等都不受影响；</p>
-                <p>C、出售中的宝贝数量连续6周为0件，店铺会彻底释放，系统会发送旺旺及邮件告诉您“店铺已经彻底释放，任何人都可以申请并使用您的店铺名称”。您需要登陆卖家中心操作激活店铺，按照提示完成指定操作，店铺就可重新开张。店铺激活后店铺信誉、装修、订购的服务等都不受影响；</p>
-                <h4>祝大家早日认证通过，顺利开店！！</h4>
-                <div class="profile_setup_pub"><input type="checkbox" /> 已阅读并同意该条款规定</div>
-                <div class="profile_setup_sub"><a href="admin_buyer_order_ex8.html"><input type="submit" value="申请开店" /></a></div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">姓&nbsp;&nbsp;名</div><input type="text" />
             </div>
-        </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">手机号</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">身份证号</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">身份证扫描</div>
+                <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
+                <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+            </div>
+           <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">所在地</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">在读学校</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">学生证号</div><input type="text" />
+            </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">学生证扫描</div>
+                <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
+                <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+            </div>
+            <div class="profile_cmb2">
+            	<input class="profile_cmb1_sub1" type="submit" value="保存资料" />
+            </div>
+    	</div>
     </div>
 </div>      
 <div class="foot">
