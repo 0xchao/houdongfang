@@ -1,14 +1,13 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Root.cshtml";
+    Layout = "~/Themes/houdongfang/Views/Shared/_Root.cshtml";
 
     //title
     Html.AddTitleParts(T("PageTitle.PageNotFound").Text);
 }
-<div class="page not-found-page">
-    <div class="page-title">
-        <h1>@T("PageTitle.PageNotFound")</h1>
-    </div>
-    <div class="page-body">
-        @Html.Action("TopicBlock", "Topic", new { systemName = "PageNotFound" })
+<div class="foring">
+    <div class="foring_pic"><img src="~/Themes/houdongfang/Content/Images/Bit404.png"></div>
+    <div class="foring_int">
+        <h3>抱歉!<br>我们没找到这个页面!</h3>
+        <h4><a href="/store">返回购物</a></h4>
     </div>
 </div>
