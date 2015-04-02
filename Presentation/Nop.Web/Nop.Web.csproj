@@ -2277,6 +2277,7 @@
     <Content Include="Themes\houdongfang\Views\Shared\_CreateOrUpdateAddress.cshtml" />
     <Content Include="Themes\houdongfang\Views\Order\Thumbnails.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\ReturnRequests.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\RegisterResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

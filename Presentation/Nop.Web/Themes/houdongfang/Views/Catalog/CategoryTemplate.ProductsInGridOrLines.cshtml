@@ -1,6 +1,6 @@
 ﻿@model CategoryModel
 @{
-    Layout = "~/Views/Shared/_Root.cshtml";
+    Layout = "~/Themes/houdongfang/Views/Shared/_Root.cshtml";
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
     Html.AddMetaDescriptionParts(Model.MetaDescription);
     Html.AddMetaKeywordParts(Model.MetaKeywords);
@@ -18,13 +18,8 @@
 @using Nop.Web.Models.Catalog;
 @using Nop.Web.Extensions;
 
-<div class="list_banner clear">
-    <div class="list_banner_pic">
-        @Html.Action("CategoryPictureModel", "Catalog", new { categoryId = Model.Id })
-    </div>
+<div class="list_banner">
     <div class="list_banner_text">
-        @Html.Raw(Model.Description)
-        @*<h3>@Model.Description</h3>*@
         <h2>@Model.Name</h2>
     </div>
     <div class="filter">
@@ -43,6 +38,7 @@
     </div>
 </div>
 <div class="catelog">
+    <div class="catelog_banner"><img src="~/Themes/houdongfang/Content/Images/ad_banner1@2x.jpg"></div>
     <ul class="catelog_list clear">
         @if (Model.Products.Count > 0)
         {
