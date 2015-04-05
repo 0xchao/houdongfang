@@ -2247,7 +2247,6 @@
     <Content Include="Themes\houdongfang\Views\Customer\Login.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\Register.cshtml" />
     <Content Include="Themes\houdongfang\Views\Common\PageNotFound.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Grouped.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Simple.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\_ProductDetailsPictures.cshtml" />
     <Content Include="Themes\houdongfang\Content\font_1422353160_120903.eot" />

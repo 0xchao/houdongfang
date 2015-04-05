@@ -3,8 +3,11 @@
 @*SKU*@
 @if (!String.IsNullOrWhiteSpace(Model.Sku) && Model.ShowSku)
 {
-    <div class="sku">
-        <span class="label">@T("Products.Sku"): </span><span class="value" itemprop="sku" id="sku-@Model.Id">@Model.Sku</span>
+    <h5>&gt; 规格</h5>
+    <div class="product_shopping_sel">
+        <div class="product_shopping_top">
+            <span class="value" itemprop="sku" id="sku-@Model.Id">@Model.Sku</span>
+        </div>
     </div>
 }
 @*Manufacturer part number*@
@@ -29,10 +32,10 @@
     </div>
 }
 @*Delivery date*@
-@if (Model.FreeShippingNotificationEnabled && Model.IsFreeShipping)
+@*@if (Model.FreeShippingNotificationEnabled && Model.IsFreeShipping)
 {
     <div class="free-shipping">@T("Products.FreeShipping")</div>
-}
+}*@
 @*Delivery date*@
 @if (!String.IsNullOrWhiteSpace(Model.DeliveryDate))
 {
