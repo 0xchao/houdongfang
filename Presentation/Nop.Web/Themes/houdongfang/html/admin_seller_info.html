@@ -53,7 +53,7 @@
     <div class="shopping clear"><input type="text" placeholder=""  /> <img src="../Content/Images/search@2x.png" /></div>
     <ul class="userpanel clear">	
         <li><a href=""><i class="iconfont">&#xe60b;</i>管理后台</a></li>
-        <li class="deng"><i class="iconfont">&#xe60b;</i><a href="signin&&login.html">Angle</a></li>
+        <li class="deng"><i class="iconfont">&#xe60b;</i><a href="signin.html">Angle</a></li>
         <li class="collect"><i class="iconfont">&#xe61e;</i>收藏夹<i class="iconfont collect_aspect">&#xe603;</i>
         	<ul>
             	<li><a href="">收藏商品</a></li>
@@ -86,7 +86,7 @@
             <li><a href="admin_seller_publish.html">商品发布</a></li>
             <li><a href="admin_seller_stuff.html">商品管理</a></li>
             <li><a href="admin_seller_trade.html">交易管理</a></li>
-            <li><a href="admin_seller_store.html">店铺装修</a></li>
+            
         </ul>
     </div>
     <div class="profile_slidebar_right">
@@ -95,31 +95,35 @@
                 <label></label>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">昵称</div><input type="text" />
-                <div class="profile_cmb1_right"><input type="checkbox" class="checkbox" name="" id="" value="realname" style="width: 30px;height: 50px; float: left;" />显示实名</div>
+            	<div class="profile_cmb1_left">昵&nbsp;&nbsp;称</div><input type="text" />
+                <div class="profile_cmb1_right"><input type="checkbox" class="checkbox" name="" id="" value="realname" />显示实名</div>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">邮&nbsp;&nbsp;箱</div><input type="text" />
-                <div class="profile_cmb1_right">邮箱未验证</div>
+            	<div class="profile_cmb1_left">性&nbsp;&nbsp;别</div><input type="text" />
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">手&nbsp;&nbsp;机</div><input type="text" />
+            	<div class="profile_cmb1_left">生&nbsp;&nbsp;日</div><input type="text" />
             		<div class="profile_cmb1_right">手机号未验证</div>
             </div>
             <div class="profile_cmb1">
-            	<div class="profile_cmb1_left">头&nbsp;&nbsp;像</div>
-                <input type="text" class="input" id="pic_path"  onclick="$('#avatar').trigger('click')" readonly>
-                <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+            	<div class="profile_cmb1_left">学&nbsp;&nbsp;校</div><input type="text" />
             </div>
+            <div class="profile_cmb1">
+            	<div class="profile_cmb1_left">家&nbsp;&nbsp;乡</div><input type="text" />
+            </div>
+            <div class="profile_cmb4">
+            	<div class="profile_cmb4_left">店铺描述</div><input type="text" />
+            </div>
+            
             <div class="profile_cmb2">
             	<input class="profile_cmb1_sub1" type="submit" value="保存资料" />
             </div>
-            <div class="checkout_title">交易信息
+            <div class="checkout_title">支付信息
                 <label></label>
             </div>
             <div class="profile_cmb1">
             	<div class="profile_cmb1_left">支付宝帐号</div><input type="password" />
-                <div class="profile_cmb1_right">帐号未验证</div>
+                <div class="profile_cmb1_right"><input type="checkbox" class="checkbox" name="" id="" value="realname" />邮箱未验证</div>
             </div>
             <div class="profile_cmb2">
             	<input class="profile_cmb1_sub1" type="submit" value="保存资料" />

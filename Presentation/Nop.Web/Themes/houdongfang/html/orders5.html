@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>消费者后台 - 未付款订单 | 后东方</title>
+<title>自营商品列表 | 后东方</title>
 <link rel="stylesheet" type="text/css" href="../Content/style.css"/>
 <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="../Scripts/Sng.js"></script>
 
 </head>
 <body>
+
 <div class="shopcart">
     <div class="shopcart_mask">
         <div class="shopcart_close"><i class="iconfont">&#xe61b;</i></div>
@@ -37,8 +38,7 @@
             </tr>
         </table>
         <div class="shopcart4">购物车总计<div class="total">￥ <span>2837.00</span></div></div>
-
-        <div class="shopcart_btn"><input type="button" value="立即结算"/></div>                   
+        <div class="shopcart_btn"><a href="shopping_process01.html"><input type="button" value="立即结算"/></a></div>                   
    </div> 
 </div>
 <div class="nav">
@@ -52,7 +52,7 @@
     <div class="shopping clear"><input type="text" placeholder=""  /> <img src="../Content/Images/search@2x.png" /></div>
     <ul class="userpanel clear">	
         <li><a href=""><i class="iconfont">&#xe60b;</i>管理后台</a></li>
-        <li class="deng"><i class="iconfont">&#xe60b;</i><a href="signin.html">Angle</a></li>
+        <li class="deng"><a href=""><i class="iconfont">&#xe60b;</i></a><a href="signin&&login.html">登录</a> | <a class="zhu" href="signin&&login.html">注册</a></li>
         <li class="collect"><i class="iconfont">&#xe61e;</i>收藏夹<i class="iconfont collect_aspect">&#xe603;</i>
         	<ul>
             	<li><a href="">收藏商品</a></li>
@@ -62,90 +62,92 @@
         <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
     </ul>
 </div> 
-<div class="profile_slidebar_banner"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
-<div class="profile_slidebar clear">
-	
-	<div class="profile_slidebar_left">
-    	<div class="profile_slidebar_pic"><img src="../Content/Images/ty11.png" />
-            <div class="profile_slidebar_pic_mask"></div>
+
+<div class="orders">
+	<h2><a href="">在线商城</a><span>/</span><a href="">学生店铺</a></h2>
+    <ul class="orders_ul_title clear">
+    	<li><h3>1</h3><h4>拍下商品</h4><h5>2015-03-25  11:29:30</h5><div class="orders_ul_title_line3"></div></li>
+        <li><h3>2</h3><h4>支付订单</h4><h5>2015-03-25  11:29:30</h5><div class="orders_ul_title_line3"></div></li>
+        <li><h3>3</h3><h4>卖家发货</h4><h5>2015-03-25  11:29:30</h5><div class="orders_ul_title_line3"></div></li>
+        <li><h3>4</h3><h4>确认收货</h4><h5>2015-03-25  11:29:30</h5><div class="orders_ul_title_line3"></div></li>
+        <li><h3>5</h3><h4>评价商品</h4><h5>2015-03-25  11:29:30</h5></li>
+    </ul>
+    
+    <div class="orders_cont clear">
+    	<div class="orders_cont_left">
+        	<div class="orders_cont_left_top">
+                <h3>交易已完成，已评价商品</h3>
+                <h4>快递公司：顺丰速运 快递单号：378802928790</h4>
+                <span>订单状态</span>
+            </div>
+            <div class="orders_cont_left_bottom">
+                <input class="orders_reset" type="reset" value="申请售后">
+                <span>订单操作</span>
+            </div>
         </div>
-        <h2>Angle</h2>
-        <h3>中央美术学院</h3>
-        <ul class="profile_slidebar_list">
-            <li class="profile_slidebar_title"><a href="javascript:;">订单中心</a></li>
-            <li><a href="admin_buyer_order_list.html">我的订单</a></li>
-            <li><a href="admin_buyer_order_nopay.html" class="on">未支付订单</a></li>
-            <li><a href="admin_buyer_order_ruturn.html">退换货订单</a></li>
-            <li class="profile_slidebar_title"><a href="javascript:;">个人中心</a></li>
-            <li><a href="admin_buyer_info.html">个人信息</a></li>
-            <li><a href="admin_buyer_address.html">收货地址</a></li>
-            <li><a href="wishlist_cell.html">我的收藏</a></li>
-            <li class="profile_slidebar_title"><a href="javascript:;">申请开店</a></li>
-            <li><a href="admin_buyer_store_terms.html">申请开店</a></li>
-        </ul>
+        <div class="orders_cont_right clear">  
+            <p>订单编号<a href="javascript:;">HDF102943837384</a></p>
+			<p>交易时间<a href="javascript:;">2015-03-25 15:34:26</a></p>
+            <p class="orders_cont_p2">商品卖家<a href="javascript:;">小美丽</a></p>
+			<p class="orders_cont_p3">收件人<a href="javascript:;">华仔</a></p>
+			<p>联系电话<a href="javascript:;">138-8888-8888</a></p>
+            <p class="orders_cont_p4">收件地址
+            	<a href="javascript:;"><span>湖北省</span> <span>武汉市</span> <span>洪山区</span><br><em>民族大道中南民族大学北区学生</em><br><em>公寓6B-621</em></a>
+            </p>
+            <p class="orders_cont_p5">发票信息<a href="javascript:;">单位 <span>北京熙呈互动</span></a></p>  
+        </div>
     </div>
-    <div class="profile_slidebar_right">
-    	<div class="profile_slidebar_right2">
-            <table class="profile_tab1" border="0" cellpadding="0" cellspacing="0">
-            <tbody>
-                <tr class="profile_tab1_tr1">
-                	<td width="100" class="profile_tab1_td1"></td>
-                    <td width="280" class="profile_tab1_td2">商品详情</td>
-                    <td width="130" class="profile_tab1_td3">数量</td>
-                    <td width="130" class="profile_tab1_td4">金额</td>
-                    <td width="150" class="profile_tab1_td5">状态</td>
-                    <td width="150" class="profile_tab1_td6">操作</td>
-                </tr>
-            </tbody>
-                <tr class="profile_tab1_tr2"></tr>
+  <table class="orders_tab1" width="1170" cellpadding="0" cellspacing="0">
+            
             <tbody class="profile_tab1_bg">
-                <tr class="profile_tab1_tr3">
-                	<td colspan="2" class="profile_tab1_tr3_td1">订单号：<span>HDF102384578</span></td>
-                    <td colspan="2" class="profile_tab1_tr3_td2">订单保留时间<span>59分43秒</span></td>
-                    <td colspan="2" class="profile_tab1_tr3_td3">交易时间：2015-02-04 12：03</td>
-                </tr>
+                
                 <tr class="profile_tab1_tr4">
-                	<td class="profile_tab1_td1"><img src="../Content/Images/product01.png" /></td>
-                    <td class="profile_tab1_td2"><h2>后东方云库</h2><h3>规格：XML</h3></td>
-                    <td class="profile_tab1_td3">1</td>
-                    <td class="profile_tab1_td4">￥ <span>1800.00</span></td>
-                    <td class="profile_tab1_td5" rowspan="3"><h3>未付款</h3><h4><a href="">订单详情</a></h4></td>
-                    <td class="profile_tab1_td6" rowspan="3"><input class="profile_tab1_btn1" type="submit" value="立即支付" /><input class="profile_tab1_btn2" type="submit" value="取消订单" /></td>
+                	<td class="profile_tab1_td1" width="100"><img src="../Content/Images/product01.png" /></td>
+                    <td class="profile_tab1_td2" width="330"><h3>后东方云库</h3><h4>规格：XML</h4></td>
+                    <td class="profile_tab1_td3" width="145">1</td>
+                    <td class="profile_tab1_td4" width="240">￥ <span>1800.00</span></td>
+                    <td class="profile_tab1_td5" rowspan="3" width="179"><h5>交易完成<br>已评价</h5></td>
+                    <td class="profile_tab1_td6" rowspan="3" width="178">
+                    	<input class="profile_tab1_btn2" type="submit" value="申请售后" />
+                    </td>
                 </tr>
                 <tr class="profile_tab1_tr4">
                 	<td class="profile_tab1_td1"><img src="../Content/Images/product02.png" /></td>
-                    <td class="profile_tab1_td2"><h2>台湾高山茶</h2><h3>规格：200g</h3></td>
+                    <td class="profile_tab1_td2"><h3>台湾高山茶</h3><h4>规格：200g</h4></td>
                     <td class="profile_tab1_td3">2</td>
                     <td>￥ <span>120.00</span></td>
                 </tr>
                 <tr class="profile_tab1_tr4">
                 	<td class="profile_tab1_td1"><img src="../Content/Images/product03.png" /></td>
-                    <td class="profile_tab1_td2"><h2>潮汕大米</h2><h3>规格：5000g</h3></td>
+                    <td class="profile_tab1_td2"><h3>潮汕大米</h3><h4>规格：5000g</h4></td>
                     <td class="profile_tab1_td3">4</td>
                     <td>￥ <span>190.00</span></td>
                 </tr>
             </tbody>
-            <tr class="profile_tab1_tr2"></tr>
-            <tbody class="profile_tab1_bg">
-                <tr class="profile_tab1_tr3">
-                	<td colspan="2" class="profile_tab1_tr3_td1">订单号：<span>HDF102384578</span></td>
-                    <td colspan="2" class="profile_tab1_tr3_td2">订单保留时间<span>59分43秒</span></td>
-                    <td colspan="2" class="profile_tab1_tr3_td3">交易时间：2015-02-04 12：03</td>
-                </tr>
-                <tr class="profile_tab1_tr4">
-                	<td class="profile_tab1_td1"><img src="../Content/Images/product05.png" /></td>
-                    <td class="profile_tab1_td2"><h2>纯天然有机生姜</h2><h3>规格：200g</h3></td>
-                    <td class="profile_tab1_td3">12</td>
-                    <td class="profile_tab1_td4">￥ <span>120.00</span></td>
-                    <td class="profile_tab1_td5"><h3>未付款</h3><h4><a href="">订单详情</a></h4></td>
-                    <td class="profile_tab1_td6"><input class="profile_tab1_btn1" type="submit" value="立即支付" /><input class="profile_tab1_btn2" type="submit" value="取消订单" /></td>
-                </tr>
-            </tbody>
-            </table>
-        
-        </div>
+      </table>
+      <div class="orders_price">商品总额 128.00元 + 运输费用 22.00元 = <span>总计费用 150.00元</span></div>
+</div>
+
+<div class="cart_frame">
+    <div class="cart_frame_title">猜你喜欢
+    	<div class="cart_frame_tit_1"></div>
+        <div class="cart_frame_tit_2"><i class="iconfont">&#xe60c;</i> 换一换</div>
     </div>
-</div>      
+     <ul class="cart_frame_list clear">
+        <li>
+            <a href="product_detail.html"><img src="../Content/Images/product07.png" />
+            <h2>竹叶青<span>￥123</span></h2>
+        </li>
+        <li>
+            <a href="product_detail.html"><img src="../Content/Images/product08.png" />
+            <h2>野生干灵芝片<span>￥298</span></h2>
+        </li>
+        <li class="last">
+            <a href="product_detail.html"><img src="../Content/Images/product09.png" />
+            <h2>纯正蜂蜜<span>￥126</span></h2>
+        </li>
+    </ul>
+</div>
 <div class="foot">
     <div class="footer">
         <ul class="footer_cont clear">

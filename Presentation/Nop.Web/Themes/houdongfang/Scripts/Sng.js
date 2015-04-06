@@ -108,7 +108,7 @@ $(function(){
 	$('.shopping input').blur(function(){
 		$(this).attr('placeholder','');
 		$(this).animate({width:22},function(){
-			$(this).css({backgroundImage:'url(images/search.png)',textIndent:30});
+			$(this).css({backgroundImage:'url(../Content/Images/search.png)',textIndent:30});
 			$(this).siblings('img').css({display:'none'});
 		});
 		
@@ -198,17 +198,6 @@ $(function(){
 	
 	/*登录、注册框*/
 	var H = $('body').height();
-	
-	$('.entry_1B').on('click',function(){
-		$('.entry_3').css({display:"block"});
-		$('.entry_2').css({display:'none'});
-		$('.entry_line').animate({left:150},420,'swing');
-	});
-	$('.entry_1T').on('click',function(){
-		$('.entry_2').css({display:"block"});
-		$('.entry_3').css({display:'none'});
-		$('.entry_line').animate({left:0},420,'swing');
-	});
 	/*购物车弹窗*/
 	$('.cart').on('click',function(){
 		$('.shopcart').fadeIn();
@@ -434,10 +423,10 @@ $(function(){
 	});*/
 	
 	/*订单基本资料*/
-	$('.profile_cmb1>input').on('focus',function(){
+	$('.profile_cmb1>input,.profile_cmb4>input').on('focus',function(){
 		$(this).css({borderColor:'#ab2828'},300);
 	});
-	$('.profile_cmb1>input').on('blur',function(){
+	$('.profile_cmb1>input,.profile_cmb4>input').on('blur',function(){
 		$(this).css({borderColor:'#d2d2d2'});
 	});
 	$('.checkout_cont_fours').on('focus',function(){
