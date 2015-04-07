@@ -716,6 +716,7 @@
     <Content Include="Content\kendo\2014.1.318\images\kendoui.woff" />
     <Content Include="Content\kendo\2014.1.318\images\kendoui.ttf" />
     <None Include="Properties\PublishProfiles\Azure_deom.pubxml" />
+    <None Include="Properties\PublishProfiles\Azure_paid.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\posteast - FTP.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1244,6 +1245,8 @@
     <Content Include="Themes\houdongfang\Content\Images\banner_left%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\banner_play%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\banner_right%402x.png" />
+    <Content Include="Themes\houdongfang\Content\Images\Bit404.png" />
+    <Content Include="Themes\houdongfang\Content\Images\Bitmap.png" />
     <Content Include="Themes\houdongfang\Content\Images\channel01%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\channel02%402x.png" />
     <Content Include="Themes\houdongfang\Content\Images\channel03%402x.png" />
@@ -1293,6 +1296,7 @@
     <Content Include="Themes\houdongfang\Content\Images\service_info_cont3%402x.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\service_info_cont4%402x.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\service_info_cont5%402x.jpg" />
+    <Content Include="Themes\houdongfang\Content\Images\siginbg.jpg" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-active.png" />
     <Content Include="Themes\houdongfang\Content\Images\star-x-inactive.png" />
     <Content Include="Themes\houdongfang\Content\Images\thunm_close.png" />
@@ -2243,7 +2247,6 @@
     <Content Include="Themes\houdongfang\Views\Customer\Login.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\Register.cshtml" />
     <Content Include="Themes\houdongfang\Views\Common\PageNotFound.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Grouped.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\ProductTemplate.Simple.cshtml" />
     <Content Include="Themes\houdongfang\Views\Catalog\_ProductDetailsPictures.cshtml" />
     <Content Include="Themes\houdongfang\Content\font_1422353160_120903.eot" />
@@ -2273,6 +2276,7 @@
     <Content Include="Themes\houdongfang\Views\Shared\_CreateOrUpdateAddress.cshtml" />
     <Content Include="Themes\houdongfang\Views\Order\Thumbnails.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\ReturnRequests.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\RegisterResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

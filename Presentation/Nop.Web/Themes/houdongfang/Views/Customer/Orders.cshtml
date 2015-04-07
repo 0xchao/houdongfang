@@ -1,0 +1,42 @@
+﻿@model CustomerOrderListModel
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@using Nop.Web.Models.Customer;
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    @if (Model.Orders.Count > 0)
+    {
+        <div class="profile_slidebar_right2">
+            <table class="profile_tab1" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr class="profile_tab1_tr1">
+                        <td width="100" class="profile_tab1_td1"></td>
+                        <td width="260" class="profile_tab1_td2">商品详情</td>
+                        <td width="130" class="profile_tab1_td3">数量</td>
+                        <td width="130" class="profile_tab1_td4">金额</td>
+                        <td width="130" class="profile_tab1_td5">状态</td>
+                        <td width="128" class="profile_tab1_td6">操作</td>
+                    </tr>
+                </tbody>
+                @Html.Action("Thumbnails", "Order", new { orderIds = Model.Orders.Select(o => o.Id).ToList() })
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="profile_slidebar_right2">
+
+            <div class=profile_slidebar_state><img src="~/Themes/houdongfang/Content/Images/ty10.png"></div>
+            <h2>目前没有订单，先去购物吧！</h2>
+            <div class=profile_slidebar_btn><a href="/store" onfocus="undefined"><input type=button value=开始购物></a></div>
+        </div>
+
+    }
+</div>

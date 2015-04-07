@@ -4,7 +4,7 @@
 @using Nop.Web.Models.Catalog;
 @using System.Globalization;
 @{
-    Layout = "~/Views/Shared/_Root.cshtml";
+    Layout = "~/Themes/houdongfang/Views/Shared/_Root.cshtml";
 
     //title, meta
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
@@ -20,38 +20,35 @@
 }
 <!--product breadcrumb-->
 <div class="product_intro">
-    <div class="page-body">
-        @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
-        {
-            <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
-                <div class="product-essential">
-                    <!--product pictures-->
-                    @Html.Partial("_ProductDetailsPictures", Model)
-                    <div class="product_shopping">
-                        <div class="portrait"><img src="~/Themes/houdongfang/Content/Images/user01.png" /></div>
-                        <div class="product_shopping_user">
-                            <h3>@Model.Name</h3>
-                        </div>
-                        <h4> @Model.ProductPrice.Price 元<span><i class="iconfont"></i> 免运费（限中国大陆）</span></h4>
-                        @if (!String.IsNullOrEmpty(Model.ShortDescription))
-                        {
-                            <p>@Html.Raw(Model.ShortDescription)</p>
-                        }
-                        <!--product SKU, manufacturer part number, stock info-->
-                        @Html.Partial("_SKU_Man_Stock", Model)
-                        <!--Back in stock subscription-->
-                        @Html.Partial("_BackInStockSubscription", Model)
-                        <!--price & add to cart-->
-                        @{
-                        var dataDictAddToCart = new ViewDataDictionary();
-                        dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);
-                        @Html.Partial("_AddToCart", Model.AddToCart, dataDictAddToCart)
-                        }
-                    </div>
+    <div class="product_intro_title"></div>
+    @Html.Partial("_ProductDetailsPictures", Model)
+    @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+    {
+        <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
+            <!--product pictures-->
+            <div class="product_shopping">
+                <div class="portrait"><img src="~/Themes/houdongfang/Content/Images/user01.png" /></div>
+                <div class="product_shopping_user">
+                    <h2>@Model.Name</h2>
                 </div>
+                <h4> @Model.ProductPrice.Price 元<span><i class="iconfont"></i> 免运费（限中国大陆）</span></h4>
+                @if (!String.IsNullOrEmpty(Model.ShortDescription))
+                {
+                    <p>@Html.Raw(Model.ShortDescription)</p>
+                }
+                <!--product SKU, manufacturer part number, stock info-->
+                @Html.Partial("_SKU_Man_Stock", Model)
+                <!--Back in stock subscription-->
+                @Html.Partial("_BackInStockSubscription", Model)
+                <!--price & add to cart-->
+                @{
+                var dataDictAddToCart = new ViewDataDictionary();
+                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);
+                @Html.Partial("_AddToCart", Model.AddToCart, dataDictAddToCart)
+                }
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
 <div class="product_cont">
     <div class="product_thiner">
@@ -73,18 +70,16 @@
     </div>
     <div class="product_run">
         <div class="product_info">
-
             @if (!String.IsNullOrEmpty(Model.FullDescription))
             {
-                <div class="full-description" itemprop="description">
-                    @Html.Raw(Model.FullDescription)
-                </div>
+            <div class="full-description" itemprop="description">
+                @Html.Raw(Model.FullDescription)
+            </div>
             }
         </div>
-        <div id="reviewPannel" class="review"></div>
+        <div id="reviewPannel" class="review" style="display:block"></div>
     </div>
 </div>
-
 <div class="service_info_thiner">
     <div class="service_info_tab clear">
         <div class="service_info_tab1">关于后东方</div>
@@ -102,4 +97,3 @@
     <div class="service_info_cont4"><img src="~/Themes/houdongfang/Content/Images/service_info_cont4@2x.jpg" /></div>
     <div class="service_info_cont5"><img src="~/Themes/houdongfang/Content/Images/service_info_cont5@2x.jpg" /></div>
 </div>
-

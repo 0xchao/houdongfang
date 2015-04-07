@@ -1,0 +1,58 @@
+﻿@model List<OrderDetailsModel>
+@using Nop.Web.Models.Order;
+@foreach (var order in Model)
+{
+    int i = 0;
+
+    <tr class="profile_tab1_tr2"></tr>
+    <tbody class="profile_tab1_bg">
+        <tr class="profile_tab1_tr3">
+            <td colspan="2" class="profile_tab1_tr3_td1">@T("Account.CustomerOrders.OrderNumber")：<span>@order.Id</span></td>
+            <td colspan="2" class="profile_tab1_tr3_td2">@T("Account.CustomerOrders.OrderDate")<span>@order.CreatedOn.ToString()</span></td>
+            <td colspan="2" class="profile_tab1_tr3_td3">@T("Account.CustomerOrders.OrderTotal")：@order.OrderTotal</td>
+        </tr>
+        @foreach (var product in order.Items)
+        {
+            <tr class="profile_tab1_tr4">
+                <td class="profile_tab1_td1"><img src="@product.ProductImageUrl" /></td>
+                <td class="profile_tab1_td2"><h2>@product.ProductName</h2></td>
+                <td class="profile_tab1_td3">@product.Quantity</td>
+                <td class="profile_tab1_td4"><span>@product.SubTotal</span></td>
+                @if (i == 0)
+                {
+                    <td class="profile_tab1_td5" rowspan="@order.Items.Count">
+                        <h3>@order.OrderStatus</h3>
+                        <h4><a href="@Url.RouteUrl("OrderDetails", new { orderId = order.Id })">@T("Account.CustomerOrders.OrderDetails")</a></h4>
+                    </td>
+                    <td class="profile_tab1_td6" rowspan="@order.Items.Count">
+                        @if (String.IsNullOrEmpty(order.PaymentMethod))
+                        { 
+                            <span>无支付方式</span>
+                        }
+                        else
+                        {
+                            if (!order.PrintMode && order.CanRePostProcessPayment)
+                            {
+                                using (Html.BeginRouteForm("OrderDetails", FormMethod.Post))
+                                {
+                                    <input type="submit" name="repost-payment" value="@T("Order.RetryPayment")" class="profile_tab1_btn1" />
+                                }
+                            }
+                        }
+
+                        @if (order.IsReOrderAllowed)
+                        {
+                            <input type="button" value="@T("Account.CustomerOrders.ReturnItems")" class="profile_tab1_btn2" onclick="setLocation('@Url.RouteUrl("ReturnRequest", new { orderId = order.Id })')" />
+                        }
+                        @if (order.IsReturnRequestAllowed)
+                        {
+                            <input type="button" value="@T("Order.ReturnItems")" class="profile_tab1_btn2" onclick="setLocation('@Url.RouteUrl("ReturnRequest", new { orderId = order.Id })    ')" />
+                        }
+
+                    </td>
+                }
+            </tr>
+            i += 1;
+        }
+    </tbody>
+}

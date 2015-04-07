@@ -1,0 +1,70 @@
+﻿@model CustomerNavigationModel
+@using Nop.Web.Models.Customer;
+<div class="profile_slidebar_left">
+    <ul class="profile_slidebar_list">
+        <li class="profile_slidebar_title">订单中心</li>
+        @if (!Model.HideOrders)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerorders")" class="@if (Model.SelectedTab == CustomerNavigationEnum.Orders){<text>on</text>}">@T("Account.CustomerOrders")</a>
+            </li>
+        }
+        @if (!Model.HideReturnRequests)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerreturnrequests")" class="@if (Model.SelectedTab == CustomerNavigationEnum.ReturnRequests){<text>on</text>}">@T("Account.CustomerReturnRequests")</a>
+            </li>
+        }
+        @if (!Model.HideDownloadableProducts)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerdownloadableproducts")" class="@if (Model.SelectedTab == CustomerNavigationEnum.DownloadableProducts){<text>on</text>}">@T("Account.DownloadableProducts")</a>
+            </li>
+        }
+        @if (!Model.HideBackInStockSubscriptions)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerbackinstocksubscriptions")" class="@if (Model.SelectedTab == CustomerNavigationEnum.BackInStockSubscriptions){<text>on</text>}">@T("Account.BackInStockSubscriptions")</a>
+            </li>
+        }
+        <li class="profile_slidebar_title">个人中心</li>
+        @if (!Model.HideInfo)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerinfo")" class="@if (Model.SelectedTab == CustomerNavigationEnum.Info){<text>on</text>}">@T("Account.CustomerInfo")</a>
+            </li>
+        }
+        @if (!Model.HideAvatar)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customeravatar")" class="@if (Model.SelectedTab == CustomerNavigationEnum.Avatar){<text>on</text>}">@T("Account.Avatar")</a>
+            </li>
+        }
+        @if (!Model.HideChangePassword)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerchangepassword")" class="@if (Model.SelectedTab == CustomerNavigationEnum.ChangePassword){<text>on</text>}">@T("Account.ChangePassword")</a>
+            </li>
+        }
+        @if (!Model.HideAddresses)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customeraddresses")" class="@if (Model.SelectedTab == CustomerNavigationEnum.Addresses){<text>on</text>}">@T("Account.CustomerAddresses")</a>
+            </li>
+        }
+        @if (!Model.HideRewardPoints)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerrewardpoints")" class="@if (Model.SelectedTab == CustomerNavigationEnum.RewardPoints){<text>on</text>}">@T("Account.RewardPoints")</a>
+            </li>
+        }
+        @if (!Model.HideForumSubscriptions)
+        {
+            <li>
+                <a href="@Url.RouteUrl("customerforumsubscriptions")" class="@if (Model.SelectedTab == CustomerNavigationEnum.ForumSubscriptions){<text>on</text>}">@T("Account.ForumSubscriptions")</a>
+            </li>
+        }
+        <li class="profile_slidebar_title">申请开店</li>
+        <li><a href="#">申请开店</a></li>
+    </ul>
+</div>
