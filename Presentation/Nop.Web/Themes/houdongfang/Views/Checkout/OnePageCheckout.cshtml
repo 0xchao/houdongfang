@@ -2,7 +2,7 @@
 @using Nop.Web.Models.Checkout;
 @using Nop.Core.Infrastructure;
 @{
-    Layout = "~/Views/Shared/_Root.cshtml";
+    Layout = "~/Themes/houdongfang/Views/Shared/_Root.cshtml";
 
     Html.AddScriptParts("~/Scripts/public.accordion.js");
     Html.AddScriptParts("~/Scripts/public.onepagecheckout.js");
@@ -36,29 +36,7 @@
     }
 }
 <div class="shopping_state">
-    <div class="shopping_state_cont">
-        <ul class="shopping_state_ul clear">
-            <li class="state1">
-                <div>
-                    <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty1.jpg" /></div>
-                    1.购物车列表
-                </div>
-            </li>
-            <li class="state2">
-                <div>
-                    <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty2.jpg" /></div>
-                    <div class="line"></div>
-                   2.填写核对订单信息
-                </div>
-            </li>
-            <li class="state3">
-                <div>
-                    <div class="state1_pic"><img src="~/Themes/houdongfang/Content/images/ty3.jpg" /></div>
-                    3.成功提交订单
-                </div>
-            </li>
-        </ul>
-    </div>
+    <div class="catelog_banner"><img src="~/Themes/houdongfang/Content/Images/ad_banner1@2x.jpg" /></div>
     <ol class="opc" id="checkout-steps">
         <li id="opc-billing" class="tab-section allow">
             <div class="step-title">
@@ -79,7 +57,7 @@
                     }
                 </script>
                 <div class="buttons" id="billing-buttons-container">
-                    <input type="button" title="@T("Common.Continue")" class="button-1 new-address-next-step-button" onclick="Billing.save()" value="@T("Common.Continue")" />
+                    <input type="button" title="@T("Common.Continue")" class="checkout_cont_btn" onclick="Billing.save()" value="@T("Common.Continue")" />
                     <span class="please-wait" id="billing-please-wait" style="display: none;">@T("Common.LoadingNextStep")</span>
                 </div>
             </div>
@@ -104,10 +82,8 @@
                         }
                     </script>
                     <div class="buttons" id="shipping-buttons-container">
-                        <p class="back-link">
-                            <a href="#" onclick="Checkout.back(); return false;"><small>&laquo; </small>@T("Common.Back")</a>
-                        </p>
-                        <input type="button" class="button-1 new-address-next-step-button" title="@T("Common.Continue")" onclick="Shipping.save()" value="@T("Common.Continue")" />
+                        <input type="button" onclick="Checkout.back(); return false;" title="@T("Common.Back")" value="@T("Common.Back")" class="back_btn" />
+                        <input type="button" class="checkout_cont_btn" title="@T("Common.Continue")" onclick="Shipping.save()" value="@T("Common.Continue")" />
                         <span id="shipping-please-wait" class="please-wait" style="display: none;"> @T("Common.LoadingNextStep")</span>
                     </div>
                 </div>
@@ -126,9 +102,7 @@
                             ShippingMethod.init('#co-shipping-method-form', '@(storeLocation)checkout/OpcSaveShippingMethod/');
                         </script>
                         <div class="buttons" id="shipping-method-buttons-container">
-                            <p class="back-link">
-                                <a href="#" onclick="Checkout.back(); return false;"><small>&laquo; </small>@T("Common.Back")</a>
-                            </p>
+                            <input type="button" onclick="Checkout.back(); return false;" title="@T("Common.Back")" value="@T("Common.Back")" class="back_btn" />
                             <input type="button" class="button-1 shipping-method-next-step-button" onclick="ShippingMethod.save()" value="@T("Common.Continue")" />
                             <span id="shipping-method-please-wait" class="please-wait" style="display: none;">@T("Common.LoadingNextStep")</span>
                         </div>
@@ -151,9 +125,7 @@
                     PaymentMethod.init('#co-payment-method-form', '@(storeLocation)checkout/OpcSavePaymentMethod/');
                 </script>
                 <div class="buttons" id="payment-method-buttons-container">
-                    <p class="back-link">
-                        <a href="#" onclick="Checkout.back(); return false;"><small>&laquo; </small>@T("Common.Back")</a>
-                    </p>
+                    <input type="button" onclick="Checkout.back(); return false;" title="@T("Common.Back")" value="@T("Common.Back")" class="back_btn" />
                     <input type="button" class="button-1 payment-method-next-step-button" onclick="PaymentMethod.save()" value="@T("Common.Continue")" />
                     <span class="please-wait" id="payment-method-please-wait" style="display: none;">@T("Common.LoadingNextStep")</span>
                 </div>
@@ -174,9 +146,7 @@
                     PaymentInfo.init('#co-payment-info-form', '@(storeLocation)checkout/OpcSavePaymentInfo/');
                 </script>
                 <div class="buttons" id="payment-info-buttons-container">
-                    <p class="back-link">
-                        <a href="#" onclick="Checkout.back(); return false;"><small>&laquo; </small>@T("Common.Back")</a>
-                    </p>
+                    <input type="button" onclick="Checkout.back(); return false;" title="@T("Common.Back")" value="@T("Common.Back")" class="back_btn" />
                     <input type="button" class="button-1 payment-info-next-step-button" onclick="PaymentInfo.save()" value="@T("Common.Continue")" />
                     <span class="please-wait" id="payment-info-please-wait" style="display: none;">@T("Common.LoadingNextStep")</span>
                 </div>
@@ -195,9 +165,7 @@
                     ConfirmOrder.init('@(storeLocation)checkout/OpcConfirmOrder/', '@(storeLocation)checkout/completed/');
                 </script>
                 <div class="buttons" id="confirm-order-buttons-container">
-                    <p class="back-link">
-                        <a href="#" onclick="Checkout.back(); return false;"><small>&laquo; </small>@T("Common.Back")</a>
-                    </p>
+                    <input type="button" onclick="Checkout.back(); return false;" title="@T("Common.Back")" value="@T("Common.Back")" class="back_btn" />
                     <input type="button" class="button-1 confirm-order-next-step-button" onclick="ConfirmOrder.save()" value="@T("Common.Confirm")" />
                     <span class="please-wait" id="confirm-order-please-wait" style="display: none;">@T("Checkout.SubmittingOrder")</span>
                 </div>

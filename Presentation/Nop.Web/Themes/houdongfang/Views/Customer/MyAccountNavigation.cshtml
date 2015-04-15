@@ -64,7 +64,16 @@
                 <a href="@Url.RouteUrl("customerforumsubscriptions")" class="@if (Model.SelectedTab == CustomerNavigationEnum.ForumSubscriptions){<text>on</text>}">@T("Account.ForumSubscriptions")</a>
             </li>
         }
-        <li class="profile_slidebar_title">申请开店</li>
-        <li><a href="#">申请开店</a></li>
+        <li class="profile_slidebar_title">卖家中心</li>
+        @if (Model.ApplySaleState == CustomerApplySaleEnum.NotApply)
+        {
+            <li><a href="#">申请开店</a></li>
+        }
+        else if (Model.ApplySaleState == CustomerApplySaleEnum.Approved)
+        {
+            <li><a href="#">卖家信息</a></li>
+            <li><a href="#">商品管理</a></li>
+            <li><a href="#">交易管理</a></li>
+        }
     </ul>
 </div>

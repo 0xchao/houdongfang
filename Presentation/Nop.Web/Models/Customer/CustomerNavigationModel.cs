@@ -16,6 +16,7 @@ namespace Nop.Web.Models.Customer
         public bool HideForumSubscriptions { get; set; }
 
         public CustomerNavigationEnum SelectedTab { get; set; }
+        public CustomerApplySaleEnum ApplySaleState { get; set; }
     }
 
     public enum CustomerNavigationEnum
@@ -30,5 +31,12 @@ namespace Nop.Web.Models.Customer
         ChangePassword,
         Avatar,
         ForumSubscriptions
+    }
+
+    public enum CustomerApplySaleEnum
+    {
+        NotApply,
+        Applied,
+        Approved
     }
 }
