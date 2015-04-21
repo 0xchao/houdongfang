@@ -30,13 +30,15 @@ namespace Nop.Web.Models.Customer
         RewardPoints,
         ChangePassword,
         Avatar,
-        ForumSubscriptions
+        ForumSubscriptions,
+        ApplySale,
+        CreateProduct
     }
 
     public enum CustomerApplySaleEnum
     {
-        NotApply,
-        Applied,
-        Approved
+        NotApply = 0,
+        Applied = 1,
+        Approved = 2
     }
 }

@@ -1,0 +1,92 @@
+﻿@model CustomerInfoModel
+@using Nop.Web.Models.Customer;
+@using Nop.Core;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+
+    //CustomerAttributes
+    CustomerApplySaleEnum applyState = CustomerApplySaleEnum.NotApply;
+    foreach (var attr in Model.CustomerAttributes)
+    {
+        if (attr.Name == "ApplySaleState" || attr.Name== "申请开店状态")
+        {
+            foreach (var v in attr.Values)
+            {
+                if (v.IsPreSelected)
+                {
+                    applyState = (CustomerApplySaleEnum)Enum.Parse(typeof(CustomerApplySaleEnum), v.Name);
+                    break;
+                }
+            }
+        }
+    }
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    <div class="profile_slidebar_right2">
+        @if (applyState == CustomerApplySaleEnum.NotApply)
+        {
+            using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="checkout_title">
+                    申请开店
+                    <label />
+                </div>
+                <div class="message-error">
+                    @Html.ValidationSummary(true)
+                </div>
+                <div class="form-fields">
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.FirstName, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </div>
+                    </div>
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.LastName, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.LastName)
+                        </div>
+                    </div>
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.Phone, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @if (Model.PhoneRequired)
+                            {
+                                @Html.RequiredHint()
+                            }
+                            @Html.ValidationMessageFor(model => model.Phone)
+                        </div>
+                    </div>
+                    @if (Model.CustomerAttributes.Count > 0)
+                    {
+                        @Html.Partial("_CustomerAttributes", Model.CustomerAttributes)
+                    }
+                </div>
+                <div class="profile_cmb2">
+                    <input type="submit" value="提交申请" name="save-info-button" class="profile_cmb1_sub1" />
+                </div>
+            }
+        }
+        else if (applyState == CustomerApplySaleEnum.Applied)
+        {
+            <p>申请已提交，请耐心等待审核</p>
+        }
+        else
+        {
+            <p>无法重复提交申请</p>
+        }
+    </div>
+</div>
