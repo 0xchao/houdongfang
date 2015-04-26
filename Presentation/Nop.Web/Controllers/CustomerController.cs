@@ -182,28 +182,29 @@ namespace Nop.Web.Controllers
                 _orderService.SearchReturnRequests(_storeContext.CurrentStore.Id, customer.Id, 0, null, 0, 1).Count == 0;
             model.HideDownloadableProducts = _customerSettings.HideDownloadableProductsTab;
             model.HideBackInStockSubscriptions = _customerSettings.HideBackInStockSubscriptionsTab;
+            model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
 
-            var customerAttributes = _customerAttributeService.GetAllCustomerAttributes();
-            foreach (var attr in customerAttributes)
-            {
-                if (attr.Name == "ApplySaleState")
-                {
-                    string selectedCustomerAttributes = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes, _genericAttributeService);
-                    if (!String.IsNullOrEmpty(selectedCustomerAttributes))
-                    {
-                        //select new values
-                        var selectedCaValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
-                        foreach (var caValue in selectedCaValues)
-                            foreach (var item in attr.CustomerAttributeValues)
-                                if (caValue.Id == item.Id)
-                                {
-                                    model.ApplySaleState = (CustomerApplySaleEnum)Enum.Parse(typeof(CustomerApplySaleEnum), item.Name);
-                                    return model;
-                                }
-                    }
+            //var customerAttributes = _customerAttributeService.GetAllCustomerAttributes();
+            //foreach (var attr in customerAttributes)
+            //{
+            //    if (attr.Name == "ApplyStoreState")
+            //    {
+            //        string selectedCustomerAttributes = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes, _genericAttributeService);
+            //        if (!String.IsNullOrEmpty(selectedCustomerAttributes))
+            //        {
+            //            //select new values
+            //            var selectedCaValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
+            //            foreach (var caValue in selectedCaValues)
+            //                foreach (var item in attr.CustomerAttributeValues)
+            //                    if (caValue.Id == item.Id)
+            //                    {
+            //                        model.ApplyStoreState = (CustomerApplyStoreEnum)Enum.Parse(typeof(CustomerApplyStoreEnum), item.Name);
+            //                        return model;
+            //                    }
+            //        }
 
-                }
-            }
+            //    }
+            //}
             return model;
         }
 
@@ -433,6 +434,7 @@ namespace Nop.Web.Controllers
 
             #endregion 
 
+            model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
             model.NavigationModel = GetCustomerNavigationModel(customer);
             model.NavigationModel.SelectedTab = tab;
         }
@@ -640,7 +642,7 @@ namespace Nop.Web.Controllers
                             break;
                     }
                 }
-                else if(attribute.Name == "ApplySaleState")
+                else if (attribute.Name == "ApplyStoreState")
                 {
                     selectedAttributes = _customerAttributeParser.AddCustomerAttribute(selectedAttributes, attribute, applySaleState.ToString());
                 }
@@ -1132,14 +1134,14 @@ namespace Nop.Web.Controllers
 
                 //if (ModelState.IsValid)
                 //{
-                    //form fields
+                //form fields
 
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
 
-                    //save customer attributes
-                    _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
+                //save customer attributes
+                _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
 
                 //}
             }

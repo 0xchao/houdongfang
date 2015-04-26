@@ -6,23 +6,6 @@
 
     //title
     Html.AddTitleParts(T("PageTitle.Account").Text);
-
-    //CustomerAttributes
-    CustomerApplySaleEnum applyState = CustomerApplySaleEnum.NotApply;
-    foreach (var attr in Model.CustomerAttributes)
-    {
-        if (attr.Name == "ApplySaleState" || attr.Name== "申请开店状态")
-        {
-            foreach (var v in attr.Values)
-            {
-                if (v.IsPreSelected)
-                {
-                    applyState = (CustomerApplySaleEnum)Enum.Parse(typeof(CustomerApplySaleEnum), v.Name);
-                    break;
-                }
-            }
-        }
-    }
 }
 @section left
 {
@@ -30,7 +13,7 @@
 }
 <div class="profile_slidebar_right">
     <div class="profile_slidebar_right2">
-        @if (applyState == CustomerApplySaleEnum.NotApply)
+        @if (Model.ApplyStoreState == CustomerApplyStoreEnum.NotApply)
         {
             using (Html.BeginForm())
             {
@@ -80,7 +63,7 @@
                 </div>
             }
         }
-        else if (applyState == CustomerApplySaleEnum.Applied)
+        else if (Model.ApplyStoreState == CustomerApplyStoreEnum.Applied)
         {
             <p>申请已提交，请耐心等待审核</p>
         }

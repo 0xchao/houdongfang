@@ -42,8 +42,9 @@ namespace Nop.Services.Customers
             int dayOfBirth = 0, int monthOfBirth = 0,
             string company = null, string phone = null, string zipPostalCode = null,
             bool loadOnlyWithShoppingCart = false, ShoppingCartType? sct = null,
+            int? searchApplyStoreState = null,
             int pageIndex = 0, int pageSize = 2147483647); //Int32.MaxValue
-        
+
         /// <summary>
         /// Gets all customers by customer format (including deleted ones)
         /// </summary>
@@ -95,7 +96,7 @@ namespace Nop.Services.Customers
         /// <param name="email">Email</param>
         /// <returns>Customer</returns>
         Customer GetCustomerByEmail(string email);
-        
+
         /// <summary>
         /// Get customer by system role
         /// </summary>
@@ -127,7 +128,7 @@ namespace Nop.Services.Customers
         /// </summary>
         /// <param name="customer">Customer</param>
         void UpdateCustomer(Customer customer);
-        
+
         /// <summary>
         /// Reset data required for checkout
         /// </summary>

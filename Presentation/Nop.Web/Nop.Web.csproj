@@ -2284,6 +2284,7 @@
     <Content Include="Themes\houdongfang\Views\Product\_CreateOrUpdate.cshtml" />
     <Content Include="Themes\houdongfang\Views\Product\Create.cshtml" />
     <Content Include="Themes\houdongfang\Views\Product\Edit.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Common\Construction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

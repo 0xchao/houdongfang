@@ -266,6 +266,24 @@
                 <em>@T("Admin.Customers.Customers.VendorShouldBeInVendorsRole")</em>
             </td>
         </tr>
+        <tr>
+            <td class="adminTitle">
+                <label>申请开店状态:</label>
+            </td>
+            <td class="adminData">
+                @{
+                    int state = 0;
+                    <select name="ApplyStoreState" id="ApplyStoreState">
+                        @foreach (var ename in Enum.GetNames(typeof(CustomerApplyStoreEnum)))
+                        {
+                            string selected = Model.ApplyStoreState == state ? "selected='selected'" : "";
+                            <option @selected value="@state">@ename</option>
+                            state += 1;
+                        }
+                    </select>
+                }
+            </td>
+        </tr>
         @if (Model.GenderEnabled)
         {
             <tr>

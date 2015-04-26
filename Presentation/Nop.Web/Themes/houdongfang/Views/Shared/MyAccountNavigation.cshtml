@@ -64,12 +64,12 @@
                 <a href="@Url.RouteUrl("customerforumsubscriptions")" class="@if (Model.SelectedTab == CustomerNavigationEnum.ForumSubscriptions){<text>on</text>}">@T("Account.ForumSubscriptions")</a>
             </li>
         }
-        @if (Model.ApplySaleState == CustomerApplySaleEnum.NotApply)
+        @if (Model.ApplyStoreState == CustomerApplyStoreEnum.NotApply)
         {
             <li class="profile_slidebar_title">卖家中心</li>
             <li><a href="/customer/applysale" class="@if (Model.SelectedTab == CustomerNavigationEnum.ApplySale){<text>on</text>}">申请开店</a></li>
         }
-        else if (Model.ApplySaleState == CustomerApplySaleEnum.Approved)
+        else if (Model.ApplyStoreState == CustomerApplyStoreEnum.Approved)
         {
             <li class="profile_slidebar_title">卖家中心</li>
             <li><a href="/customer/saleinfo">卖家信息</a></li>

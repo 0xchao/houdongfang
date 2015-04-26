@@ -145,6 +145,15 @@ namespace Nop.Web.Models.Customer
             public string AuthMethodName { get; set; }
         }
         
+        public CustomerApplyStoreEnum ApplyStoreState { get; set; }
+
         #endregion
     }
+    public enum CustomerApplyStoreEnum
+    {
+        NotApply = 0,
+        Applied = 1,
+        Approved = 2
+    }
+
 }
