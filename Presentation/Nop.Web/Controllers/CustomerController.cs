@@ -434,7 +434,6 @@ namespace Nop.Web.Controllers
 
             #endregion 
 
-            model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
             model.NavigationModel = GetCustomerNavigationModel(customer);
             model.NavigationModel.SelectedTab = tab;
         }
@@ -1100,22 +1099,60 @@ namespace Nop.Web.Controllers
         #region Info
 
         [NopHttpsRequirement(SslRequirement.Yes)]
-        public ActionResult ApplySale()
+        public ActionResult ApplyStore()
         {
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
 
             var customer = _workContext.CurrentCustomer;
 
-            var model = new CustomerInfoModel();
-            PrepareCustomerInfoModel(model, customer, false, CustomerNavigationEnum.ApplySale);
+            var model = new CustomerApplyStoreModel();
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
+
+            model.FirstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
+            model.LastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
+            model.Phone = customer.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+            model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
+
+            string selectedCustomerAttributes = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes, _genericAttributeService);
+            if (!String.IsNullOrEmpty(selectedCustomerAttributes))
+            {
+                var customerAttributes = _customerAttributeService.GetAllCustomerAttributes();
+                foreach (var attribute in customerAttributes)
+                {
+                    switch (attribute.Name)
+                    {
+                        case "IdCardNo":
+                            var idCardNo = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (idCardNo.Count > 0)
+                                model.IdCardNo = idCardNo[0];
+                            break;
+                        case "CollegeName":
+                            var collegeName = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (collegeName.Count > 0)
+                                model.CollegeName = collegeName[0];
+                            break;
+                        case "StudentId":
+                            var stdId = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (stdId.Count > 0)
+                                model.StudentId = stdId[0];
+                            break;
+                        case "DocumentCopyUrl":
+                            var docUrl = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (docUrl.Count > 0)
+                                model.DocumentCopyUrl = docUrl[0];
+                            break;
+                    }
+                }
+            }
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ApplySale(CustomerInfoModel model, FormCollection form)
+        public ActionResult ApplyStore(CustomerApplyStoreModel model, HttpPostedFileBase uploadedFile)
         {
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
@@ -1124,35 +1161,81 @@ namespace Nop.Web.Controllers
 
             try
             {
+                //upload file
+                var docCopy = _pictureService.GetPictureById(customer.GetAttribute<int>(SystemCustomerAttributeNames.AvatarPictureId));
+                if ((uploadedFile != null) && (!String.IsNullOrEmpty(uploadedFile.FileName)))
+                {
+                    int maxSizeBytes = 50000;
+                    if (uploadedFile.ContentLength > maxSizeBytes)
+                        throw new NopException(string.Format(_localizationService.GetResource("Account.Avatar.MaximumUploadedFileSize"), maxSizeBytes));
+
+                    byte[] customerPictureBinary = uploadedFile.GetPictureBits();
+                    if (docCopy != null)
+                        docCopy = _pictureService.UpdatePicture(docCopy.Id, customerPictureBinary, uploadedFile.ContentType, null, true);
+                    else
+                        docCopy = _pictureService.InsertPicture(customerPictureBinary, uploadedFile.ContentType, null, true);
+                }
+
+                model.DocumentCopyUrl = _pictureService.GetPictureUrl(docCopy.Id, 0, false);
+
                 //custom customer attributes
-                var customerAttributes = ParseCustomCustomerAttributes(customer, form, 2);
+                string customerAttributes = "";
+                var selectedAttributes = _customerAttributeService.GetAllCustomerAttributes();
+                foreach (var attribute in selectedAttributes)
+                {
+                    switch (attribute.Name)
+                    {
+                        case "IdCardNo":
+                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                                attribute, model.IdCardNo);
+                            break;
+                        case "CollegeName":
+                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                                attribute, model.CollegeName);
+                            break;
+                        case "StudentId":
+                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                                attribute, model.StudentId);
+                            break;
+                        case "DocumentCopyUrl":
+                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                                attribute, model.DocumentCopyUrl);
+                            break;
+                    }
+                }
+
                 var customerAttributeWarnings = _customerAttributeParser.GetAttributeWarnings(customerAttributes);
                 foreach (var error in customerAttributeWarnings)
                 {
                     ModelState.AddModelError("", error);
                 }
 
-                //if (ModelState.IsValid)
-                //{
-                //form fields
+                if (ModelState.IsValid)
+                {
+                    //form fields
+                    customer.ApplyStoreState = (int)CustomerApplyStoreEnum.Applied;
+                    model.ApplyStoreState = CustomerApplyStoreEnum.Applied;
 
-                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
-                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
-                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.ApplyStoreState, (int)CustomerApplyStoreEnum.Applied);
 
-                //save customer attributes
-                _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
+                    //save customer attributes
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
 
-                //}
+                }
+
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
 
-            //If we got this far, something failed, redisplay form
-            //PrepareCustomerInfoModel(model, customer, true);
-            return RedirectToRoute("ApplySale");
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
+
+            return View(model);
         }
 
 

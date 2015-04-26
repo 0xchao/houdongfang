@@ -261,6 +261,7 @@
     <Compile Include="Models\Common\StoreThemeModel.cs" />
     <Compile Include="Models\Common\LanguageSelectorModel.cs" />
     <Compile Include="Models\Common\SitemapModel.cs" />
+    <Compile Include="Models\Customer\CustomerApplyStoreModel.cs" />
     <Compile Include="Models\Customer\CustomerAttributeModel.cs" />
     <Compile Include="Models\Customer\BackInStockSubscriptionModel.cs" />
     <Compile Include="Models\Customer\CustomerBackInStockSubscriptionsModel.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Validators\Catalog\ProductEmailAFriendValidator.cs" />
     <Compile Include="Validators\Catalog\ProductReviewsValidator.cs" />
     <Compile Include="Validators\Common\AddressValidator.cs" />
+    <Compile Include="Validators\Customer\CustomerApplyStoreValidator.cs" />
     <Compile Include="Validators\Install\InstallValidator.cs" />
     <Compile Include="Validators\News\NewsItemValidator.cs" />
     <Compile Include="Validators\Customer\PasswordRecoveryConfirmValidator.cs" />
@@ -2279,7 +2281,7 @@
     <Content Include="Themes\houdongfang\Views\Customer\ReturnRequests.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\RegisterResult.cshtml" />
     <Content Include="Themes\houdongfang\Views\Checkout\OpcShippingAddress.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Customer\ApplySale.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\ApplyStore.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\_CustomerAttributes.cshtml" />
     <Content Include="Themes\houdongfang\Views\Product\_CreateOrUpdate.cshtml" />
     <Content Include="Themes\houdongfang\Views\Product\Create.cshtml" />

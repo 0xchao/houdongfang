@@ -350,6 +350,11 @@ namespace Nop.Web.Infrastructure
                             "customer/avatar",
                             new { controller = "Customer", action = "Avatar" },
                             new[] { "Nop.Web.Controllers" });
+            routes.MapLocalizedRoute("CustomerApplyStore",
+                "customer/applystore",
+                new { controller = "Customer", action = "ApplyStore" },
+                new[] { "Nop.Web.Controllers" });
+
             routes.MapLocalizedRoute("AccountActivation",
                             "customer/activation",
                             new { controller = "Customer", action = "AccountActivation" },                            

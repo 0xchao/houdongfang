@@ -67,7 +67,7 @@
         @if (Model.ApplyStoreState == CustomerApplyStoreEnum.NotApply)
         {
             <li class="profile_slidebar_title">卖家中心</li>
-            <li><a href="/customer/applysale" class="@if (Model.SelectedTab == CustomerNavigationEnum.ApplySale){<text>on</text>}">申请开店</a></li>
+            <li><a href="/customer/applystore" class="@if (Model.SelectedTab == CustomerNavigationEnum.ApplySale){<text>on</text>}">申请开店</a></li>
         }
         else if (Model.ApplyStoreState == CustomerApplyStoreEnum.Approved)
         {

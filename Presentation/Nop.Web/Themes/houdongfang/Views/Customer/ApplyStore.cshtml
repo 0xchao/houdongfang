@@ -1,4 +1,4 @@
-﻿@model CustomerInfoModel
+﻿@model CustomerApplyStoreModel
 @using Nop.Web.Models.Customer;
 @using Nop.Core;
 @{
@@ -15,7 +15,7 @@
     <div class="profile_slidebar_right2">
         @if (Model.ApplyStoreState == CustomerApplyStoreEnum.NotApply)
         {
-            using (Html.BeginForm())
+            using (Html.BeginRouteForm("CustomerApplyStore", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="checkout_title">
@@ -46,16 +46,48 @@
                         @Html.LabelFor(model => model.Phone, new { @class = "profile_cmb1_left" }, ":")
                         @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
                         <div class="profile_cmb1_right">
-                            @if (Model.PhoneRequired)
-                            {
-                                @Html.RequiredHint()
-                            }
+                            @Html.RequiredHint()
                             @Html.ValidationMessageFor(model => model.Phone)
                         </div>
                     </div>
-                    @if (Model.CustomerAttributes.Count > 0)
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.IdCardNo, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.IdCardNo, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.IdCardNo)
+                        </div>
+                    </div>
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.CollegeName, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.CollegeName, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.CollegeName)
+                        </div>
+                    </div>
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.StudentId, new { @class = "profile_cmb1_left" }, ":")
+                        @Html.TextBoxFor(model => model.StudentId, new { @class = "form-control" })
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.StudentId)
+                        </div>
+                    </div>
+                    <div class="profile_cmb1">
+                        @Html.LabelFor(model => model.DocumentCopyUrl, new { @class = "profile_cmb1_left" }, ":")
+                        <input type="text" class="input" id="pic_path" onclick="$('#uploadedFile').trigger('click')" readonly>
+                        <input type="file" name="uploadedFile" id="uploadedFile" style="visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+                        <div class="profile_cmb1_right">
+                            @Html.RequiredHint()
+                            @Html.ValidationMessageFor(model => model.StudentId)
+                        </div>
+                    </div>
+                    @if (!String.IsNullOrEmpty(Model.DocumentCopyUrl))
                     {
-                        @Html.Partial("_CustomerAttributes", Model.CustomerAttributes)
+                        <div class="profile_cmb1">
+                            <img src="@(Model.DocumentCopyUrl)" alt="DocumentCopy" />
+                        </div>
                     }
                 </div>
                 <div class="profile_cmb2">
