@@ -892,7 +892,7 @@ transform:scale(1.05,1.05);
 .opc .active .step-title{background:#f9f3e3;border:1px solid #EEE;padding-bottom:5px;color:#f18200;cursor:default;}
 .opc .active .step-title .number{background:#B20405;border-color:#B20405;color:#fff;}
 .opc .active .step-title h2{color:#555;}
-.opc .step{border:1px solid #EEE;border-top:0;background:#fbfaf6 0 0 repeat-x;padding:15px 30px;position:relative;}
+.opc .step{border:1px solid #EEE;border-top:0;background:#fbfaf6 0 0 repeat-x;padding:15px 0px; text-indent:30px; position:relative;}
 .opc .step-title:after{display:block;content:".";clear:both;font-size:0;line-height:0;height:0;overflow:hidden;}
 .opc .order-summary-content .cart-footer{background:none!important;}
 
