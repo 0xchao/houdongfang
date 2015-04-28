@@ -147,4 +147,11 @@ namespace Nop.Web.Models.Customer
         
         #endregion
     }
+    public enum CustomerApplyStoreEnum
+    {
+        NotApply = 0,
+        Applied = 1,
+        Approved = 2
+    }
+
 }

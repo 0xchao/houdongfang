@@ -64,7 +64,7 @@
                     <label class="forcheckbox" for="gender-female">@T("Account.Fields.Gender.Female")</label>
                 </div>
                         }
-                <div class="profile_cmb1">
+                @*<div class="profile_cmb1">
                     @Html.LabelFor(model => model.FirstName, new { @class = "profile_cmb1_left" }, ":")
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                     <div class="profile_cmb1_right">
@@ -79,7 +79,7 @@
                         @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.LastName)
                     </div>
-                </div>
+                </div>*@
                 @if (Model.DateOfBirthEnabled)
                         {
                 <div class="profile_cmb1">
@@ -99,11 +99,12 @@
                         }
                 <div class="profile_cmb1">
                     @Html.LabelFor(model => model.Email, new { @class = "profile_cmb1_left" }, ":")
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    <label>@Model.Email</label>
+                    @*@Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                     <div class="profile_cmb1_right">
                         @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.Email)
-                    </div>
+                    </div>*@
                 </div>
 
                 @if (Model.UsernamesEnabled)
@@ -132,7 +133,7 @@
                             }
                         }
             </div>
-            if (Model.PhoneEnabled || Model.FaxEnabled)
+            @*if (Model.PhoneEnabled || Model.FaxEnabled)
             {
                 <div class="checkout_title">
                     @T("Account.YourContactInformation")
@@ -168,7 +169,7 @@
                         </div>
                         }
                 </div>
-            }
+            }*@
             if (Model.NewsletterEnabled)
             {
                 <div class="checkout_title">

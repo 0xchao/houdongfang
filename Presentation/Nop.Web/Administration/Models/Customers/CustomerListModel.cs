@@ -55,5 +55,7 @@ namespace Nop.Admin.Models.Customers
         [AllowHtml]
         public string SearchZipPostalCode { get; set; }
         public bool ZipPostalCodeEnabled { get; set; }
+
+        public string SearchApplyStoreState { get; set; }
     }
 }

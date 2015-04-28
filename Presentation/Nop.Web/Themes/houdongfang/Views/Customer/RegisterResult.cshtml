@@ -16,17 +16,23 @@
     {
         continueUrl = Url.RouteUrl("HomePage");
     }
+
+    var customerInfoUrl = Url.RouteUrl("CustomerInfo");
 }
-<div class="page registration-result-page">
-    <div class="page-title">
-        <h1>@T("Account.Register")</h1>
-    </div>
-    <div class="page-body">
-        <div class="result">
-            @Model.Result
-        </div>
-        <div class="buttons">
-            <input type="button" class="button-1 register-continue-button" onclick="location.href='@continueUrl'" value="@T("Account.Register.Result.Continue")" />
+<div class="sigin">
+    <div class="sigin_ban"></div>
+    <div class="entry">
+        <div class="entry_logo"><img src="~/Themes/houdongfang/Content/Images/footer_logo@2x.png" /></div>
+        <div class="entry_4">
+            <img src="~/Themes/houdongfang/Content/Images/signins.png" />
+            <h4>@Model.Result</h4>
+            @*<h5>账号激活邮件已发送到您的注册邮箱</h5>*@
+            <div class="entry_btn">
+                <input type="button" class="button-1 register-continue-button" onclick="location.href='@customerInfoUrl'" value="@T("Account.MyAccount")" />
+            </div>
+            <div class="entry_btn">
+                <input type="button" class="button-1 register-continue-button" onclick="location.href='@continueUrl'" value="@T("Account.Register.Result.Continue")" />
+            </div>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
 @using System.Globalization;
 @{
     var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
-    
+
     //page title
     ViewBag.Title = T("Admin.Customers.Customers").Text;
 }
@@ -30,12 +30,8 @@
                 @foreach (var customerRole in Model.AvailableCustomerRoles)
                 {
                     <input type="checkbox" name="SearchCustomerRoleIds" value="@customerRole.Id"
-                @if (Model.SearchCustomerRoleIds != null && Model.SearchCustomerRoleIds.Contains(customerRole.Id))
-                {
-                    <text>checked="checked"</text>
-                }
-                />@customerRole.Name
-                    <br />
+                           @if (Model.SearchCustomerRoleIds != null && Model.SearchCustomerRoleIds.Contains(customerRole.Id)) { <text> checked="checked" </text>  } />@customerRole.Name
+                        <br />
                 }
             </td>
         </tr>
@@ -99,8 +95,8 @@
                     @Html.DropDownListFor(model => model.SearchDayOfBirth, dayOfBirthValues)
                 </td>
             </tr>
-        }
-        
+                        }
+
         @if (Model.CompanyEnabled)
         {
             <tr>
@@ -111,7 +107,7 @@
                     @Html.EditorFor(model => model.SearchCompany)
                 </td>
             </tr>
-        }        
+        }
         @if (Model.PhoneEnabled)
         {
             <tr>
@@ -133,7 +129,26 @@
                     @Html.EditorFor(model => model.SearchZipPostalCode)
                 </td>
             </tr>
-        } 
+        }
+        <tr>
+            <td class="adminTitle">
+                <label>申请开店状态:</label>
+            </td>
+            <td class="adminData">
+                <select name="SearchApplyStoreState" id="SearchApplyStoreState">
+                    <option value="">--All--</option>
+                    @{
+                        int state = 0;
+                        foreach (var ename in Enum.GetNames(typeof(CustomerApplyStoreEnum)))
+                        {
+                            <option value="@state">@ename</option>
+                            state += 1;
+                        }
+                    }
+                </select>
+            </td>
+        </tr>
+
         <tr>
             <td colspan="2">
                 <input type="button" id="search-customers" class="k-button" value="@T("Admin.Common.Search")" />
@@ -181,28 +196,28 @@
                             scrollable: false,
                             dataBound: onDataBound,
                             columns: [{
-                                    field: "Id",
-                                    headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
-                                    headerAttributes: { style: "text-align:center" },
-                                    attributes: { style: "text-align:center" },
-                                    template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
-                                    width: 50
-                                }, {
-                                    field: "Id",
-                                    title: "ID",
-                                    width: 50
-                                }, {
-                                    field: "Email",
-                                    title: "@T("Admin.Customers.Customers.Fields.Email")",
-                                    width: 200
-                                },
+                                field: "Id",
+                                headerTemplate: "<input id='mastercheckbox' type='checkbox'/>",
+                                headerAttributes: { style: "text-align:center" },
+                                attributes: { style: "text-align:center" },
+                                template: "<input type='checkbox' value='#=Id#' class='checkboxGroups'/>",
+                                width: 50
+                            }, {
+                                field: "Id",
+                                title: "ID",
+                                width: 50
+                            }, {
+                                field: "Email",
+                                title: "@T("Admin.Customers.Customers.Fields.Email")",
+                                width: 200
+                            },
                                 @if (Model.UsernamesEnabled)
                                 {
                                     <text>{
-                field: "Username",
-                title: "@T("Admin.Customers.Customers.Fields.Username")",
-                width: 200
-            },</text>
+                                    field: "Username",
+                                    title: "@T("Admin.Customers.Customers.Fields.Username")",
+                                    width: 200
+                                },</text>
                                 }
                                 {
                                     field: "FullName",
@@ -212,33 +227,33 @@
                                     field: "CustomerRoleNames",
                                     title: "@T("Admin.Customers.Customers.Fields.CustomerRoles")",
                                     width: 200
-                                }, 
-            
+                                },
+
                                 @if (Model.CompanyEnabled)
                                 {
                                     <text>{
-                field: "Company",
+                                    field: "Company",
                                     title: "@T("Admin.Customers.Customers.Fields.Company")",
-            width: 200
-        },</text>
+                                    width: 200
+                                },</text>
                                 }
-        
+
                                 @if (Model.PhoneEnabled)
                                 {
                                     <text>{
-                field: "Phone",
-                    title: "@T("Admin.Customers.Customers.Fields.Phone")",
-            width: 200
-        },</text>
+                                    field: "Phone",
+                                    title: "@T("Admin.Customers.Customers.Fields.Phone")",
+                                    width: 200
+                                },</text>
                                 }
-        
+
                                 @if (Model.ZipPostalCodeEnabled)
                                 {
                                     <text>{
-                field: "ZipPostalCode",
-                    title: "@T("Admin.Customers.Customers.Fields.ZipPostalCode")",
-            width: 200
-        },</text>
+                                    field: "ZipPostalCode",
+                                    title: "@T("Admin.Customers.Customers.Fields.ZipPostalCode")",
+                                    width: 200
+                                },</text>
                                 }
                             {
                                 field: "Active",
@@ -328,6 +343,12 @@
                                 return false;
                             }
                         });
+                        $("#@Html.FieldIdFor(model => model.SearchApplyStoreState)").keydown(function (event) {
+                            if (event.keyCode == 13) {
+                                $("#search-customers").click();
+                                return false;
+                            }
+                        });
 
                         //"Export Excel selected" button
                         $('#exportexcel-selected').click(function (e) {
@@ -406,11 +427,12 @@
                             SearchMonthOfBirth: $('#@Html.FieldIdFor(model => model.SearchMonthOfBirth)').val(),
                             SearchCompany: $('#@Html.FieldIdFor(model => model.SearchCompany)').val(),
                             SearchPhone: $('#@Html.FieldIdFor(model => model.SearchPhone)').val(),
-                            SearchZipPostalCode: $('#@Html.FieldIdFor(model => model.SearchZipPostalCode)').val()
+                            SearchZipPostalCode: $('#@Html.FieldIdFor(model => model.SearchZipPostalCode)').val(),
+                            SearchApplyStoreState: $('#@Html.FieldIdFor(model => model.SearchApplyStoreState)').val()
                         };
                     }
                 </script>
             </td>
         </tr>
     </table>
-}
+                    }

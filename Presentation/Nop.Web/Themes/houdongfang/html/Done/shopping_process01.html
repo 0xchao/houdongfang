@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>购物流程 - 购物车列表 | 后东方</title>
+    <link rel="stylesheet" type="text/css" href="../Content/style.css" />
+    <script type="text/javascript" src="../Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="../Scripts/Sng.js"></script>
+</head>
+<body>
+    <div class="shopcart">
+        <div class="shopcart_mask">
+            <div class="shopcart_close"><i class="iconfont">&#xe61b;</i></div>
+            <div class="shopcart_logo"><img src="../Content/Images/footer_logo@2x.png" /></div>
+            <table width="420" height="auto" border="0" cellspacing="0" cellpadding="0">
+                <tr height="70" class="shopcart2">
+                    <td class="shopcart2_1"><img src="../Content/Images/product01P.jpg" /></td>
+                    <td class="shopcart2_2">纯天然有机生姜</td>
+                    <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                    <td class="price">￥ <span>123.00</span></td>
+                    <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+                </tr>
+                <tr height="70" class="shopcart2">
+                    <td class="shopcart2_1"><img src="../Content/Images/product02P.jpg" /></td>
+                    <td class="shopcart2_2">纯天然有机生姜</td>
+                    <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                    <td class="price">￥ <span>456.34</span></td>
+                    <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+                </tr>
+                <tr height="70" class="shopcart3">
+                    <td class="shopcart2_1"><img src="../Content/Images/product03P.jpg" /></td>
+                    <td class="shopcart2_2">纯天然有机生姜</td>
+                    <td class="quantity"><div class="shopcart_reduce">-</div><div class="quantity_cont">1</div><div class="shopcart_add">+</div></td>
+                    <td class="price">￥ <span>25.00</span></td>
+                    <td class="shopcart2_3"><i class="iconfont">&#xe61b;</i></td>
+                </tr>
+            </table>
+            <div class="shopcart4">购物车总计<div class="total">￥ <span>2837.00</span></div></div>
+            <div class="shopcart_btn"><input type="button" value="立即结算" /></div>
+        </div>
+    </div>
+    <div class="nav">
+        <div class="logo"><a href="index.html"><img src="../Content/Images/logo@2x.png" /></a></div>
+        <ul class="nav_title clear">
+            <li><a href="product_list.html">在线商城</a></li>
+            <li><a href="#">线下商城</a></li>
+            <li><a href="#">后东方博客</a></li>
+            <li><a href="#">关于后东方</a></li>
+        </ul>
+        <div class="shopping clear"><input type="text" placeholder="" /> <img src="../Content/Images/search@2x.png" /></div>
+        <ul class="userpanel clear">
+            <li><a href=""><i class="iconfont">&#xe60b;</i>管理后台</a></li>
+            <li class="deng"><i class="iconfont">&#xe60b;</i><a href="signin.html">Angle</a></li>
+            <li class="collect">
+                <i class="iconfont">&#xe61e;</i>收藏夹<i class="iconfont collect_aspect">&#xe603;</i>
+                <ul>
+                    <li><a href="">收藏商品</a></li>
+                    <li><a href="">收藏店铺</a></li>
+                </ul>
+            </li>
+            <li class="cart"><a href="javascript:;"><i class="iconfont">&#xe60c;</i><span class="cart_num">2</span></a></li>
+        </ul>
+    </div>
+    <div class="shopping_state" style="padding-bottom:0px">
+        <div class="catelog_banner" style="padding-bottom:0px"><img src="../Content/Images/ad_banner1@2x.jpg" /></div>
+    </div>
+    <div class="shopping_state">
+        <div class="shopping_state_tab">
+            <div class="shopping_state_th clear">
+                <div class="shopping_state_th1"><input type="checkbox" name="allcheckbox" /> 全选</div>
+                <div class="shopping_state_th2"></div>
+                <div class="shopping_state_th3">商品信息</div>
+                <div class="shopping_state_th4">单价</div>
+                <div class="shopping_state_th5">数量</div>
+                <div class="shopping_state_th6">小计</div>
+                <div class="shopping_state_th7"></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product01P.jpg" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>10.00</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_th5_one">
+                        <div class="shopping_state_reduce">-</div>
+                        <div class="shopping_state_num"><input class="text_box" type="text" value="1" /></div>
+                        <div class="shopping_state_add">+</div>
+                        <div class="shopping_state_kuc">库存<span>10</span>件</div>
+                    </div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product02P.jpg" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>2.50</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_th5_one">
+                        <div class="shopping_state_reduce">-</div>
+                        <div class="shopping_state_num"><input class="text_box" type="text" value="1" /></div>
+                        <div class="shopping_state_add">+</div>
+                        <div class="shopping_state_kuc">库存<span>10</span>件</div>
+                    </div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product03P.jpg" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>9.85</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_th5_one">
+                        <div class="shopping_state_reduce">-</div>
+                        <div class="shopping_state_num"><input class="text_box" type="text" value="1" /></div>
+                        <div class="shopping_state_add">+</div>
+                        <div class="shopping_state_kuc">库存<span>10</span>件</div>
+                    </div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product04P.jpg" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>10.00</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_th5_one">
+                        <div class="shopping_state_reduce">-</div>
+                        <div class="shopping_state_num"><input class="text_box" type="text" value="1" /></div>
+                        <div class="shopping_state_add">+</div>
+                        <div class="shopping_state_kuc">库存<span>10</span>件</div>
+                    </div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product05P.jpg" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>10.00</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_th5_one">
+                        <div class="shopping_state_reduce">-</div>
+                        <div class="shopping_state_num"><input class="text_box" type="text" value="1" /></div>
+                        <div class="shopping_state_add">+</div>
+                        <div class="shopping_state_kuc">库存<span>10</span>件</div>
+                    </div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_tr">
+                <div class="shopping_state_th1"><input type="checkbox" name="is_move" /></div>
+                <div class="shopping_state_th2"><img src="../Content/Images/product06.png" /></div>
+                <div class="shopping_state_th3">
+                    <h2>纯天然有机生姜</h2>
+                    <h3>规格：200g</h3>
+                </div>
+                <div class="shopping_state_th4">￥ <span>9.23</span></div>
+                <div class="shopping_state_th5">
+                    <div class="shopping_state_que">暂时无货</div>
+                </div>
+                <div class="shopping_state_th6">￥ <span>0.00</span></div>
+                <div class="shopping_state_th7"><i class="iconfont">&#xe61b;</i></div>
+            </div>
+            <div class="shopping_state_price">
+                共<span class="shopping_state_span1">5</span>件商品
+                <div class="shopping_state_total">已选<span class="shopping_state_span2">4</span>件商品（不含运费）：<a href="javascript:;"> ￥ <span class="shopping_state_span3">0.00</span>元</a></div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="shopping_state_bill">
+        <div class="checkout_title">
+            填写发票信息
+            <label></label>
+        </div>
+        <div class="shopping_bill_1"><input type="radio" name="shopping_bill" />个人</div>
+        <div class="shopping_bill_2">
+            <input type="radio" name="shopping_bill" />单位
+            <div class="shopping_bill_details">
+                <input class="bill_details" type="text" placeholder="单位抬头" />
+                <input class="bill_btn" type="button" value="确认" />
+                <input class="bill_close" type="button" value="取消" />
+            </div>
+        </div>
+        <p>温馨提示：发票的金额不包括京东卡/京东E卡、优惠券和京豆支付部分</p>
+    </div>
+    <div class="shopping_state_sil">
+        <div class="shopping_state_return"><button>返回购物</button></div>
+        <div class="shopping_state_settle"><button>立即结算</button></div>
+    </div>
+    <!--<div class="cart_frame">
+        <div class="cart_frame_title">猜你喜欢
+            <div class="cart_frame_tit_1"></div>
+            <div class="cart_frame_tit_2"><i class="iconfont"></i>换一换</div>
+        </div>
+         <ul class="cart_frame_list clear">
+            <li>
+                <a href="product_detail.html"><img src="../Content/Images/product07.png" />
+                <h2>竹叶青<span>￥123</span></h2>
+            </li>
+            <li>
+                <a href="product_detail.html"><img src="../Content/Images/product08.png" />
+                <h2>野生干灵芝片<span>￥298</span></h2>
+            </li>
+            <li class="last">
+                <a href="product_detail.html"><img src="../Content/Images/product09.png" />
+                <h2>纯正蜂蜜<span>￥126</span></h2>
+            </li>
+        </ul>
+    </div>-->
+    <div class="foot">
+        <div class="footer">
+            <ul class="footer_cont clear">
+                <li class="footer_cont_1">
+                    <h2>线上商城</h2>
+                    <ul class="footer_nav1">
+                        <li><a href="">实木家具</a></li>
+                        <li><a href="">原创服饰</a></li>
+                        <li><a href="">地标食品</a></li>
+                        <li><a href="">原创手工</a></li>
+                        <li><a href="">原产茶叶</a></li>
+                    </ul>
+                </li>
+                <li class="footer_cont_1">
+                    <h2>线下商城</h2>
+                    <ul class="footer_nav1">
+                        <li><a href="">销售地图</a></li>
+                        <li><a href="">活动地图</a></li>
+                    </ul>
+                </li>
+                <li class="footer_cont_1">
+                    <h2>购物指南</h2>
+                    <ul class="footer_nav1">
+                        <li><a href="">新手入门</a></li>
+                        <li><a href="">购物流程</a></li>
+                        <li><a href="">支付方式</a></li>
+                        <li><a href="">配送售后</a></li>
+                        <li><a href="">常见问题</a></li>
+                    </ul>
+                </li>
+                <li class="footer_cont_1">
+                    <h2>商业合作</h2>
+                    <ul class="footer_nav1">
+                        <li><a href="">学生入驻</a>
+                        <li><a href="">学校合作</a>
+                        <li><a href="">商家加盟</a>
+                        <li><a href="">投资合作</a>
+                    </ul>
+                </li>
+                <li class="footer_cont_1">
+                    <h2>关于我们</h2>
+                    <ul class="footer_nav1">
+                        <li><a href="">关于后东方</a>
+                        <li><a href="">联系我们</a>
+                        <li><a href="">招贤纳士</a>
+                    </ul>
+                </li>
+            </ul>
+            <div class="footer_right">
+                <img src="../Content/Images/footer_logo@2x.png" />
+                <a class="weibo" href=""><i class="iconfont">&#xe600;</i>官方微博</a>
+                <a class="weixin" href=""><i class="iconfont">&#xe601;</i>官方微信</a>
+                <p>Copyright.  2014  houdongfang.com</p>
+                <p>All Right Reserved.备案号:京B2-3789473023</p>
+                <p><a href="">隐私说明</a> | <a href="">版权声明</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

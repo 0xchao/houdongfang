@@ -169,7 +169,7 @@ namespace Nop.Admin.Controllers
             this._downloadService = downloadService;
         }
 
-        #endregion 
+        #endregion
 
         #region Utilities
 
@@ -758,7 +758,7 @@ namespace Nop.Admin.Controllers
 
             var model = new ProductModel();
             PrepareProductModel(model, null, true, true);
-            AddLocales(_languageService, model.Locales);
+            //AddLocales(_languageService, model.Locales);
             PrepareAclModel(model, null, false);
             PrepareStoresMappingModel(model, null, false);
             return View(model);

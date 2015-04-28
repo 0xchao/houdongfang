@@ -58,7 +58,7 @@ namespace Nop.Admin.Models.Customers
         public string LastName { get; set; }
         [NopResourceDisplayName("Admin.Customers.Customers.Fields.FullName")]
         public string FullName { get; set; }
-        
+
         public bool DateOfBirthEnabled { get; set; }
         [UIHint("DateNullable")]
         [NopResourceDisplayName("Admin.Customers.Customers.Fields.DateOfBirth")]
@@ -118,7 +118,7 @@ namespace Nop.Admin.Models.Customers
         [NopResourceDisplayName("Admin.Customers.Customers.Fields.AdminComment")]
         [AllowHtml]
         public string AdminComment { get; set; }
-        
+
         [NopResourceDisplayName("Admin.Customers.Customers.Fields.IsTaxExempt")]
         public bool IsTaxExempt { get; set; }
 
@@ -192,7 +192,7 @@ namespace Nop.Admin.Models.Customers
         [NopResourceDisplayName("Admin.Customers.Customers.RewardPoints.Fields.AddRewardPointsMessage")]
         [AllowHtml]
         public string AddRewardPointsMessage { get; set; }
-        
+
         //send email model
         public SendEmailModel SendEmail { get; set; }
         //send PM model
@@ -201,7 +201,7 @@ namespace Nop.Admin.Models.Customers
         [NopResourceDisplayName("Admin.Customers.Customers.AssociatedExternalAuth")]
         public IList<AssociatedExternalAuthModel> AssociatedExternalAuthRecords { get; set; }
 
-        
+
         #region Nested classes
 
         public partial class AssociatedExternalAuthModel : BaseNopEntityModel
@@ -316,5 +316,16 @@ namespace Nop.Admin.Models.Customers
         }
 
         #endregion
+
+        [NopResourceDisplayName("Admin.Customers.Customers.Fields.ApplyStoreState")]
+        [AllowHtml]
+        public int ApplyStoreState { get; set; }
+    }
+
+    public enum CustomerApplyStoreEnum
+    {
+        NotApply = 0,
+        Applied = 1,
+        Approved = 2
     }
 }

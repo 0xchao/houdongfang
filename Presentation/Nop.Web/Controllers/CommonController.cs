@@ -264,6 +264,11 @@ namespace Nop.Web.Controllers
             return View();
         }
 
+        public ActionResult Construction()
+        {
+            return View();
+        }
+
         //language
         [ChildActionOnly]
         public ActionResult LanguageSelector()

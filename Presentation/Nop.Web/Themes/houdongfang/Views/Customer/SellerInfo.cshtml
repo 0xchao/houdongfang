@@ -1,0 +1,31 @@
+﻿@model CustomerStoreModel
+@using Nop.Web.Models.Customer;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    <div class="profile_slidebar_right2">
+        @if (Model.ApplyStoreState == CustomerApplyStoreEnum.Approved)
+        {
+            using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.Partial("_StoreForm", Model);
+                <div class="profile_cmb2">
+                    <input type="submit" value="保存资料" name="save-info-button" class="profile_cmb1_sub1" />
+                </div>
+            }
+        }
+        else
+        {
+            <p>当前状态无法修改卖家信息，请联系管理员。</p>
+        }
+    </div>
+</div>

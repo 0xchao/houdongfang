@@ -1,0 +1,84 @@
+﻿@model MyProductModel
+@using Nop.Web.Models.Customer;
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+
+<div class="checkout_title">
+    商品信息
+    <label></label>
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">商品名称</div>
+    @Html.EditorFor(model => model.Name)
+    <div class="profile_cmb1_right">
+        @Html.RequiredHint()
+    </div>
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">简短说明</div>
+    @Html.EditorFor(model => model.ShortDescription)
+    <div class="profile_cmb1_right">
+        @Html.RequiredHint()
+    </div>
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">规格</div>
+    @Html.EditorFor(model => model.Sku)
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">产地</div>
+    @Html.EditorFor(model => model.Origin)
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">所属分类</div>
+    @Html.EditorFor(model => model.CategoryId)
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">商品数量</div>
+    @Html.EditorFor(model => model.StockQuantity)
+    <div class="profile_cmb1_right">
+        @Html.ValidationMessageFor(model => model.StockQuantity)
+    </div>
+</div>
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">商品价格(元)</div>
+    @Html.EditorFor(model => model.Price)
+    <div class="profile_cmb1_right">
+        @Html.ValidationMessageFor(model => model.Price)
+    </div>
+</div>
+<div class="checkout_title">
+    商品图片
+    <label></label>
+</div>
+<div class="profile_cmb1">
+    <div class="product_upload_input">
+        <div class="profile_cmb1_left">上传图片</div>
+        <input type="text" class="input" id="pic_path" onclick="$('#avatar').trigger('click')" readonly>
+        <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+    </div>
+    <a class="product_upload_hint" href="javascript:;">请上传分辨率800X800px以上的正方形图片，最多上传五张</a>
+    <button class="product_upload_button">上传</button>
+</div>
+<ul class="product_upload_img clear">
+    <li><img src="../Content/Images/product02.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product03.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product04.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product05.png" /><span>X</span></li>
+</ul>
+
+@*<div class="profile_cmb1">
+    @Html.EditorFor(model => model.AddPictureModel.PictureId)
+
+    <label class="product_upload_hint">请上传分辨率800X800px以上的正方形图片，最多上传五张</label>
+</div>*@
+<div class="checkout_title">
+    商品详情
+    <label></label>
+</div>
+<div class="profile_cmb1">
+    @Html.EditorFor(x => x.FullDescription, "RichEditor")
+    <div class="profile_cmb1_right">
+        @Html.ValidationMessageFor(model => model.FullDescription)
+    </div>
+</div>

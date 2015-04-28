@@ -17,13 +17,13 @@
                     {
                         <select name="@(controlId)" id="@(controlId)">
                             @if (!attribute.IsRequired)
-                    {
-                    <option value="0">---</option>
-                    }
+                            {
+                                <option value="0">---</option>
+                            }
                             @foreach (var caValue in attribute.Values)
-                    {
-                    <option selected="@caValue.IsPreSelected" value="@caValue.Id">@caValue.Name</option>
-                    }
+                            {
+                                <option selected="@caValue.IsPreSelected" value="@caValue.Id">@caValue.Name</option>
+                            }
                         </select>
                     }
                     break;
@@ -31,12 +31,12 @@
                     {
                         <ul class="option-list">
                             @foreach (var caValue in attribute.Values)
-                    {
-                    <li>
-                        <input id="@(controlId)_@(caValue.Id)" type="radio" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
-                        <label for="@(controlId)_@(caValue.Id)">@caValue.Name</label>
-                    </li>
-                    }
+                            {
+                                <li>
+                                    <input id="@(controlId)_@(caValue.Id)" type="radio" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
+                                    <label for="@(controlId)_@(caValue.Id)">@caValue.Name</label>
+                                </li>
+                            }
                         </ul>
                     }
                     break;
@@ -44,16 +44,25 @@
                     {
                         <ul class="option-list">
                             @foreach (var caValue in attribute.Values)
-                    {
-                    <li>
-                        <input id="@(controlId)_@(caValue.Id)" type="checkbox" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
-                        <label for="@(controlId)_@(caValue.Id)">@caValue.Name</label>
-                    </li>
-                    }
+                            {
+                                <li>
+                                    <input id="@(controlId)_@(caValue.Id)" type="checkbox" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
+                                    <label for="@(controlId)_@(caValue.Id)">@caValue.Name</label>
+                                </li>
+                            }
                         </ul>
                     }
                     break;
                 case AttributeControlType.TextBox:
+                    if (attribute.Name == "DocumentCopyUrl")
+                    {
+                        <img src="@attribute.DefaultValue" />
+                    }
+                    else if (attribute.Name == "StoreName" || attribute.Name == "StoreDescription")
+                    {
+                        <label>@attribute.DefaultValue</label>
+                    }
+                    else
                     {
                         <input name="@(controlId)" type="text" class="text-box single-line" id="@(controlId)" @(!String.IsNullOrWhiteSpace(attribute.DefaultValue) ? " value=" + attribute.DefaultValue : null) />
                     }

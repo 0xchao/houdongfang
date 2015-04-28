@@ -1,5 +1,4 @@
 ﻿using Nop.Web.Framework.Mvc;
-
 namespace Nop.Web.Models.Customer
 {
     public partial class CustomerNavigationModel : BaseNopModel
@@ -16,6 +15,7 @@ namespace Nop.Web.Models.Customer
         public bool HideForumSubscriptions { get; set; }
 
         public CustomerNavigationEnum SelectedTab { get; set; }
+        public CustomerApplyStoreEnum ApplyStoreState { get; set; }
     }
 
     public enum CustomerNavigationEnum
@@ -29,6 +29,11 @@ namespace Nop.Web.Models.Customer
         RewardPoints,
         ChangePassword,
         Avatar,
-        ForumSubscriptions
+        ForumSubscriptions,
+        ApplySale,
+        SellerInfo,
+        PublishProduct,
+        MyProductList,
+        SoldList
     }
 }

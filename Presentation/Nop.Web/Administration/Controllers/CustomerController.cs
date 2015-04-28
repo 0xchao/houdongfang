@@ -79,6 +79,8 @@ namespace Nop.Admin.Controllers
         private readonly IStoreService _storeService;
         private readonly ICustomerAttributeParser _customerAttributeParser;
         private readonly ICustomerAttributeService _customerAttributeService;
+        private readonly ILanguageService _languageService;
+
 
         #endregion
 
@@ -88,36 +90,37 @@ namespace Nop.Admin.Controllers
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IGenericAttributeService genericAttributeService,
             ICustomerRegistrationService customerRegistrationService,
-            ICustomerReportService customerReportService, 
+            ICustomerReportService customerReportService,
             IDateTimeHelper dateTimeHelper,
-            ILocalizationService localizationService, 
+            ILocalizationService localizationService,
             DateTimeSettings dateTimeSettings,
-            TaxSettings taxSettings, 
+            TaxSettings taxSettings,
             RewardPointsSettings rewardPointsSettings,
-            ICountryService countryService, 
-            IStateProvinceService stateProvinceService, 
+            ICountryService countryService,
+            IStateProvinceService stateProvinceService,
             IAddressService addressService,
             CustomerSettings customerSettings,
-            ITaxService taxService, 
+            ITaxService taxService,
             IWorkContext workContext,
             IVendorService vendorService,
             IStoreContext storeContext,
             IPriceFormatter priceFormatter,
-            IOrderService orderService, 
+            IOrderService orderService,
             IExportManager exportManager,
             ICustomerActivityService customerActivityService,
             IPriceCalculationService priceCalculationService,
-            IPermissionService permissionService, 
+            IPermissionService permissionService,
             IQueuedEmailService queuedEmailService,
             EmailAccountSettings emailAccountSettings,
-            IEmailAccountService emailAccountService, 
+            IEmailAccountService emailAccountService,
             ForumSettings forumSettings,
-            IForumService forumService, 
+            IForumService forumService,
             IOpenAuthenticationService openAuthenticationService,
             AddressSettings addressSettings,
             IStoreService storeService,
             ICustomerAttributeParser customerAttributeParser,
-            ICustomerAttributeService customerAttributeService)
+            ICustomerAttributeService customerAttributeService,
+            ILanguageService languageService)
         {
             this._customerService = customerService;
             this._newsLetterSubscriptionService = newsLetterSubscriptionService;
@@ -153,6 +156,7 @@ namespace Nop.Admin.Controllers
             this._storeService = storeService;
             this._customerAttributeParser = customerAttributeParser;
             this._customerAttributeService = customerAttributeService;
+            this._languageService = languageService;
         }
 
         #endregion
@@ -245,6 +249,7 @@ namespace Nop.Admin.Controllers
                 Active = customer.Active,
                 CreatedOn = _dateTimeHelper.ConvertToUserTime(customer.CreatedOnUtc, DateTimeKind.Utc),
                 LastActivityDate = _dateTimeHelper.ConvertToUserTime(customer.LastActivityDateUtc, DateTimeKind.Utc),
+                ApplyStoreState = customer.ApplyStoreState
             };
         }
 
@@ -329,32 +334,32 @@ namespace Nop.Admin.Controllers
                         case AttributeControlType.DropdownList:
                         case AttributeControlType.RadioList:
                         case AttributeControlType.Checkboxes:
-                        {
-                            if (!String.IsNullOrEmpty(selectedCustomerAttributes))
                             {
-                                //clear default selection
-                                foreach (var item in caModel.Values)
-                                    item.IsPreSelected = false;
-
-                                //select new values
-                                var selectedCaValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
-                                foreach (var caValue in selectedCaValues)
+                                if (!String.IsNullOrEmpty(selectedCustomerAttributes))
+                                {
+                                    //clear default selection
                                     foreach (var item in caModel.Values)
-                                        if (caValue.Id == item.Id)
-                                            item.IsPreSelected = true;
+                                        item.IsPreSelected = false;
+
+                                    //select new values
+                                    var selectedCaValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
+                                    foreach (var caValue in selectedCaValues)
+                                        foreach (var item in caModel.Values)
+                                            if (caValue.Id == item.Id)
+                                                item.IsPreSelected = true;
+                                }
                             }
-                        }
                             break;
                         case AttributeControlType.TextBox:
                         case AttributeControlType.MultilineTextbox:
-                        {
-                            if (!String.IsNullOrEmpty(selectedCustomerAttributes))
                             {
-                                var enteredText = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
-                                if (enteredText.Count > 0)
-                                    caModel.DefaultValue = enteredText[0];
+                                if (!String.IsNullOrEmpty(selectedCustomerAttributes))
+                                {
+                                    var enteredText = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                                    if (enteredText.Count > 0)
+                                        caModel.DefaultValue = enteredText[0];
+                                }
                             }
-                        }
                             break;
                         case AttributeControlType.ColorSquares:
                         case AttributeControlType.Datepicker:
@@ -452,7 +457,7 @@ namespace Nop.Admin.Controllers
                 return AccessDeniedView();
 
             //load registered customers by default
-            var defaultRoleIds = new[] {_customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id};
+            var defaultRoleIds = new[] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id };
             var listModel = new CustomerListModel()
             {
                 UsernamesEnabled = _customerSettings.UsernamesEnabled,
@@ -480,7 +485,12 @@ namespace Nop.Admin.Controllers
                 searchDayOfBirth = Convert.ToInt32(model.SearchDayOfBirth);
             if (!String.IsNullOrWhiteSpace(model.SearchMonthOfBirth))
                 searchMonthOfBirth = Convert.ToInt32(model.SearchMonthOfBirth);
-            
+
+            //apply store state
+            int? searchApplyStoreState = null;
+            if (!String.IsNullOrWhiteSpace(model.SearchApplyStoreState))
+                searchApplyStoreState = Convert.ToInt32(model.SearchApplyStoreState);
+
             var customers = _customerService.GetAllCustomers(
                 customerRoleIds: searchCustomerRoleIds,
                 email: model.SearchEmail,
@@ -493,6 +503,7 @@ namespace Nop.Admin.Controllers
                 phone: model.SearchPhone,
                 zipPostalCode: model.SearchZipPostalCode,
                 loadOnlyWithShoppingCart: false,
+                searchApplyStoreState: searchApplyStoreState,
                 pageIndex: command.Page - 1,
                 pageSize: command.PageSize);
             var gridModel = new DataSourceResult
@@ -503,7 +514,7 @@ namespace Nop.Admin.Controllers
 
             return Json(gridModel);
         }
-        
+
         public ActionResult Create()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
@@ -600,7 +611,7 @@ namespace Nop.Admin.Controllers
                 ModelState.AddModelError("", customerRolesError);
                 ErrorNotification(customerRolesError, false);
             }
-            
+
             if (ModelState.IsValid)
             {
                 var customer = new Customer()
@@ -648,7 +659,7 @@ namespace Nop.Admin.Controllers
                 //custom customer attributes
                 var customerAttributes = ParseCustomCustomerAttributes(customer, form);
                 _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
-                    
+
                 //password
                 if (!String.IsNullOrWhiteSpace(model.Password))
                 {
@@ -665,14 +676,14 @@ namespace Nop.Admin.Controllers
                 foreach (var customerRole in newCustomerRoles)
                 {
                     //ensure that the current customer cannot add to "Administrators" system role if he's not an admin himself
-                    if (customerRole.SystemName == SystemCustomerRoleNames.Administrators && 
+                    if (customerRole.SystemName == SystemCustomerRoleNames.Administrators &&
                         !_workContext.CurrentCustomer.IsAdmin())
                         continue;
 
                     customer.CustomerRoles.Add(customerRole);
                 }
                 _customerService.UpdateCustomer(customer);
-                
+
 
                 //ensure that a customer with a vendor associated is not in "Administrators" role
                 //otherwise, he won't be have access to the other functionality in admin area
@@ -774,6 +785,8 @@ namespace Nop.Admin.Controllers
             //vendors
             model.VendorId = customer.VendorId;
             PrepareVendorsModel(model);
+            //Apply store state
+            model.ApplyStoreState = customer.ApplyStoreState;
             //customer attrivutes
             PrepareCustomerAttributeModel(model, customer);
             //other properties and form fields
@@ -795,7 +808,7 @@ namespace Nop.Admin.Controllers
             model.LastActivityDate = _dateTimeHelper.ConvertToUserTime(customer.LastActivityDateUtc, DateTimeKind.Utc);
             model.LastIpAddress = customer.LastIpAddress;
             model.LastVisitedPage = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastVisitedPage);
-            
+
             //form fields
             model.FirstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
             model.LastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
@@ -892,7 +905,7 @@ namespace Nop.Admin.Controllers
                 ModelState.AddModelError("", customerRolesError);
                 ErrorNotification(customerRolesError, false);
             }
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -934,21 +947,23 @@ namespace Nop.Admin.Controllers
                         {
                             if (!model.VatNumber.Equals(prevVatNumber, StringComparison.InvariantCultureIgnoreCase))
                             {
-                                _genericAttributeService.SaveAttribute(customer, 
-                                    SystemCustomerAttributeNames.VatNumberStatusId, 
+                                _genericAttributeService.SaveAttribute(customer,
+                                    SystemCustomerAttributeNames.VatNumberStatusId,
                                     (int)_taxService.GetVatNumberStatus(model.VatNumber));
                             }
                         }
                         else
                         {
                             _genericAttributeService.SaveAttribute(customer,
-                                SystemCustomerAttributeNames.VatNumberStatusId, 
+                                SystemCustomerAttributeNames.VatNumberStatusId,
                                 (int)VatNumberStatus.Empty);
                         }
                     }
 
                     //vendor
                     customer.VendorId = model.VendorId;
+                    //Apply store state
+                    customer.ApplyStoreState = model.ApplyStoreState;
 
                     //form fields
                     if (_dateTimeSettings.AllowCustomersToSetTimeZone)
@@ -981,7 +996,7 @@ namespace Nop.Admin.Controllers
                     //custom customer attributes
                     var customerAttributes = ParseCustomCustomerAttributes(customer, form);
                     _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
-                    
+
 
                     //customer roles
                     foreach (var customerRole in allCustomerRoles)
@@ -1007,7 +1022,7 @@ namespace Nop.Admin.Controllers
                         }
                     }
                     _customerService.UpdateCustomer(customer);
-                    
+
 
                     //ensure that a customer with a vendor associated is not in "Administrators" role
                     //otherwise, he won't have access to the other functionality in admin area
@@ -1044,7 +1059,7 @@ namespace Nop.Admin.Controllers
                     }
                     else
                     {
-                        return  RedirectToAction("List");
+                        return RedirectToAction("List");
                     }
                 }
                 catch (Exception exc)
@@ -1124,7 +1139,7 @@ namespace Nop.Admin.Controllers
             model.AssociatedExternalAuthRecords = GetAssociatedExternalAuthRecords(customer);
             return View(model);
         }
-        
+
         [HttpPost, ActionName("Edit")]
         [FormValueRequired("changepassword")]
         public ActionResult ChangePassword(CustomerModel model)
@@ -1151,7 +1166,60 @@ namespace Nop.Admin.Controllers
 
             return RedirectToAction("Edit", customer.Id);
         }
-        
+
+        [HttpPost, ActionName("Edit")]
+        [FormValueRequired("approveStore")]
+        public ActionResult ApproveStore(CustomerModel model)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                return AccessDeniedView();
+
+            var customer = _customerService.GetCustomerById(model.Id);
+            if (customer == null)
+                //No customer found with the specified id
+                return RedirectToAction("List");
+
+            PrepareCustomerAttributeModel(model, customer);
+            string storeName = string.Empty;
+            string storeDesc = string.Empty;
+            foreach (var attr in model.CustomerAttributes)
+            {
+                if (attr.Name == "StoreName")
+                    storeName = attr.DefaultValue;
+                else if (attr.Name == "StoreDescription")
+                    storeDesc = attr.DefaultValue;
+            }
+
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(storeName) && !string.IsNullOrWhiteSpace(storeDesc))
+            {
+                try
+                {
+                    //Create Vendor
+                    var vendor = new Models.Vendors.VendorModel();
+                    AddLocales(_languageService, vendor.Locales);
+                    //default values
+                    vendor.Name = storeName;
+                    vendor.Description = storeDesc;
+                    vendor.PageSize = 9;
+                    vendor.Active = true;
+
+                    var vEntity = vendor.ToEntity();
+                    _vendorService.InsertVendor(vEntity);
+
+                    //add relationship between customer and vendor
+                    customer.VendorId = vEntity.Id;
+                    customer.ApplyStoreState = (int)CustomerApplyStoreEnum.Approved;
+                    _customerService.UpdateCustomer(customer);
+                }
+                catch (Exception exc)
+                {
+                    ErrorNotification(exc.Message, false);
+                }
+            }
+
+            return RedirectToAction("Edit", model.Id);
+        }
+
         [HttpPost, ActionName("Edit")]
         [FormValueRequired("markVatNumberAsValid")]
         public ActionResult MarkVatNumberAsValid(CustomerModel model)
@@ -1164,7 +1232,7 @@ namespace Nop.Admin.Controllers
                 //No customer found with the specified id
                 return RedirectToAction("List");
 
-            _genericAttributeService.SaveAttribute(customer, 
+            _genericAttributeService.SaveAttribute(customer,
                 SystemCustomerAttributeNames.VatNumberStatusId,
                 (int)VatNumberStatus.Valid);
 
@@ -1186,7 +1254,7 @@ namespace Nop.Admin.Controllers
             _genericAttributeService.SaveAttribute(customer,
                 SystemCustomerAttributeNames.VatNumberStatusId,
                 (int)VatNumberStatus.Invalid);
-            
+
             return RedirectToAction("Edit", customer.Id);
         }
 
@@ -1345,9 +1413,9 @@ namespace Nop.Admin.Controllers
 
             return RedirectToAction("Edit", new { id = customer.Id });
         }
-        
+
         #endregion
-        
+
         #region Reward points history
 
         [HttpPost]
@@ -1364,13 +1432,13 @@ namespace Nop.Admin.Controllers
             foreach (var rph in customer.RewardPointsHistory.OrderByDescending(rph => rph.CreatedOnUtc).ThenByDescending(rph => rph.Id))
             {
                 model.Add(new CustomerModel.RewardPointsHistoryModel()
-                    {
-                        Points = rph.Points,
-                        PointsBalance = rph.PointsBalance,
-                        Message = rph.Message,
-                        CreatedOn = _dateTimeHelper.ConvertToUserTime(rph.CreatedOnUtc, DateTimeKind.Utc)
-                    });
-            } 
+                {
+                    Points = rph.Points,
+                    PointsBalance = rph.PointsBalance,
+                    Message = rph.Message,
+                    CreatedOn = _dateTimeHelper.ConvertToUserTime(rph.CreatedOnUtc, DateTimeKind.Utc)
+                });
+            }
             var gridModel = new DataSourceResult
             {
                 Data = model,
@@ -1395,9 +1463,9 @@ namespace Nop.Admin.Controllers
 
             return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
         }
-        
+
         #endregion
-        
+
         #region Addresses
 
         [HttpPost]
@@ -1462,7 +1530,7 @@ namespace Nop.Admin.Controllers
 
             return new NullJsonResult();
         }
-        
+
         public ActionResult AddressCreate(int customerId)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
@@ -1679,7 +1747,7 @@ namespace Nop.Admin.Controllers
         #endregion
 
         #region Orders
-        
+
         [HttpPost]
         public ActionResult OrderList(int customerId, DataSourceRequest command)
         {
@@ -1696,7 +1764,7 @@ namespace Nop.Admin.Controllers
                         var store = _storeService.GetStoreById(order.StoreId);
                         var orderModel = new CustomerModel.OrderModel()
                         {
-                            Id = order.Id, 
+                            Id = order.Id,
                             OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _workContext),
                             PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext),
                             ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext),
@@ -1712,7 +1780,7 @@ namespace Nop.Admin.Controllers
 
             return Json(gridModel);
         }
-        
+
         #endregion
 
         #region Reports
@@ -1740,7 +1808,7 @@ namespace Nop.Admin.Controllers
             model.BestCustomersByOrderTotal.AvailablePaymentStatuses.Insert(0, new SelectListItem() { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
             model.BestCustomersByOrderTotal.AvailableShippingStatuses = ShippingStatus.NotYetShipped.ToSelectList(false).ToList();
             model.BestCustomersByOrderTotal.AvailableShippingStatuses.Insert(0, new SelectListItem() { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-            
+
             return View(model);
         }
 
@@ -1850,7 +1918,7 @@ namespace Nop.Admin.Controllers
 
             return Json(gridModel);
         }
-        
+
         #endregion
 
         #region Current shopping cart/ wishlist
@@ -1869,7 +1937,7 @@ namespace Nop.Admin.Controllers
                 Data = cart.Select(sci =>
                 {
                     decimal taxRate;
-                    var store = _storeService.GetStoreById(sci.StoreId); 
+                    var store = _storeService.GetStoreById(sci.StoreId);
                     var sciModel = new ShoppingCartItemModel()
                     {
                         Id = sci.Id,
@@ -1980,7 +2048,7 @@ namespace Nop.Admin.Controllers
             try
             {
                 var customers = _customerService.GetAllCustomers();
-                
+
                 var xml = _exportManager.ExportCustomersToXml(customers);
                 return new XmlDownloadResult(xml, "customers.xml");
             }

@@ -101,7 +101,7 @@ namespace Nop.Services.Customers
             IRepository<ProductReview> productReviewRepository,
             IRepository<ProductReviewHelpfulness> productReviewHelpfulnessRepository,
             IGenericAttributeService genericAttributeService,
-            IEventPublisher eventPublisher, 
+            IEventPublisher eventPublisher,
             CustomerSettings customerSettings)
         {
             this._cacheManager = cacheManager;
@@ -126,7 +126,7 @@ namespace Nop.Services.Customers
         #region Methods
 
         #region Customers
-        
+
         /// <summary>
         /// Gets all customers
         /// </summary>
@@ -156,6 +156,7 @@ namespace Nop.Services.Customers
             int dayOfBirth = 0, int monthOfBirth = 0,
             string company = null, string phone = null, string zipPostalCode = null,
             bool loadOnlyWithShoppingCart = false, ShoppingCartType? sct = null,
+            int? searchApplyStoreState = null,
             int pageIndex = 0, int pageSize = 2147483647)
         {
             var query = _customerRepository.Table;
@@ -167,6 +168,8 @@ namespace Nop.Services.Customers
                 query = query.Where(c => affiliateId == c.AffiliateId);
             if (vendorId > 0)
                 query = query.Where(c => vendorId == c.VendorId);
+            if (searchApplyStoreState != null)
+                query = query.Where(c => searchApplyStoreState == c.ApplyStoreState);
             query = query.Where(c => !c.Deleted);
             if (customerRoleIds != null && customerRoleIds.Length > 0)
                 query = query.Where(c => c.CustomerRoles.Select(cr => cr.Id).Intersect(customerRoleIds).Any());
@@ -201,7 +204,7 @@ namespace Nop.Services.Customers
                 string dateOfBirthStr = monthOfBirth.ToString("00", CultureInfo.InvariantCulture) + "-" + dayOfBirth.ToString("00", CultureInfo.InvariantCulture);
                 //EndsWith is not supported by SQL Server Compact
                 //so let's use the following workaround http://social.msdn.microsoft.com/Forums/is/sqlce/thread/0f810be1-2132-4c59-b9ae-8f7013c0cc00
-                
+
                 //we also cannot use Length function in SQL Server Compact (not supported in this context)
                 //z.Attribute.Value.Length - dateOfBirthStr.Length = 5
                 //dateOfBirthStr.Length = 5
@@ -218,7 +221,7 @@ namespace Nop.Services.Customers
                 string dateOfBirthStr = dayOfBirth.ToString("00", CultureInfo.InvariantCulture);
                 //EndsWith is not supported by SQL Server Compact
                 //so let's use the following workaround http://social.msdn.microsoft.com/Forums/is/sqlce/thread/0f810be1-2132-4c59-b9ae-8f7013c0cc00
-                
+
                 //we also cannot use Length function in SQL Server Compact (not supported in this context)
                 //z.Attribute.Value.Length - dateOfBirthStr.Length = 8
                 //dateOfBirthStr.Length = 2
@@ -281,7 +284,7 @@ namespace Nop.Services.Customers
                     query.Where(c => c.ShoppingCartItems.Any(x => x.ShoppingCartTypeId == sctId)) :
                     query.Where(c => c.ShoppingCartItems.Any());
             }
-            
+
             query = query.OrderByDescending(c => c.CreatedOnUtc);
 
             var customers = new PagedList<Customer>(query, pageIndex, pageSize);
@@ -320,7 +323,7 @@ namespace Nop.Services.Customers
             query = query.Where(c => !c.Deleted);
             if (customerRoleIds != null && customerRoleIds.Length > 0)
                 query = query.Where(c => c.CustomerRoles.Select(cr => cr.Id).Intersect(customerRoleIds).Any());
-            
+
             query = query.OrderByDescending(c => c.LastActivityDateUtc);
             var customers = new PagedList<Customer>(query, pageIndex, pageSize);
             return customers;
@@ -360,7 +363,7 @@ namespace Nop.Services.Customers
         {
             if (customerId == 0)
                 return null;
-            
+
             return _customerRepository.GetById(customerId);
         }
 
@@ -460,7 +463,7 @@ namespace Nop.Services.Customers
             var customer = query.FirstOrDefault();
             return customer;
         }
-        
+
         /// <summary>
         /// Insert a guest customer
         /// </summary>
@@ -485,7 +488,7 @@ namespace Nop.Services.Customers
 
             return customer;
         }
-        
+
         /// <summary>
         /// Insert a customer
         /// </summary>
@@ -500,7 +503,7 @@ namespace Nop.Services.Customers
             //event notification
             _eventPublisher.EntityInserted(customer);
         }
-        
+
         /// <summary>
         /// Updates the customer
         /// </summary>
@@ -533,7 +536,7 @@ namespace Nop.Services.Customers
         {
             if (customer == null)
                 throw new ArgumentNullException();
-            
+
             //clear entered coupon codes
             if (clearCouponCodes)
             {
@@ -565,10 +568,10 @@ namespace Nop.Services.Customers
             {
                 _genericAttributeService.SaveAttribute<string>(customer, SystemCustomerAttributeNames.SelectedPaymentMethod, null, storeId);
             }
-            
+
             UpdateCustomer(customer);
         }
-        
+
         /// <summary>
         /// Delete guest customer records
         /// </summary>
@@ -577,7 +580,7 @@ namespace Nop.Services.Customers
         /// <param name="onlyWithoutShoppingCart">A value indicating whether to delete customers only without shopping cart</param>
         /// <param name="maxNumberOfRecordsToDelete">Maximum number of customer records to delete</param>
         /// <returns>Number of deleted customers</returns>
-        public virtual int DeleteGuestCustomers(DateTime? createdFromUtc, 
+        public virtual int DeleteGuestCustomers(DateTime? createdFromUtc,
             DateTime? createdToUtc, bool onlyWithoutShoppingCart, int maxNumberOfRecordsToDelete)
         {
             var guestRole = GetCustomerRoleBySystemName(SystemCustomerRoleNames.Guests);
@@ -677,7 +680,7 @@ namespace Nop.Services.Customers
         }
 
         #endregion
-        
+
         #region Customer roles
 
         /// <summary>
@@ -753,7 +756,7 @@ namespace Nop.Services.Customers
                 return customerRoles;
             });
         }
-        
+
         /// <summary>
         /// Inserts a customer role
         /// </summary>
