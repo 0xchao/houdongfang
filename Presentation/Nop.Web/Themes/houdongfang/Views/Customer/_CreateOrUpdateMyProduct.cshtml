@@ -1,5 +1,6 @@
 ﻿@model MyProductModel
 @using Nop.Web.Models.Customer;
+@using Nop.Services.Catalog;
 @Html.ValidationSummary(false)
 @Html.HiddenFor(model => model.Id)
 
@@ -25,13 +26,30 @@
     <div class="profile_cmb1_left">规格</div>
     @Html.EditorFor(model => model.Sku)
 </div>
-<div class="profile_cmb1">
-    <div class="profile_cmb1_left">产地</div>
-    @Html.EditorFor(model => model.Origin)
-</div>
+@if (Model.OriginOptions != null)
+{
+    <div class="profile_cmb1">
+        <div class="profile_cmb1_left">产地</div>
+        <select name="OriginId" id="OriginId">
+            @foreach(var option in Model.OriginOptions)
+            {
+                <option value="@option.Key">@option.Value</option>
+            }
+        </select>
+    </div>
+}
 <div class="profile_cmb1">
     <div class="profile_cmb1_left">所属分类</div>
-    @Html.EditorFor(model => model.CategoryId)
+    <select name="CategoryId" id="CategoryId">
+        @{
+            var categoryService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<ICategoryService>();
+            var allCategories = categoryService.GetAllCategories(showHidden: true);
+            foreach (var category in allCategories)
+            {
+                <option value="@category.Id">@(category.GetFormattedBreadCrumb(allCategories))</option>
+            }
+        }
+    </select>
 </div>
 <div class="profile_cmb1">
     <div class="profile_cmb1_left">商品数量</div>
@@ -60,12 +78,12 @@
     <a class="product_upload_hint" href="javascript:;">请上传分辨率800X800px以上的正方形图片，最多上传五张</a>
     <button class="product_upload_button">上传</button>
 </div>
-<ul class="product_upload_img clear">
+@*<ul class="product_upload_img clear">
     <li><img src="../Content/Images/product02.png" /><span>X</span></li>
     <li><img src="../Content/Images/product03.png" /><span>X</span></li>
     <li><img src="../Content/Images/product04.png" /><span>X</span></li>
     <li><img src="../Content/Images/product05.png" /><span>X</span></li>
-</ul>
+</ul>*@
 
 @*<div class="profile_cmb1">
     @Html.EditorFor(model => model.AddPictureModel.PictureId)

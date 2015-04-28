@@ -87,6 +87,9 @@ namespace Nop.Web.Controllers
         private readonly IProductService _productService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IStoreService _storeService;
+        private readonly ICategoryService _categoryService;
+        private readonly IManufacturerService _manufacturerService;
+        private readonly ISpecificationAttributeService _specificationAttributeService;
 
         #endregion
 
@@ -121,7 +124,8 @@ namespace Nop.Web.Controllers
             IWorkflowMessageService workflowMessageService, LocalizationSettings localizationSettings,
             CaptchaSettings captchaSettings, ExternalAuthenticationSettings externalAuthenticationSettings,
             IProductService productService, IUrlRecordService urlRecordService,
-            IStoreService storeService)
+            IStoreService storeService, ICategoryService categoryService,
+            IManufacturerService manufacturerService, ISpecificationAttributeService specificationAttributeService)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -169,6 +173,9 @@ namespace Nop.Web.Controllers
             this._productService = productService;
             this._urlRecordService = urlRecordService;
             this._storeService = storeService;
+            this._categoryService = categoryService;
+            this._manufacturerService = manufacturerService;
+            this._specificationAttributeService = specificationAttributeService;
         }
 
         #endregion
@@ -1100,6 +1107,29 @@ namespace Nop.Web.Controllers
             var model = new MyProductModel();
             model.NavigationModel = GetCustomerNavigationModel(customer);
             model.NavigationModel.SelectedTab = CustomerNavigationEnum.PublishProduct;
+
+            int attributeId = 0;
+            var specificationAttributes = _specificationAttributeService.GetSpecificationAttributes();
+            foreach (var spec in specificationAttributes)
+            {
+                if (spec.Name.ToLower() == "origin")
+                {
+                    attributeId = spec.Id;
+                    break;
+                }
+            }
+
+            if (attributeId > 0)
+            {
+                var options = _specificationAttributeService.GetSpecificationAttributeOptionsBySpecificationAttribute(attributeId);
+                var dict = new Dictionary<int, string>();
+                foreach(var option in options)
+                {
+                    dict.Add(option.Id, option.Name);
+                }
+                model.OriginOptions = dict;
+            }
+
             return View(model);
         }
 
@@ -1127,16 +1157,46 @@ namespace Nop.Web.Controllers
                     CreatedOnUtc = DateTime.UtcNow,
                     UpdatedOnUtc = DateTime.UtcNow,
                     //constant value
+                    VisibleIndividually = true,
                     Published = true,
                     VendorId = customer.VendorId,
-                    ProductTypeId = 5,
-                    ProductTemplateId = 1
+                    ProductTypeId = model.ProductTypeId,
+                    ProductTemplateId = model.ProductTemplateId
                 };
                 _productService.InsertProduct(product);
 
                 //category
-                //model.OperationMode
-                //Manufacturers
+                var existingProductCategories = _categoryService.GetProductCategoriesByCategoryId(model.CategoryId, 0, int.MaxValue, true);
+                if (existingProductCategories.FindProductCategory(product.Id, model.CategoryId) == null)
+                {
+                    var productCategory = new ProductCategory()
+                    {
+                        ProductId = product.Id,
+                        CategoryId = model.CategoryId
+                    };
+                    _categoryService.InsertProductCategory(productCategory);
+                }
+
+                //Specification: OperationMode, Origin
+                //var specificationAttributes = _specificationAttributeService.GetSpecificationAttributes();
+                //Action<int, string> addSpec = (specId, value) =>
+                //   {
+                var psa = new ProductSpecificationAttribute()
+                {
+                    ProductId = product.Id,
+                    SpecificationAttributeOptionId = model.OperationModeId,
+                    AllowFiltering = true
+                };
+                _specificationAttributeService.InsertProductSpecificationAttribute(psa);
+                //};
+                var origin = new ProductSpecificationAttribute()
+                {
+                    ProductId = product.Id,
+                    SpecificationAttributeOptionId = model.OriginId,
+                    AllowFiltering = true
+                };
+                _specificationAttributeService.InsertProductSpecificationAttribute(origin);
+
                 //images
 
                 //store mapping
