@@ -198,14 +198,7 @@ $(function () {
 
     /*登录、注册框*/
     var H = $('body').height();
-    /*购物车弹窗*/
-    $('.cart').on('click', function () {
-        $('.shopcart').fadeIn();
-        $('.shopcart_mask').css({ marginTop: (H - $('.shopcart_mask').outerHeight()) / 2 });
-    });
-    $('.shopcart_close').on('click', function () {
-        $('.shopcart').fadeOut();
-    });
+	var W = $('body').width();
     var shopPush = shopShare = true;
     $('.shop_push').on('click', function () {
         if (shopPush) {
@@ -472,7 +465,28 @@ $(function () {
         }
 
     });
+	//购物车确认
+	$('.remove_pop').css({left:(W-400)/2,top:(H-300)/2});
+	$('.remove_resize').on('click', function () {
+		$('.remove_pop').fadeOut();
+		$("[name='removefromcart']").prop('checked', false);
+	});
+	$('.remove_ok').on('click', function () {
+		$('.remove_pop').fadeOut();
+		$("[name='removefromcart']").eq(Put).prop('checked', true);
+	});
+	
+	$("[name='removefromcart']").on('click', function () {
+        if ($(this).prop('checked') == true) {
+            $(this).prop('checked', true);
+			$('.remove_pop').fadeIn();
+			var Put = $("[name='removefromcart']").index();
+        } else {
+            $(this).prop('checked', false);
+        }
 
+        
+    });
 
 
 
