@@ -1,4 +1,4 @@
-﻿@model Nop.Admin.Models.Catalog.ProductModel
+﻿@model MyProductModel
 @using Nop.Web.Models.Customer;
 @{
     Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
@@ -10,19 +10,16 @@
     Html.AppendCssFileParts("~/Content/kendo/2014.1.318/kendo.common.min.css");
 
     Html.AppendScriptParts("~/Scripts/kendo/2014.1.318/kendo.web.min.js");
-
-    var navigation = new CustomerNavigationModel();
-    navigation.SelectedTab = CustomerNavigationEnum.CreateProduct;
 }
 @section left
 {
-    @Html.Partial("MyAccountNavigation", navigation, new ViewDataDictionary())
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
 }
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "product-form" }))
 {
     <div class="profile_slidebar_right">
         <div class="profile_slidebar_right2">
-            @Html.Partial("_CreateOrUpdate", Model)
+            @Html.Partial("_CreateOrUpdateMyProduct", Model)
             <div class="profile_cmb2">
                 <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
                 @*<input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />*@

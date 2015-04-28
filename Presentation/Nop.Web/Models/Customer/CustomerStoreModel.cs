@@ -7,8 +7,8 @@ using System.Web;
 
 namespace Nop.Web.Models.Customer
 {
-    //[Validator(typeof(CustomerApplyStoreValidator))]
-    public partial class CustomerApplyStoreModel : BaseNopModel
+    [Validator(typeof(CustomerStoreValidator))]
+    public partial class CustomerStoreModel : BaseNopModel
     {
         [NopResourceDisplayName("Account.Fields.FirstName")]
         [AllowHtml]
@@ -36,6 +36,18 @@ namespace Nop.Web.Models.Customer
 
         [NopResourceDisplayName("Account.Fields.DocumentCopyUrl")]
         public string DocumentCopyUrl { get; set; }
+
+        [NopResourceDisplayName("Account.Fields.StoreName")]
+        [AllowHtml]
+        public string StoreName { get; set; }
+
+        [NopResourceDisplayName("Account.Fields.StoreDescription")]
+        [AllowHtml]
+        public string StoreDescription { get; set; }
+
+        [NopResourceDisplayName("Account.Fields.AlipayAccount")]
+        [AllowHtml]
+        public string AlipayAccount { get; set; }
 
         public CustomerNavigationModel NavigationModel { get; set; }
 

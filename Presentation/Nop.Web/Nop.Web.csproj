@@ -261,13 +261,14 @@
     <Compile Include="Models\Common\StoreThemeModel.cs" />
     <Compile Include="Models\Common\LanguageSelectorModel.cs" />
     <Compile Include="Models\Common\SitemapModel.cs" />
-    <Compile Include="Models\Customer\CustomerApplyStoreModel.cs" />
+    <Compile Include="Models\Customer\CustomerStoreModel.cs" />
     <Compile Include="Models\Customer\CustomerAttributeModel.cs" />
     <Compile Include="Models\Customer\BackInStockSubscriptionModel.cs" />
     <Compile Include="Models\Customer\CustomerBackInStockSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Customer\MyProductModel.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
     <Compile Include="Models\News\AddNewsCommentModel.cs" />
@@ -330,7 +331,8 @@
     <Compile Include="Validators\Catalog\ProductEmailAFriendValidator.cs" />
     <Compile Include="Validators\Catalog\ProductReviewsValidator.cs" />
     <Compile Include="Validators\Common\AddressValidator.cs" />
-    <Compile Include="Validators\Customer\CustomerApplyStoreValidator.cs" />
+    <Compile Include="Validators\Customer\MyProductValidator.cs" />
+    <Compile Include="Validators\Customer\CustomerStoreValidator.cs" />
     <Compile Include="Validators\Install\InstallValidator.cs" />
     <Compile Include="Validators\News\NewsItemValidator.cs" />
     <Compile Include="Validators\Customer\PasswordRecoveryConfirmValidator.cs" />
@@ -2283,10 +2285,21 @@
     <Content Include="Themes\houdongfang\Views\Checkout\OpcShippingAddress.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\ApplyStore.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\_CustomerAttributes.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Product\_CreateOrUpdate.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Product\Create.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Product\Edit.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\_CreateOrUpdateMyProduct.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\PublishProduct.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\EditMyProduct.cshtml" />
     <Content Include="Themes\houdongfang\Views\Common\Construction.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\_StoreForm.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\SellerInfo.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Int32.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Int32Nullable.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Decimal.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DecimalNullable.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DateTimeNullable.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Date.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DateNullable.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\RichEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

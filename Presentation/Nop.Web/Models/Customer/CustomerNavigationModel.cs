@@ -31,6 +31,9 @@ namespace Nop.Web.Models.Customer
         Avatar,
         ForumSubscriptions,
         ApplySale,
-        CreateProduct
+        SellerInfo,
+        PublishProduct,
+        MyProductList,
+        SoldList
     }
 }

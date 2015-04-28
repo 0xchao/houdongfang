@@ -84,6 +84,10 @@ namespace Nop.Web.Controllers
         private readonly CaptchaSettings _captchaSettings;
         private readonly ExternalAuthenticationSettings _externalAuthenticationSettings;
 
+        private readonly IProductService _productService;
+        private readonly IUrlRecordService _urlRecordService;
+        private readonly IStoreService _storeService;
+
         #endregion
 
         #region Ctor
@@ -115,7 +119,9 @@ namespace Nop.Web.Controllers
             IDownloadService downloadService, IWebHelper webHelper,
             ICustomerActivityService customerActivityService, MediaSettings mediaSettings,
             IWorkflowMessageService workflowMessageService, LocalizationSettings localizationSettings,
-            CaptchaSettings captchaSettings, ExternalAuthenticationSettings externalAuthenticationSettings)
+            CaptchaSettings captchaSettings, ExternalAuthenticationSettings externalAuthenticationSettings,
+            IProductService productService, IUrlRecordService urlRecordService,
+            IStoreService storeService)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -159,6 +165,10 @@ namespace Nop.Web.Controllers
             this._localizationSettings = localizationSettings;
             this._captchaSettings = captchaSettings;
             this._externalAuthenticationSettings = externalAuthenticationSettings;
+
+            this._productService = productService;
+            this._urlRecordService = urlRecordService;
+            this._storeService = storeService;
         }
 
         #endregion
@@ -184,27 +194,6 @@ namespace Nop.Web.Controllers
             model.HideBackInStockSubscriptions = _customerSettings.HideBackInStockSubscriptionsTab;
             model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
 
-            //var customerAttributes = _customerAttributeService.GetAllCustomerAttributes();
-            //foreach (var attr in customerAttributes)
-            //{
-            //    if (attr.Name == "ApplyStoreState")
-            //    {
-            //        string selectedCustomerAttributes = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes, _genericAttributeService);
-            //        if (!String.IsNullOrEmpty(selectedCustomerAttributes))
-            //        {
-            //            //select new values
-            //            var selectedCaValues = _customerAttributeParser.ParseCustomerAttributeValues(selectedCustomerAttributes);
-            //            foreach (var caValue in selectedCaValues)
-            //                foreach (var item in attr.CustomerAttributeValues)
-            //                    if (caValue.Id == item.Id)
-            //                    {
-            //                        model.ApplyStoreState = (CustomerApplyStoreEnum)Enum.Parse(typeof(CustomerApplyStoreEnum), item.Name);
-            //                        return model;
-            //                    }
-            //        }
-
-            //    }
-            //}
             return model;
         }
 
@@ -1096,19 +1085,180 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
-        #region Info
+        #region Seller's Product
 
         [NopHttpsRequirement(SslRequirement.Yes)]
-        public ActionResult ApplyStore()
+        public ActionResult PublishProduct()
         {
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
 
             var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                throw new ArgumentException("Customer can not publish any product.");
 
-            var model = new CustomerApplyStoreModel();
+            var model = new MyProductModel();
             model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.PublishProduct;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PublishProduct(MyProductModel model)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult("当前用户无权发布商品，请联系管理员。");
+
+
+            if (ModelState.IsValid)
+            {
+                var product = new Product()
+                {
+                    Name = model.Name,
+                    ShortDescription = model.ShortDescription,
+                    FullDescription = model.FullDescription,
+                    Sku = model.Sku,
+                    StockQuantity = model.StockQuantity,
+                    Price = model.Price,
+                    CreatedOnUtc = DateTime.UtcNow,
+                    UpdatedOnUtc = DateTime.UtcNow,
+                    //constant value
+                    Published = true,
+                    VendorId = customer.VendorId,
+                    ProductTypeId = 5,
+                    ProductTemplateId = 1
+                };
+                _productService.InsertProduct(product);
+
+                //category
+                //model.OperationMode
+                //Manufacturers
+                //images
+
+                //store mapping
+                var allStores = _storeService.GetAllStores();
+                _storeMappingService.InsertStoreMapping(product, allStores[0].Id);
+            }
+            return RedirectToAction("MyProducts");
+        }
+        #endregion
+
+        #region Customer's Store
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult SellerInfo()
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            return View(GetCustomerStoreModel(CustomerNavigationEnum.SellerInfo));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SellerInfo(CustomerStoreModel model)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            try
+            {
+                SaveCustomerStoreModel(_workContext.CurrentCustomer, model, CustomerNavigationEnum.SellerInfo);
+            }
+            catch (Exception exc)
+            {
+                ModelState.AddModelError("", exc.Message);
+            }
+
+            return View(model);
+        }
+
+        [NonAction]
+        private void SaveCustomerStoreModel(Customer customer, CustomerStoreModel model, CustomerNavigationEnum navi)
+        {
+            //custom customer attributes
+            string customerAttributes = "";
+            var selectedAttributes = _customerAttributeService.GetAllCustomerAttributes();
+            foreach (var attribute in selectedAttributes)
+            {
+                switch (attribute.Name)
+                {
+                    case "IdCardNo":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.IdCardNo);
+                        break;
+                    case "CollegeName":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.CollegeName);
+                        break;
+                    case "StudentId":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.StudentId);
+                        break;
+                    case "DocumentCopyUrl":
+                        if (!String.IsNullOrWhiteSpace(model.DocumentCopyUrl))
+                        {
+                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                                attribute, model.DocumentCopyUrl);
+                        }
+                        break;
+                    case "StoreName":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.StoreName);
+                        break;
+                    case "StoreDescription":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.StoreDescription);
+                        break;
+                    case "AlipayAccount":
+                        customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
+                            attribute, model.AlipayAccount);
+                        break;
+                }
+            }
+
+            var customerAttributeWarnings = _customerAttributeParser.GetAttributeWarnings(customerAttributes);
+            foreach (var error in customerAttributeWarnings)
+            {
+                ModelState.AddModelError("", error);
+            }
+
+            if (ModelState.IsValid)
+            {
+                //form fields
+                if (customer.ApplyStoreState == (int)CustomerApplyStoreEnum.NotApply)
+                {
+                    customer.ApplyStoreState = (int)CustomerApplyStoreEnum.Applied;
+                    model.ApplyStoreState = CustomerApplyStoreEnum.Applied;
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.ApplyStoreState, (int)CustomerApplyStoreEnum.Applied);
+                }
+
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
+
+                //save customer attributes
+                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
+
+            }
+            model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = navi;
+
+        }
+
+        [NonAction]
+        private CustomerStoreModel GetCustomerStoreModel(CustomerNavigationEnum navi)
+        {
+            var customer = _workContext.CurrentCustomer;
+
+            var model = new CustomerStoreModel();
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = navi;
 
             model.FirstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
             model.LastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
@@ -1143,16 +1293,39 @@ namespace Nop.Web.Controllers
                             if (docUrl.Count > 0)
                                 model.DocumentCopyUrl = docUrl[0];
                             break;
+                        case "StoreName":
+                            var storeName = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (storeName.Count > 0)
+                                model.StoreName = storeName[0];
+                            break;
+                        case "StoreDescription":
+                            var storeDescription = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (storeDescription.Count > 0)
+                                model.StoreDescription = storeDescription[0];
+                            break;
+                        case "AlipayAccount":
+                            var alipayAccount = _customerAttributeParser.ParseValues(selectedCustomerAttributes, attribute.Id);
+                            if (alipayAccount.Count > 0)
+                                model.AlipayAccount = alipayAccount[0];
+                            break;
                     }
                 }
             }
+            return model;
+        }
 
-            return View(model);
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult ApplyStore()
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            return View(GetCustomerStoreModel(CustomerNavigationEnum.ApplySale));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ApplyStore(CustomerApplyStoreModel model, HttpPostedFileBase uploadedFile)
+        public ActionResult ApplyStore(CustomerStoreModel model, HttpPostedFileBase uploadedFile)
         {
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
@@ -1177,67 +1350,19 @@ namespace Nop.Web.Controllers
                 }
 
                 model.DocumentCopyUrl = _pictureService.GetPictureUrl(docCopy.Id, 0, false);
-
-                //custom customer attributes
-                string customerAttributes = "";
-                var selectedAttributes = _customerAttributeService.GetAllCustomerAttributes();
-                foreach (var attribute in selectedAttributes)
-                {
-                    switch (attribute.Name)
-                    {
-                        case "IdCardNo":
-                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
-                                attribute, model.IdCardNo);
-                            break;
-                        case "CollegeName":
-                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
-                                attribute, model.CollegeName);
-                            break;
-                        case "StudentId":
-                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
-                                attribute, model.StudentId);
-                            break;
-                        case "DocumentCopyUrl":
-                            customerAttributes = _customerAttributeParser.AddCustomerAttribute(customerAttributes,
-                                attribute, model.DocumentCopyUrl);
-                            break;
-                    }
-                }
-
-                var customerAttributeWarnings = _customerAttributeParser.GetAttributeWarnings(customerAttributes);
-                foreach (var error in customerAttributeWarnings)
-                {
-                    ModelState.AddModelError("", error);
-                }
-
-                if (ModelState.IsValid)
-                {
-                    //form fields
-                    customer.ApplyStoreState = (int)CustomerApplyStoreEnum.Applied;
-                    model.ApplyStoreState = CustomerApplyStoreEnum.Applied;
-
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.FirstName, model.FirstName);
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.LastName, model.LastName);
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Phone, model.Phone);
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.ApplyStoreState, (int)CustomerApplyStoreEnum.Applied);
-
-                    //save customer attributes
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributes);
-
-                }
-
+                SaveCustomerStoreModel(customer, model, CustomerNavigationEnum.ApplySale);
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
 
-            model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
-
             return View(model);
         }
 
+        #endregion
+
+        #region Info
 
         [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult Info()

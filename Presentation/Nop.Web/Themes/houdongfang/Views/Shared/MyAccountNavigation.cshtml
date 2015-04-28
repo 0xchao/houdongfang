@@ -72,10 +72,10 @@
         else if (Model.ApplyStoreState == CustomerApplyStoreEnum.Approved)
         {
             <li class="profile_slidebar_title">卖家中心</li>
-            <li><a href="/customer/saleinfo">卖家信息</a></li>
-            <li><a href="/product/Create" class="@if (Model.SelectedTab == CustomerNavigationEnum.CreateProduct){<text>on</text>}">发布商品</a></li>
-            <li><a href="#">商品管理</a></li>
-            <li><a href="#">交易管理</a></li>
+            <li><a href="/customer/sellerinfo" class="@if (Model.SelectedTab == CustomerNavigationEnum.SellerInfo){<text>on</text>}">卖家信息</a></li>
+            <li><a href="/customer/publishproduct" class="@if (Model.SelectedTab == CustomerNavigationEnum.PublishProduct){<text>on</text>}">发布商品</a></li>
+            <li><a href="/customer/myproducts" class="@if (Model.SelectedTab == CustomerNavigationEnum.MyProductList){<text>on</text>}">商品管理</a></li>
+            <li><a href="/customer/soldlist" class="@if (Model.SelectedTab == CustomerNavigationEnum.SoldList){<text>on</text>}">交易管理</a></li>
         }
     </ul>
 </div>

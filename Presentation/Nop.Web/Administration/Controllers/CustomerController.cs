@@ -79,6 +79,8 @@ namespace Nop.Admin.Controllers
         private readonly IStoreService _storeService;
         private readonly ICustomerAttributeParser _customerAttributeParser;
         private readonly ICustomerAttributeService _customerAttributeService;
+        private readonly ILanguageService _languageService;
+
 
         #endregion
 
@@ -117,7 +119,8 @@ namespace Nop.Admin.Controllers
             AddressSettings addressSettings,
             IStoreService storeService,
             ICustomerAttributeParser customerAttributeParser,
-            ICustomerAttributeService customerAttributeService)
+            ICustomerAttributeService customerAttributeService,
+            ILanguageService languageService)
         {
             this._customerService = customerService;
             this._newsLetterSubscriptionService = newsLetterSubscriptionService;
@@ -153,6 +156,7 @@ namespace Nop.Admin.Controllers
             this._storeService = storeService;
             this._customerAttributeParser = customerAttributeParser;
             this._customerAttributeService = customerAttributeService;
+            this._languageService = languageService;
         }
 
         #endregion
@@ -1161,6 +1165,59 @@ namespace Nop.Admin.Controllers
             }
 
             return RedirectToAction("Edit", customer.Id);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [FormValueRequired("approveStore")]
+        public ActionResult ApproveStore(CustomerModel model)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                return AccessDeniedView();
+
+            var customer = _customerService.GetCustomerById(model.Id);
+            if (customer == null)
+                //No customer found with the specified id
+                return RedirectToAction("List");
+
+            PrepareCustomerAttributeModel(model, customer);
+            string storeName = string.Empty;
+            string storeDesc = string.Empty;
+            foreach (var attr in model.CustomerAttributes)
+            {
+                if (attr.Name == "StoreName")
+                    storeName = attr.DefaultValue;
+                else if (attr.Name == "StoreDescription")
+                    storeDesc = attr.DefaultValue;
+            }
+
+            if (ModelState.IsValid && !string.IsNullOrWhiteSpace(storeName) && !string.IsNullOrWhiteSpace(storeDesc))
+            {
+                try
+                {
+                    //Create Vendor
+                    var vendor = new Models.Vendors.VendorModel();
+                    AddLocales(_languageService, vendor.Locales);
+                    //default values
+                    vendor.Name = storeName;
+                    vendor.Description = storeDesc;
+                    vendor.PageSize = 9;
+                    vendor.Active = true;
+
+                    var vEntity = vendor.ToEntity();
+                    _vendorService.InsertVendor(vEntity);
+
+                    //add relationship between customer and vendor
+                    customer.VendorId = vEntity.Id;
+                    customer.ApplyStoreState = (int)CustomerApplyStoreEnum.Approved;
+                    _customerService.UpdateCustomer(customer);
+                }
+                catch (Exception exc)
+                {
+                    ErrorNotification(exc.Message, false);
+                }
+            }
+
+            return RedirectToAction("Edit", model.Id);
         }
 
         [HttpPost, ActionName("Edit")]

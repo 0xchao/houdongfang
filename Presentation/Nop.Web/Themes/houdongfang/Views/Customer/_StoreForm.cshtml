@@ -1,0 +1,87 @@
+﻿@model CustomerStoreModel
+@using Nop.Web.Models.Customer;
+@{ 
+    var title = Model.ApplyStoreState == CustomerApplyStoreEnum.NotApply ? "申请开店" : "卖家信息";
+}
+<div class="checkout_title">
+    @title
+    <label />
+</div>
+<div class="message-error">
+    @Html.ValidationSummary(true)
+</div>
+<div class="form-fields">
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.FirstName, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.FirstName)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.LastName, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.Phone, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.Phone)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.IdCardNo, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.IdCardNo, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.IdCardNo)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.CollegeName, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.CollegeName, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.CollegeName)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.StudentId, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.StudentId, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.StudentId)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.StoreName, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.StoreName, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.StoreName)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.StoreDescription, new { @class = "profile_cmb1_left" }, ":")
+        @Html.EditorFor(model => model.StoreDescription, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.StoreDescription)
+        </div>
+    </div>
+    <div class="profile_cmb1">
+        @Html.LabelFor(model => model.AlipayAccount, new { @class = "profile_cmb1_left" }, ":")
+        @Html.TextBoxFor(model => model.AlipayAccount, new { @class = "form-control" })
+        <div class="profile_cmb1_right">
+            @Html.RequiredHint()
+            @Html.ValidationMessageFor(model => model.AlipayAccount)
+        </div>
+    </div>
+
+</div>

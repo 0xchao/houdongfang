@@ -1,6 +1,5 @@
-﻿@model CustomerApplyStoreModel
+﻿@model CustomerStoreModel
 @using Nop.Web.Models.Customer;
-@using Nop.Core;
 @{
     Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
 
@@ -18,77 +17,15 @@
             using (Html.BeginRouteForm("CustomerApplyStore", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-                <div class="checkout_title">
-                    申请开店
-                    <label />
-                </div>
-                <div class="message-error">
-                    @Html.ValidationSummary(true)
-                </div>
-                <div class="form-fields">
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.FirstName, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.FirstName)
-                        </div>
+                @Html.Partial("_StoreForm", Model);
+                <div class="profile_cmb1">
+                    @Html.LabelFor(model => model.DocumentCopyUrl, new { @class = "profile_cmb1_left" }, ":")
+                    <input type="text" class="input" id="pic_path" onclick="$('#uploadedFile').trigger('click')" readonly>
+                    <input type="file" name="uploadedFile" id="uploadedFile" style="visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+                    <div class="profile_cmb1_right">
+                        @Html.RequiredHint()
+                        @Html.ValidationMessageFor(model => model.StudentId)
                     </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.LastName, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.LastName)
-                        </div>
-                    </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.Phone, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.Phone)
-                        </div>
-                    </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.IdCardNo, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.IdCardNo, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.IdCardNo)
-                        </div>
-                    </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.CollegeName, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.CollegeName, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.CollegeName)
-                        </div>
-                    </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.StudentId, new { @class = "profile_cmb1_left" }, ":")
-                        @Html.TextBoxFor(model => model.StudentId, new { @class = "form-control" })
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.StudentId)
-                        </div>
-                    </div>
-                    <div class="profile_cmb1">
-                        @Html.LabelFor(model => model.DocumentCopyUrl, new { @class = "profile_cmb1_left" }, ":")
-                        <input type="text" class="input" id="pic_path" onclick="$('#uploadedFile').trigger('click')" readonly>
-                        <input type="file" name="uploadedFile" id="uploadedFile" style="visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
-                        <div class="profile_cmb1_right">
-                            @Html.RequiredHint()
-                            @Html.ValidationMessageFor(model => model.StudentId)
-                        </div>
-                    </div>
-                    @if (!String.IsNullOrEmpty(Model.DocumentCopyUrl))
-                    {
-                        <div class="profile_cmb1">
-                            <img src="@(Model.DocumentCopyUrl)" alt="DocumentCopy" />
-                        </div>
-                    }
                 </div>
                 <div class="profile_cmb2">
                     <input type="submit" value="提交申请" name="save-info-button" class="profile_cmb1_sub1" />

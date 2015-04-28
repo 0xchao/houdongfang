@@ -68,15 +68,15 @@
     }
     @if (Model.DisplayRewardPointsHistory)
     {
-       <div>
+        <div>
             @TabRewardPoints()
         </div>
     }
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#customer-edit").kendoTabStrip({
-            animation:  {
+            animation: {
                 open: {
                     effects: "fadeIn"
                 }
@@ -100,59 +100,59 @@
 <input type="hidden" id="selected-tab-index" name="selected-tab-index" value="@(GetSelectedTabIndex())">
 
 @helper TabInfo()
-    { 
-        if (Model.CountryEnabled && Model.StateProvinceEnabled)
-        {
-    <script type="text/javascript">
-             $(function() {
-                    $("#@Html.FieldIdFor(model => model.CountryId)").change(function() {
-                        var selectedItem = $(this).val();
-                        var ddlStates = $("#@Html.FieldIdFor(model => model.StateProvinceId)");
-                        $.ajax({
-                            cache:false,
-                            type: "GET",
-                            url: "@(Url.Action("GetStatesByCountryId", "Country"))",
-                            data: { "countryId": selectedItem, "addEmptyStateIfRequired": "true" },
-                            success: function (data) {
-                                ddlStates.html('');
-                                $.each(data, function(id, option) {
-                                    ddlStates.append($('<option></option>').val(option.id).html(option.name));
-                                });
-                            },
-                            error:function (xhr, ajaxOptions, thrownError){
-                                alert('Failed to retrieve states.');
-                            }  
-                        });
+{
+if (Model.CountryEnabled && Model.StateProvinceEnabled)
+{
+        <script type="text/javascript">
+            $(function () {
+                $("#@Html.FieldIdFor(model => model.CountryId)").change(function () {
+                    var selectedItem = $(this).val();
+                    var ddlStates = $("#@Html.FieldIdFor(model => model.StateProvinceId)");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                        data: { "countryId": selectedItem, "addEmptyStateIfRequired": "true" },
+                        success: function (data) {
+                            ddlStates.html('');
+                            $.each(data, function (id, option) {
+                                ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                            });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed to retrieve states.');
+                        }
                     });
                 });
-    </script>
-        }
+            });
+        </script>
+}
     <table class="adminContent customer-info-tab">
         @if (Model.UsernamesEnabled)
         {
             if (Model.Id == 0 || Model.AllowUsersToChangeUsernames)
             {
-            <tr>
-                <td class="adminTitle">
-                    @Html.NopLabelFor(model => model.Username):
-                </td>
-                <td class="adminData">
-                    @Html.EditorFor(model => model.Username)
-                    @Html.ValidationMessageFor(model => model.Username)
-                </td>
-            </tr>
+                <tr>
+                    <td class="adminTitle">
+                        @Html.NopLabelFor(model => model.Username):
+                    </td>
+                    <td class="adminData">
+                        @Html.EditorFor(model => model.Username)
+                        @Html.ValidationMessageFor(model => model.Username)
+                    </td>
+                </tr>
             }
             else
             {
-            <tr>
-                <td class="adminTitle">
-                    @Html.NopLabelFor(model => model.Username):
-                </td>
-                <td class="adminData">
-                    @Model.Username
-                    @Html.HiddenFor(model => model.Username)
-                </td>
-            </tr>
+                <tr>
+                    <td class="adminTitle">
+                        @Html.NopLabelFor(model => model.Username):
+                    </td>
+                    <td class="adminData">
+                        @Model.Username
+                        @Html.HiddenFor(model => model.Username)
+                    </td>
+                </tr>
             }
         }
         <tr>
@@ -198,7 +198,7 @@
     {
         AuthMethodName: "@(Html.Raw(HttpUtility.JavaScriptStringEncode(aear.AuthMethodName)))",
         Email: "@(Html.Raw(HttpUtility.JavaScriptStringEncode(aear.Email)))",
-    ExternalIdentifier: "@(Html.Raw(HttpUtility.JavaScriptStringEncode(aear.ExternalIdentifier)))"
+        ExternalIdentifier: "@(Html.Raw(HttpUtility.JavaScriptStringEncode(aear.ExternalIdentifier)))"
     }
 </text>
                                 if (i != Model.AssociatedExternalAuthRecords.Count - 1)
@@ -243,7 +243,7 @@
                                         field: "Email",
                                         title: "@T("Admin.Customers.Customers.AssociatedExternalAuth.Fields.Email")",
                                         width: 100
-                                    },{
+                                    }, {
                                         field: "ExternalIdentifier",
                                         title: "@T("Admin.Customers.Customers.AssociatedExternalAuth.Fields.ExternalIdentifier")",
                                         width: 300
@@ -261,9 +261,13 @@
                 @Html.NopLabelFor(model => model.VendorId):
             </td>
             <td class="adminData">
-                @Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors)
-                @Html.ValidationMessageFor(model => model.VendorId)
-                <em>@T("Admin.Customers.Customers.VendorShouldBeInVendorsRole")</em>
+                @if (Model.VendorId > 0)
+                {
+                    <a href="/Admin/Vendor/Edit/@Model.VendorId">@Model.VendorId</a>
+                }
+                @*@Html.DropDownListFor(model => model.VendorId, Model.AvailableVendors)
+                    @Html.ValidationMessageFor(model => model.VendorId)
+                    <em>@T("Admin.Customers.Customers.VendorShouldBeInVendorsRole")</em>*@
             </td>
         </tr>
         <tr>
@@ -273,14 +277,20 @@
             <td class="adminData">
                 @{
                     int state = 0;
-                    <select name="ApplyStoreState" id="ApplyStoreState">
-                        @foreach (var ename in Enum.GetNames(typeof(CustomerApplyStoreEnum)))
+                    foreach (var ename in Enum.GetNames(typeof(CustomerApplyStoreEnum)))
+                    {
+                        if (Model.ApplyStoreState == state)
                         {
-                            string selected = Model.ApplyStoreState == state ? "selected='selected'" : "";
-                            <option @selected value="@state">@ename</option>
-                            state += 1;
+                            <label>@ename</label>
+                            break;
                         }
-                    </select>
+                        state += 1;
+                    }
+
+                    if (state == (int)CustomerApplyStoreEnum.Applied)
+                    {
+                        <input type="submit" name="approveStore" class="k-button" value="批准开店" />
+                    }
                 }
             </td>
         </tr>
@@ -293,8 +303,8 @@
                 <td class="adminData">
                     <div class="gender">
                         @Html.RadioButton("Gender", "M", (Model.Gender == "M"), new { id = "Gender_Male" })
-                    <label class="forcheckbox" for="Gender_Male">@T("Admin.Customers.Customers.Fields.Gender.Male")</label>
-                        </div>
+                        <label class="forcheckbox" for="Gender_Male">@T("Admin.Customers.Customers.Fields.Gender.Male")</label>
+                    </div>
                     <div class="gender">
                         @Html.RadioButton("Gender", "F", (Model.Gender == "F"), new { id = "Gender_Female" })
                         <label class="forcheckbox" for="Gender_Female">@T("Admin.Customers.Customers.Fields.Gender.Female")</label>
@@ -479,8 +489,10 @@
                     @Html.NopLabelFor(model => model.AffiliateId):
                 </td>
                 <td class="adminData">
-                    <a href="@Url.Action("Edit", "Affiliate", new { id = Model.AffiliateId.Value })">@Model.AffiliateId.Value
-                        - @T("Admin.Common.View")</a>
+                    <a href="@Url.Action("Edit", "Affiliate", new { id = Model.AffiliateId.Value })">
+                        @Model.AffiliateId.Value
+                        - @T("Admin.Common.View")
+                    </a>
                 </td>
             </tr>
         }
@@ -555,31 +567,26 @@
     </table>
 }
 @helper TabCustomerRoles()
+{
+    if (Model.AvailableCustomerRoles != null && Model.AvailableCustomerRoles.Count > 0)
     {
-        if (Model.AvailableCustomerRoles != null && Model.AvailableCustomerRoles.Count > 0)
+        foreach (var customerRole in Model.AvailableCustomerRoles)
         {
-            foreach (var customerRole in Model.AvailableCustomerRoles)
-            {
-    <input type="checkbox" name="SelectedCustomerRoleIds" value="@customerRole.Id"
-                @if (Model.SelectedCustomerRoleIds != null && Model.SelectedCustomerRoleIds.Contains(customerRole.Id))
-                {
-                    <text> checked="checked"</text>
-                }
-                />@customerRole.Name
-    <br />
-            }
+            var cstr = Model.SelectedCustomerRoleIds != null && Model.SelectedCustomerRoleIds.Contains(customerRole.Id) ? "checked=\"checked\"" : "";
+            <input type="checkbox" name="SelectedCustomerRoleIds" value="@customerRole.Id" @cstr />@customerRole.Name<br />
         }
-        else
-        {
-    @T("Admin.Customers.Customers.Fields.CustomerRoles.NoRoles")
-        }
+    }
+    else
+    {
+        @T("Admin.Customers.Customers.Fields.CustomerRoles.NoRoles")
+    }
 }
 @helper TabOrders()
-    {
+{
     var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
 
     <div id="order-grid"></div>
-        
+
     <script>
         $(document).ready(function () {
             $("#order-grid").kendoGrid({
@@ -656,9 +663,9 @@
     </script>
 }
 @helper TabRewardPoints()
-    {
+{
     <div id="customer-rewardpoints-grid"></div>
-        
+
     <script>
         $(document).ready(function () {
             $("#customer-rewardpoints-grid").kendoGrid({
@@ -741,11 +748,11 @@
         </tr>
         <tr>
             <td colspan="2" align="left">
-                <input type="button" id="addRewardPoints" class="k-button" value="@T("Admin.Customers.Customers.RewardPoints.AddButton")" />
+                <input type="button" id="addRewardPoints" class="k-button" value="@T(" admin.customers.customers.rewardpoints.addbutton")" />
             </td>
         </tr>
     </table>
-    
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#addRewardPoints').click(function () {
@@ -760,19 +767,19 @@
                     success: function (data) {
                         var rewardPointsGrid = $("#customer-rewardpoints-grid").data('kendoGrid');
                         rewardPointsGrid.dataSource.read();
-                         $('#addRewardPoints').attr('disabled', false);
+                        $('#addRewardPoints').attr('disabled', false);
                     },
                     error:function (xhr, ajaxOptions, thrownError){
                         alert('Failed to add reward points.');
                         $('#addRewardPoints').attr('disabled', false);
-                    }  
+                    }
                 });
             });
         });
     </script>
 }
 @helper TabAddresses()
-    {
+{
     <div id="customer-addresses-grid"></div>
 
     <script>
@@ -845,7 +852,7 @@
                     width: 100,
                     template: '<a href="@Url.Content("~/Admin/Customer/AddressEdit?customerId=")@Model.Id&addressid=#=Id#">@T("Admin.Common.Edit")</a>'
                 }, {
-                    command: { name: "destroy", text: "@T("Admin.Common.Delete")" }, 
+                    command: { name: "destroy", text: "@T("Admin.Common.Delete")" },
                     title: "@T("Admin.Common.Delete")",
                     width: 100
                 }]
@@ -854,12 +861,12 @@
     </script>
     <p>
         <strong>
-            <input type="button" class="k-button" onclick="location.href='@Url.Action("AddressCreate", new { customerId = Model.Id })'" value='@T("Admin.Customers.Customers.Addresses.AddButton")' />
+            <input type="button" class="k-button" onclick="location.href='@Url.Action(" addresscreate", new { customerid=Model.Id })'" value='@T("Admin.Customers.Customers.Addresses.AddButton")' />
         </strong>
     </p>
 }
 @helper TabCurrentShoppingCart()
-    {
+{
     <table class="adminContent">
         <tr>
             <td>
@@ -938,7 +945,7 @@
     </table>
 }
 @helper TabCurrentWishlist()
-    {
+{
     <table class="adminContent">
         <tr>
             <td>
@@ -1017,9 +1024,9 @@
     </table>
 }
 @helper TabActivityLog()
-    {
-        var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
-    
+{
+    var gridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
     <table class="adminContent">
         <tr>
             <td>
@@ -1082,7 +1089,7 @@
     </table>
 }
 @helper TabImpersonate()
-    {
+{
     <table class="adminContent">
         <tr>
             <td>
@@ -1091,7 +1098,7 @@
                 @T("Admin.Customers.Customers.Impersonate.Description2")
                 <br />
                 <br />
-                <input type="submit" name="impersonate" class="k-button" value="@T("Admin.Customers.Customers.Impersonate.Button")" />
+                <input type="submit" name="impersonate" class="k-button" value="@T(" admin.customers.customers.impersonate.button")" />
             </td>
         </tr>
     </table>
