@@ -926,13 +926,11 @@ transform:scale(1.05,1.05);
 .profile_slidebar_list>li.profile_slidebar_title { color:#ab2828; font-size:18px; border-bottom:3px solid #ab2828; display:inline-block; height:32px; padding-top:28px; margin-bottom:12px;}
 .profile_slidebar_list>li>a.on{ color:#ab2828;}
 .profile_slidebar_right{ width:948px; float:right; font-size:12px;}
-.profile_slidebar_right1 .profile_slidebar_state{ width:950px; margin-bottom:50px;}
-.profile_slidebar_right1 .profile_slidebar_state img{ width:230px; height:230px;}
-.profile_slidebar_right1 h2{ line-height:52px; color:#ab2828;}
+.profile_slidebar_state{ width:950px; margin-bottom:50px;}
+.profile_slidebar_state img{ width:230px; height:230px; padding-top:130px;}
 .profile_slidebar_btn input{ background:#ab2828; color:#fff; font:22px/50px "kaiti"; border:none; width:177px; height:50px;}
 
 .profile_slidebar_inner{border:1px solid #ececec; text-align:left; padding-bottom:40px;}
-.profile_slidebar_right1{ border-left:1px solid #ececec;  padding-bottom:60px; min-height:700px; padding-top:130px;}
 .profile_slidebar_right2{ border-left:1px solid #ececec;  padding-bottom:60px; min-height:700px;}
 .profile_tab1_tr1{ background:#f4f4f4; color:#000;}
 .profile_tab1_tr2{ height:20px;}
