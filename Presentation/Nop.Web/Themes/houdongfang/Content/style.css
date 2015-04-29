@@ -1,12 +1,12 @@
 
 @font-face {
-    font-family: 'iconfont';
-    src: url('font_1422353160_120903.eot'); /* IE9*/
-    src: url('font_1422353160_120903_iefix.eot') format('embedded-opentype'), /* IE6-IE8 */
-    url('font_1422353160_120903.woff') format('woff'), /* chrome、firefox */
-    url('font_1422353160_120903.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('font_1422353160_120903_iconfont.svg') format('svg'); /* iOS 4.1- */
-}
+  font-family: 'iconfont';
+  src: url('font_1422353160_120903.eot'); /* IE9*/
+  src: url('font_1422353160_120903_iefix.eot') format('embedded-opentype'), /* IE6-IE8 */
+  url('font_1422353160_120903.woff') format('woff'), /* chrome、firefox */
+  url('font_1422353160_120903.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('font_1422353160_120903_iconfont.svg') format('svg'); /* iOS 4.1- */
+  }
 
 .clear {
     zoom: 1;
@@ -250,7 +250,7 @@ img {
     -moz-transition: all 0.6s ease;
     -ms-transition: all 0.6s ease;
     -o-transition: all 0.6s ease;
-    transition: all 0.6s ease;
+transition: all 0.6s ease;
 }
 
 .userpanel .collect:hover .collect_aspect {
@@ -316,12 +316,12 @@ img {
         -ms-transform: scale(0.93,0.93);
         -o-transform: scale(0.93,0.93);
         transform: scale(0.93,0.93);
-        -webkit-transition: opacity 2.5s, -webkit-transform 8s;
-        -moz-transition: opacity 2.5s, -moz-transform 8s;
-        -ms-transition: opacity 2.5s, -ms-transform 8s;
-        -o-transition: opacity 2.5s, -o-transform 8s;
-        transition: opacity 2.5s, transform 8s;
-    }
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
+}
 
         .index_banner > ul > li:nth-of-type(1) {
             z-index: 9;
@@ -345,11 +345,11 @@ img {
     -moz-transform: scale(1,1);
     -o-transform: scale(1,1);
     transform: scale(1,1);
-    -webkit-transition: opacity 2.5s, -webkit-transform 8s;
-    -moz-transition: opacity 2.5s, -moz-transform 8s;
-    -ms-transition: opacity 2.5s, -ms-transform 8s;
-    -o-transition: opacity 2.5s, -o-transform 8s;
-    transition: opacity 2.5s, transform 8s;
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
 }
 
 .index_banner > ul > li.leave {
@@ -359,11 +359,11 @@ img {
     -ms-transform: scale(0.95,0.95);
     -o-transform: scale(0.95,0.95);
     transform: scale(0.95,0.95);
-    -webkit-transition: opacity 2.5s, -webkit-transform 8s;
-    -moz-transition: opacity 2.5s, -moz-transform 8s;
-    -ms-transition: opacity 2.5s, -ms-transform 8s;
-    -o-transition: opacity 2.5s, -o-transform 8s;
-    transition: opacity 2.5s, transform 8s;
+-webkit-transition: opacity 2.5s, -webkit-transform 8s; 
+-moz-transition: opacity 2.5s, -moz-transform 8s;
+-ms-transition: opacity 2.5s, -ms-transform 8s; 
+-o-transition: opacity 2.5s, -o-transform 8s; 
+transition: opacity 2.5s, transform 8s;
 }
 
 .channel {
@@ -410,8 +410,8 @@ img {
         -moz-transition: all 0.6s ease;
         -ms-transition: all 0.6s ease;
         -o-transition: all 0.6s ease;
-        transition: all 0.6s ease;
-    }
+transition: all 0.6s ease;
+}
 
         .channel_title h3 span {
             border-top: 2px solid rgba(255,255,255,0);
@@ -431,13 +431,13 @@ img {
         -moz-transition: all 0.8s ease;
         -ms-transition: all 0.8s ease;
         -o-transition: all 0.8s ease;
-        transition: all 0.8s ease;
+transition: all 0.8s ease;  
         -webkit-transform: scale(1,1);
         -moz-transform: scale(1,1);
         -ms-transform: scale(1,1);
         -o-transform: scale(1,1);
         transform: scale(1,1);
-    }
+}
 
 .channel > div:hover img {
     top: 0;
@@ -456,11 +456,11 @@ img {
     .channel > div:hover .channel_title h3 {
         top: -4px;
         color: #fff;
-    }
+}
 
         .channel > div:hover .channel_title h3 span {
             border-color: rgba(255,255,255,1);
-        }
+}
 
 .classify {
     width: 100%;
@@ -941,32 +941,87 @@ img {
         -moz-text-align-last: left;
         -webkit-text-align-last: left;
         text-align: justify;
-    }
+}
+.filter .filter_box ul{ width:150px; text-align:center; background:#fff; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20); border-top:1px solid #ab2828;}
+.filter_box:hover{ background:#fff; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); background:#ab2828; color:#fff;}
+.filter_box>i:nth-of-type(2){ display:block; position:absolute;right:3px; top:0px; font-size:18px;
+-webkit-transition:all ease 0.5s;
+-moz-transition:all ease 0.5s;
+-ms-transition:all ease 0.5s;
+-o-transition:all ease 0.5s;
+transition:all ease 0.5s;
+-webkit-transform:rotate(0deg);
+-moz-transform:rotate(0deg);
+-ms-transform:rotate(0deg);
+-o-transform:rotate(0deg);
+transform:rotate(0deg);
 
     .catelog_list li h3 {
         position: relative;
         font: 14px/24px "微软雅黑",Helvetica,Arial,sans-serif;
         height: 24px;
-    }
+}
+.filter_box:hover>i{ color:#fff; }
+.filter_box:hover>i:nth-of-type(2){ 
+-webkit-transform:rotate(180deg);
+-moz-transform:rotate(180deg);
+-ms-transform:rotate(180deg);
+-o-transform:rotate(180deg);
+transform:rotate(180deg);
 
         .catelog_list li h3 a {
             color: #9b9b9b;
-        }
+}
+.filter_box>ul{ position:absolute; right:0; top:40px; display:none; font-size:14px;}
+.filter a:hover{ color:#ab2828;}
 
+.already_filtered_items{ position:absolute; bottom:-43px; right:50px; z-index:333; color:#9d9d9d; font-size:12px;}
+.filter_title{ float:left; }
+.item{ float:left; margin-left:10px;}
+.remove_filter{ position:absolute; right:0; bottom:-43px; width:50px; text-align:center;}
+.remove_filter i{ margin:0; font-size:16px; color:#9d9d9d;}
+.catelog{ width:1170px; margin:0px auto 80px; position:relative;top:15px; left:0;}
+.catelog_banner{ padding:10px 0 30px 0;}
+.catelog_list,.collect_list{ width:1170px; }
+.collect_list li{ float:left;width:360px; height:430px; margin-right:45px; font:20px/25px "kaiti"; position:relative; margin-bottom:40px;}
+.collect_list li.last{ margin-right:0;}
+.collect_list li img{transition:all ease 0.4s;}
+.collect_list li img:hover{box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.collect_list li h2{ height:25px; margin-top:15px;}
+.collect_list li h3{ height:25px; color:#ab2828;}
+.collect_fun{ position:absolute; right:0; bottom:5px; width:100px; height:50px; line-height:50px; text-align:center;}
+.collect_fun i{ color:#ab2828; font-size:25px; width:50px; height:50px; display:inline-block; cursor:pointer; 
+-webkit-transition:all ease 0.6s;
+-moz-transition:all ease 0.6s;
+-ms-transition:all ease 0.6s;
+-o-transition:all ease 0.6s;
+transition:all ease 0.6s;}
+.collect_fun i:hover{ background:#ab2828; color:#fff; }
+.catelog_list li{ float:left; width:320px; height:430px; padding:20px; margin-right:45px; margin-bottom:50px; position:relative; top:100px; opacity:0; z-index:3;
+-webkit-transition:-webkit-transform ease 0.5s;
+-moz-transition:-moz-transform ease 0.5s;
+-ms-transition:-ms-transform ease 0.5s;
+-o-transition:-o-transform ease 0.5s;
+transition:transform ease 0.55s;
+-webkit-transform:scale(1,1);
+-moz-transform:scale(1,1);
+-ms-transform:scale(1,1);
+-o-transform:scale(1,1);
+transform:scale(1,1);
             .catelog_list li h3 a:hover {
                 color: #ab2828;
-            }
+}
 
         .catelog_list li h3 .catelog_location {
             position: absolute;
             right: 0;
-        }
+}
 
         .catelog_list li h3 i {
             color: #ab2828;
             font-size: 14px;
             margin-right: 6px;
-        }
+} 
 /*此部分前端已按后端调整，由后端统一生成翻页按钮，位置居中即可（静态页面中订单中心翻页按钮位置错误，可忽略）*/
 .pagenav {
     height: 50px;
@@ -1151,7 +1206,7 @@ img {
     .store_right_text i:hover {
         color: #fff;
         background: #ab2828;
-    }
+}
 /*产品详情3*/
 .product_intro {
     width: 1170px;
@@ -1186,7 +1241,7 @@ img {
     position: relative;
     margin: 0 auto;
 }
-    /*此部分为后端bug，商品图片点击需出现阴影效果，后端调整*/
+/*此部分为后端bug，商品图片点击需出现阴影效果，后端调整*/
     .picture img {
         width: 525px;
         height: 525px;
@@ -1305,7 +1360,7 @@ img {
         top: 0;
         color: #ab2828;
         font-size: 12px;
-    }
+}
 
 .product_shopping_sel {
     width: 330px;
@@ -2046,9 +2101,9 @@ img {
 }
 
 .search-box-button {
-    background-image: url('/images/search.png');
-    text-indent: 30px;
-    width: 22px;
+    background-image: url('/images/search.png'); 
+    text-indent: 30px; 
+    width: 22px; 
     overflow: hidden;
     display: none;
 }
@@ -2056,14 +2111,14 @@ img {
 .search-box-text {
     width: 22px;
     height: 22px;
-    border: 2px solid #B33131;
+    border: 2px solid #B33131; 
     border-radius: 26px;
     color: #fff;
     margin-left: 6px;
-    box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.30);
+    box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.30); 
     line-height: 22px;
     background: url(images/search.png) no-repeat 5px 4px;
-    background-color: #A42020;
+    background-color: #A42020; 
     text-indent: 0.8em;
 }
 
@@ -3860,7 +3915,7 @@ img {
 
     .checkout_tab_th1 img {
         vertical-align: middle;
-    }
+}
 
 .checkout_tab_th2 {
     float: left;
@@ -3974,6 +4029,28 @@ img {
 
 
 /* ONE PAGE CHECKOUT */
+.opc .buttons{margin-top:0;padding-top:2em;}
+.opc .buttons .back-link{margin-bottom:10px;}
+.opc .buttons .back-link small{display:none;}
+.opc .buttons .back-link a{background:url(images/arrow-up.png) no-repeat left;padding-left:20px;}
+.opc .buttons.disabled button{display:none;}
+.opc .buttons .please-wait{height:21px;line-height:21px;}
+.opc .ul{list-style:disc outside;padding-left:18px;}
+.opc ul,.opc ol,ul.opc,ol.opc{list-style:none outside none;}
+.opc{position:relative;}
+.opc li.tab-section{}
+.opc .step-title{border-width:0 1px;border-style:solid;border-color:#fff #d9dde3 #d9dde3;background:#F2F2F2;padding:4px 8px 6px;text-align:right;}
+.opc .step-title .number{float:left;background:#fff;border:1px solid #fff;padding:0 4px;margin:0 5px 0 0;font:bold 11px/14px arial,helvetica,sans-serif;color:#999;}
+.opc .step-title h2{float:left;margin:0;font:bold 13px/16px Arial,Helvetica,sans-serif;color:#999;text-transform:capitalize;}
+.opc .allow .step-title{background:#F2F2F2;border:1px solid #EEE;border-bottom:0;color:#a4b3b9;cursor:pointer;}
+.opc .allow .step-title .number{background:#dbe6eb;border-color:#dbe6eb;color:#a4b3b9;}
+.opc .allow .step-title h2{color:#a4b3b9;}
+.opc .active .step-title{background:#f9f3e3;border:1px solid #EEE;padding-bottom:5px;color:#f18200;cursor:default;}
+.opc .active .step-title .number{background:#B20405;border-color:#B20405;color:#fff;}
+.opc .active .step-title h2{color:#555;}
+.opc .step{border:1px solid #EEE;border-top:0;background:#fbfaf6 0 0 repeat-x;padding:15px 30px;position:relative;}
+.opc .step-title:after{display:block;content:".";clear:both;font-size:0;line-height:0;height:0;overflow:hidden;}
+.opc .order-summary-content .cart-footer{background:none!important;}
 .opc .buttons {
     margin-top: 0;
     padding-top: 2em;
@@ -4186,6 +4263,19 @@ img {
     margin: 0 auto;
 }
 /*后端整合bug，无用户头像，所以顶部高度不同*/
+.profile_slidebar{ width:1168px; margin:0 auto; text-align:center; font:14px/32px "微软雅黑",Helvetica,Arial,sans-serif; border:1px solid #ececec; margin-bottom:30px;}
+.profile_slidebar_left{ width:220px; float:left; padding-top:45px; padding-bottom:96px;}
+.profile_slidebar_pic{ width:220px; height:100px; position:relative;}
+.profile_slidebar_pic_mask{ position: absolute; left:60px; top: 0; width: 100px; height: 100px; box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.35); border-radius: 50%; }
+.profile_slidebar_pic img{ width:100px; height:100px;  border-radius:50%; }
+.profile_slidebar_left h2{ color:#ab2828; margin-top:10px; line-height:24px; height:24px;}
+.profile_slidebar_left h3{ height:24px; line-height:24px;}
+.profile_slidebar_list>li.profile_slidebar_title { color:#ab2828; font-size:18px; border-bottom:3px solid #ab2828; display:inline-block; height:32px; padding-top:28px; margin-bottom:12px;}
+.profile_slidebar_list>li>a.on{ color:#ab2828;}
+.profile_slidebar_right{ width:948px; float:right; font-size:12px;}
+.profile_slidebar_state{ width:950px; margin-bottom:50px;}
+.profile_slidebar_state img{ width:230px; height:230px; padding-top:130px;}
+.profile_slidebar_btn input{ background:#ab2828; color:#fff; font:22px/50px "kaiti"; border:none; width:177px; height:50px;}
 .profile_slidebar {
     width: 1168px;
     margin: 0 auto;
@@ -4195,6 +4285,17 @@ img {
     margin-bottom: 30px;
 }
 
+.profile_slidebar_inner{border:1px solid #ececec; text-align:left; padding-bottom:40px;}
+.profile_slidebar_right2{ border-left:1px solid #ececec;  padding-bottom:60px; min-height:700px;}
+.profile_tab1_tr1{ background:#f4f4f4; color:#000;}
+.profile_tab1_tr2{ height:20px;}
+.profile_tab1_td2{ text-align:left;}
+.profile_tab1_tr3{ height:30px; background:#ececec; color:#9d9d9d; border-right:1px solid #ececec;
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
 .profile_slidebar_left {
     width: 220px;
     float: left;
@@ -4236,6 +4337,12 @@ img {
     line-height: 24px;
 }
 
+.profile_cmb1{ width:370px; height:50px; position:relative; margin-bottom:20px; text-align:right; font-size:14px;margin-left:20px;
+-webkit-transition:all ease 0.35s;
+-moz-transition:all ease 0.35s;
+-ms-transition:all ease 0.35s;
+-o-transition:all ease 0.35s;
+transition:all ease 0.35s;
 .profile_slidebar_list > li.profile_slidebar_title {
     color: #ab2828;
     font-size: 18px;
@@ -4264,7 +4371,7 @@ img {
     .profile_slidebar_right1 .profile_slidebar_state img {
         width: 230px;
         height: 230px;
-    }
+}
 
 .profile_slidebar_right1 h2 {
     line-height: 52px;
@@ -4635,7 +4742,7 @@ ul.product_upload_img li:hover span {
         position: absolute;
         left: 20px;
         top: 15px;
-    }
+}
 /*.profile_slidebar_right2 .checkout_cont_li{ margin-right:130px;}
 .profile_slidebar_right2 .checkout_cont_li.last{ margin-right:0;}*/
 .profile_slidebar_right2 .checkout_cont {
@@ -4998,14 +5105,14 @@ ul.product_upload_img li:hover span {
             position: relative;
             height: 44px;
             font: 14px/44px "kaiti";
-        }
+}
 
             .store_show li h3 span {
                 position: absolute;
                 right: 0;
                 top: 0;
                 color: #ab2828;
-            }
+}
 /*个人订单详情*/
 .orders {
     width: 1170px;
