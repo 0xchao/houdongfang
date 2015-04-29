@@ -48,6 +48,8 @@ namespace Nop.Web.Models.Customer
 
         public CustomerNavigationModel NavigationModel { get; set; }
 
+        public string ImageIdList { get; set; }
+
     }
 
 }
