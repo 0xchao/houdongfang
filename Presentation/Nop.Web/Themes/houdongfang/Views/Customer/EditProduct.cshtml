@@ -1,0 +1,32 @@
+﻿@model MyProductModel
+@using Nop.Web.Models.Customer;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+    //css
+    Html.AppendCssFileParts("~/Content/kendo/2014.1.318/kendo.rtl.min.css");
+    Html.AppendCssFileParts("~/Content/kendo/2014.1.318/kendo.default.min.css");
+    Html.AppendCssFileParts("~/Content/kendo/2014.1.318/kendo.common.min.css");
+    Html.AppendCssFileParts("~/Scripts/fineuploader/fine-uploader-gallery.min.css");
+
+    Html.AppendScriptParts("~/Scripts/kendo/2014.1.318/kendo.web.min.js");
+    Html.AppendScriptParts("~/Scripts/fineuploader/jquery.fineuploader-4.2.2.min.js");
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "product-form" }))
+{
+    <div class="profile_slidebar_right">
+        <div class="profile_slidebar_right2">
+            @Html.Partial("_CreateOrUpdateMyProduct", Model)
+            <div class="profile_cmb2">
+                <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
+                @*<input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />*@
+            </div>
+        </div>
+    </div>
+}
