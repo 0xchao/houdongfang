@@ -206,8 +206,9 @@ transition:all 0.6s ease;
 .iconfont{font-family:"iconfont"; font-size:16px;font-style:normal; -webkit-font-smoothing: antialiased;}
 
 /*商品列表*/
-.list_banner{ width:1170px; margin:20px auto; _border-bottom:1px solid #d2d2d2; position:relative; font:30px/46px "kaiti"; color:#ab2828;}
-.list_banner_text{}
+.list_banner{ width:1170px; margin:20px auto;  position:relative; font:30px/46px "kaiti"; color:#ab2828;}
+.list_banner_text{ }
+.list_banner_text h2{ border-bottom:1px solid #d2d2d2; }
 .filter_cell{position:absolute; bottom:0px; right:0; height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; z-index:4; width:300px;margin-bottom:2px;}
 .filter_cell>div{ float:left; width:150px; text-align:center; }
 .filter_cell>div{ background:#fff; }
@@ -216,20 +217,18 @@ transition:all 0.6s ease;
 .filter_cell>div:hover{ background:#ab2828;}
 .filter_cell>div:hover a{ color:#fff;}
 .filter_cell>div:hover i{ color:#fff;}
-.filter{ position:absolute; bottom:0px; right:0; height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; z-index:4;}
+.filter{ position:absolute; bottom:1px; right:0; height:40px; font:16px/40px "微软雅黑",Helvetica,Arial,sans-serif; z-index:4;}
 .filter i{ font-size:20px; color:#ab2828; margin:0 10px;}
-.filter .filter_box { position:relative; float:left; width:120px; padding-right:30px; text-align:center;}
-.filter .filter_box ul{ width:150px; text-align:center; background:#fff; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20); border-top:1px solid #ab2828;}
-.filter>div{
+.filter .filter_box{ position:relative; float:left; width:120px; padding-right:30px; text-align:center; z-index:999;
 -webkit-transition:all ease 0.3s;
 -moz-transition:all ease 0.3s;
 -ms-transition:all ease 0.3s;
 -o-transition:all ease 0.3s;
-transition:all ease 0.3s;		
+transition:all ease 0.3s;
 }
-.filter>div:hover{ background:#fff; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); background:#ab2828; color:#fff;}
-
-.filter>div>i:nth-of-type(2){ display:block; position:absolute;right:3px; top:0px; font-size:18px;
+.filter .filter_box ul{ width:150px; text-align:center; background:#fff; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20); border-top:1px solid #ab2828;}
+.filter_box:hover{ background:#fff; box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20); background:#ab2828; color:#fff;}
+.filter_box>i:nth-of-type(2){ display:block; position:absolute;right:3px; top:0px; font-size:18px;
 -webkit-transition:all ease 0.5s;
 -moz-transition:all ease 0.5s;
 -ms-transition:all ease 0.5s;
@@ -241,17 +240,22 @@ transition:all ease 0.5s;
 -o-transform:rotate(0deg);
 transform:rotate(0deg);
 }
-.filter>div:hover>i{ color:#fff; }
-.filter>div:hover>i:nth-of-type(2){ 
+.filter_box:hover>i{ color:#fff; }
+.filter_box:hover>i:nth-of-type(2){ 
 -webkit-transform:rotate(180deg);
 -moz-transform:rotate(180deg);
 -ms-transform:rotate(180deg);
 -o-transform:rotate(180deg);
 transform:rotate(180deg);
 }
-
-.filter>div>ul{ position:absolute; right:0; top:40px; display:none; font-size:14px;}
+.filter_box>ul{ position:absolute; right:0; top:40px; display:none; font-size:14px;}
 .filter a:hover{ color:#ab2828;}
+
+.already_filtered_items{ position:absolute; bottom:-43px; right:50px; z-index:333; color:#9d9d9d; font-size:12px;}
+.filter_title{ float:left; }
+.item{ float:left; margin-left:10px;}
+.remove_filter{ position:absolute; right:0; bottom:-43px; width:50px; text-align:center;}
+.remove_filter i{ margin:0; font-size:16px; color:#9d9d9d;}
 .catelog{ width:1170px; margin:0px auto 80px; position:relative;top:15px; left:0;}
 .catelog_banner{ padding:10px 0 30px 0;}
 .catelog_list,.collect_list{ width:1170px; }
@@ -384,14 +388,14 @@ transition:all ease 0.6s;
 .product_shopping_btn{ border-top:1px solid #d2d2d2; margin-top:22px;}
 .product_shopping_btn input{ margin-top:20px; width:330px; height:50px; background:#ab2828; outline:none; border:none; color:#fff; font:22px/50px "kaiti"; text-align:center; cursor:pointer;}
 .product_shopping_footer{ width:330px; height:50px; position:relative; margin-top:20px; text-align:center; font:20px/48px "kaiti"; }
-.share{ position:absolute; right:0; top:0; width:148px; height:48px; border:1px solid #ab2828; cursor:pointer; 
+.share{ position:absolute; right:0; top:0; width:148px; height:48px; border:1px solid #ab2828; cursor:pointer; color:#000; font: 20px/48px "kaiti"; background-color:#fff;
 -webkit-transition:all ease 0.6s;
 -moz-transition:all ease 0.6s;
 -ms-transition:all ease 0.6s;
 -o-transition:all ease 0.6s;
 transition:all ease 0.6s;
 }
-.shop_push{ width:148px; height:48px;border:1px solid #ab2828; cursor:pointer; 
+.shop_push{ width:148px; height:48px;border:1px solid #ab2828; cursor:pointer; position:absolute; left:0; top:0; color:#000; font: 20px/48px "kaiti";background-color:#fff;
 -webkit-transition:all ease 0.6s;
 -moz-transition:all ease 0.6s;
 -ms-transition:all ease 0.6s;
