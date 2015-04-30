@@ -78,7 +78,7 @@
                             <div class="entity-body">
                                 @foreach (var product in Model.Products)
                                 { 
-                                    <div class="col-md-3"><a href="@Url.RouteUrl("Product", new { SeName = product.SeName })">@product.Name</a></div>
+                                    <div class="col-md-3"><a href="@Url.RouteUrl("Product", new { productId = product.Id })">@product.Name</a></div>
                                 }
                             </div>
                             <div class="clearfix space20"></div>

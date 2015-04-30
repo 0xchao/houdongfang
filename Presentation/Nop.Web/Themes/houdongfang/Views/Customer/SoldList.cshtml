@@ -1,0 +1,63 @@
+﻿@model SoldListModel
+@using Nop.Web.Models.Customer;
+@using Nop.Web.Extensions;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    <div class="profile_slidebar_right2">
+        <div class="checkout_title">
+            订单管理
+            <label></label>
+        </div>
+        <table class="profile_tab1" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="profile_tab1_tr1">
+                    <td width="100" class="profile_tab1_td1"></td>
+                    <td width="290" class="profile_tab1_td2">商品详情</td>
+                    <td width="130" class="profile_tab1_td3">数量</td>
+                    <td width="130" class="profile_tab1_td4">金额</td>
+                    <td width="150" class="profile_tab1_td5">状态</td>
+                    <td width="150" class="profile_tab1_td6">操作</td>
+                </tr>
+            </tbody>
+            <tr class="profile_tab1_tr2"></tr>
+            @foreach (var order in Model.Orders)
+            {
+            <tbody class="profile_tab1_bg">
+                <tr class="profile_tab1_tr3">
+                    <td colspan="2" class="profile_tab1_tr3_td1">订单号：<span>@order.Id</span></td>
+                    <td colspan="2" class="profile_tab1_tr3_td2"></td>
+                    <td colspan="2" class="profile_tab1_tr3_td3">交易时间：@order.CreatedOn</td>
+                </tr>
+                @{ 
+                    int rowspan = order.Items.Count;
+                    foreach (var item in order.Items)
+                    {
+                    <tr class="profile_tab1_tr4">
+                        <td class="profile_tab1_td1"><img src="@item.PictureUrl" /></td>
+                        <td class="profile_tab1_td2"><h2>@item.ProductName</h2><h3>规格：@item.Sku</h3></td>
+                        <td class="profile_tab1_td3">@item.Quantity</td>
+                        <td class="profile_tab1_td4">￥ <span>@item.UnitPriceInclTax</span></td>
+                        <td class="profile_tab1_td5" rowspan="@rowspan"><h3>@order.OrderStatus</h3></td>
+                        <td class="profile_tab1_td6" rowspan="@rowspan"><h4><a href="/mysold/@order.Id">订单详情</a></h4></td>
+                    </tr>
+                    }
+                 }
+            </tbody>
+            <tr class="profile_tab1_tr2"></tr>
+            }
+        </table>
+
+        <div class="profile_cmb1">
+            @Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber")
+        </div>
+    </div>
+</div>

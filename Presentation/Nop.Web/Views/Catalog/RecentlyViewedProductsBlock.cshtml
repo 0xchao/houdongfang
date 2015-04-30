@@ -15,12 +15,12 @@
                         @if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl))
                         {
                             <div class="product-picture">
-                                <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" title="@product.DefaultPictureModel.Title">
+                                <a href="@Url.RouteUrl("Product", new { productId = product.ProductId } )" title="@product.DefaultPictureModel.Title">
                                     <img alt="@product.DefaultPictureModel.AlternateText" src="@product.DefaultPictureModel.ImageUrl" title="@product.DefaultPictureModel.Title" />
                                 </a>
                             </div>
                         }
-                        <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" class="product-name">@product.Name</a>
+                        <a href="@Url.RouteUrl("Product", new { productId = product.ProductId } )" class="product-name">@product.Name</a>
                     </li>
                 }
             </ul>

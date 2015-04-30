@@ -157,7 +157,7 @@ namespace Nop.Web.Controllers
             if (product == null)
                 return RedirectToRoutePermanent("HomePage");
 
-            return RedirectToRoutePermanent("Product", new { SeName = product.GetSeName() });
+            return RedirectToRoutePermanent("Product", new { productId = product.Id });
         }
 
         public ActionResult RedirectCategory(string id, bool idIncludesSename = true)

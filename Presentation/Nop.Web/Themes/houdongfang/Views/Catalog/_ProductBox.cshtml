@@ -19,20 +19,20 @@
     }
 }
 <div class="product-item" data-productid="@Model.Id">
-    <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title">
-        <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
-        <h2>
-            @Model.Name
-            @if (!String.IsNullOrEmpty(Model.ProductPrice.OldPrice))
+    <a href="@Url.RouteUrl("Product", new { productId = Model.Id })" title="@Model.DefaultPictureModel.Title">
+    <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
+    <h2>
+    @Model.Name
+    @if (!String.IsNullOrEmpty(Model.ProductPrice.OldPrice))
             {
                 <span class="price old-price">@Model.ProductPrice.OldPrice</span>
-            }
-            <span class="price actual-price">@Model.ProductPrice.Price</span>
-        </h2>
-        <p>@Html.Raw(Model.ShortDescription)</p>
+    }
+    <span class="price actual-price">@Model.ProductPrice.Price</span>
+    </h2>
+    <p>@Html.Raw(Model.ShortDescription)</p>
     </a>
     @*<h3>
-        <a href=""><i class="iconfont">&#xe60a;</i>齐德龙</a>
-        <a class="catelog_location" href="">临沂</a>
-    </h3>*@
+            <a href=""><i class="iconfont">&#xe60a;</i>齐德龙</a>
+            <a class="catelog_location" href="">临沂</a>
+        </h3>*@
 </div>

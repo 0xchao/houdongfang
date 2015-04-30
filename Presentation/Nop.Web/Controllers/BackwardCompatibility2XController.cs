@@ -64,7 +64,7 @@ namespace Nop.Web.Controllers
             if (product == null)
                 return RedirectToRoutePermanent("HomePage");
 
-            return RedirectToRoutePermanent("Product", new { SeName = product.GetSeName() });
+            return RedirectToRoutePermanent("Product", new { productId = product.Id });
         }
         //in versions 2.00-2.65 we had ID in category URLs
         public ActionResult RedirectCategoryById(int categoryId)

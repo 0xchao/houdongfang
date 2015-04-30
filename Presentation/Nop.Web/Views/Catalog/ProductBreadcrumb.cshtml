@@ -29,7 +29,7 @@
         }
         <li>
             <strong class="current-item">@Model.ProductName</strong>
-            @*<strong class="current-item"><a href="@Url.RouteUrl("Product", new { SeName = Model.ProductSeName })" itemprop="url">@Model.ProductName</a></strong>*@
+            @*<strong class="current-item"><a href="@Url.RouteUrl("Product", new { productId = Model.ProductId } )" itemprop="url">@Model.ProductName</a></strong>*@
             @Html.Widget("productbreadcrumb_after")
         </li>
     </ul>

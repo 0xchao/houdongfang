@@ -2083,7 +2083,7 @@ namespace Nop.Web.Controllers
                 var parentGroupedProduct = _productService.GetProductById(product.ParentGroupedProductId);
                 if (parentGroupedProduct != null)
                 {
-                    return RedirectToRoute("Product", new { SeName = parentGroupedProduct.GetSeName() });
+                    return RedirectToRoute("Product", new { productId = parentGroupedProduct.Id });
                 }
                 else
                 {
@@ -2103,12 +2103,12 @@ namespace Nop.Web.Controllers
                 //not found?
                 if (updatecartitem == null)
                 {
-                    return RedirectToRoute("Product", new { SeName = product.GetSeName() });
+                    return RedirectToRoute("Product", new { productId = product.Id });
                 }
                 //is it this product?
                 if (product.Id != updatecartitem.ProductId)
                 {
-                    return RedirectToRoute("Product", new { SeName = product.GetSeName() });
+                    return RedirectToRoute("Product", new { productId = product.Id });
                 }
             }
 
@@ -2403,7 +2403,7 @@ namespace Nop.Web.Controllers
                 pageSize: _catalogSettings.RecentlyAddedProductsNumber);
             foreach (var product in products)
             {
-                string productUrl = Url.RouteUrl("Product", new { SeName = product.GetSeName() }, "http");
+                string productUrl = Url.RouteUrl("Product", new { productId = product.Id }, "http");
                 string productName = product.GetLocalized(x => x.Name);
                 string productDescription = product.GetLocalized(x => x.ShortDescription);
                 var item = new SyndicationItem(productName, productDescription, new Uri(productUrl), String.Format("RecentlyAddedProduct:{0}", product.Id), product.CreatedOnUtc);
@@ -3330,7 +3330,7 @@ namespace Nop.Web.Controllers
                           select new
                           {
                               label = p.Name,
-                              producturl = Url.RouteUrl("Product", new { SeName = p.SeName }),
+                              producturl = Url.RouteUrl("Product", new { productId = p.Id }),
                               productpictureurl = p.DefaultPictureModel.ImageUrl
                           })
                           .ToList();

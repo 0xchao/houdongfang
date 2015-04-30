@@ -1,7 +1,7 @@
 ﻿@model ProductOverviewModel
 @using Nop.Plugin.Misc.FacebookShop.Models;
 @{
-    var productUrl = Url.RouteUrl("Product", new { SeName = Model.SeName }, "http");
+    var productUrl = Url.RouteUrl("Product", new { productId = Model.Id } , "http");
     //lo
 }
 <div class="product-item">

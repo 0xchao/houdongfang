@@ -106,7 +106,7 @@
                         <li>
                             <div class="products-box">
                                 <div class="product">
-                                    <strong><a href="@Url.RouteUrl("Product", new { SeName = item.ProductSeName })">@item.ProductName</a></strong>
+                                    <strong><a href="@Url.RouteUrl("Product", new { productId = item.ProductId } )">@item.ProductName</a></strong>
                                     @if (!String.IsNullOrEmpty(item.AttributeInfo))
                                     {
                                         <div class="attributes">

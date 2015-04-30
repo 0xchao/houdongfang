@@ -17,8 +17,9 @@ namespace Nop.Web.Infrastructure
 
             //define this routes to use in UI views (in case if you want to customize some of them later)
             routes.MapLocalizedRoute("Product",
-                                     "{SeName}",
+                                     "product/{productId}",
                                      new {controller = "Catalog", action = "Product"},
+                                     new { productId = @"\d+" },
                                      new[] {"Nop.Web.Controllers"});
 
             routes.MapLocalizedRoute("Category",

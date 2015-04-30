@@ -15,12 +15,12 @@
                         @if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl))
                         {
                             <div class="product-picture">
-                                <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" title="@product.DefaultPictureModel.Title">
+                                <a href="@Url.RouteUrl("Product", new { productId = product.Id })" title="@product.DefaultPictureModel.Title">
                                     <img alt="@product.DefaultPictureModel.AlternateText" src="@product.DefaultPictureModel.ImageUrl" title="@product.DefaultPictureModel.Title" />
                                 </a>
                             </div>
                         }
-                        <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" class="product-name">@product.Name</a>
+                        <a href="@Url.RouteUrl("Product", new { productId = product.Id })" class="product-name">@product.Name</a>
                     </li>
                 }
             </ul>
@@ -40,7 +40,7 @@
                     var product = Model[i];
                     
                     <li>
-                        <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" title="@product.DefaultPictureModel.Title">@if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl)){
+                        <a href="@Url.RouteUrl("Product", new { productId = product.Id })" title="@product.DefaultPictureModel.Title">@if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl)){
                             <img class="img-thumbnail" alt="@product.DefaultPictureModel.AlternateText" src="@product.DefaultPictureModel.ImageUrl" title="@product.DefaultPictureModel.Title" />
                         }
                         &nbsp;@product.Name</a>
@@ -48,16 +48,16 @@
               
                     
                     @*<li @(i == Model.Count - 1 ? @Html.Raw(" class=\"last\"") : null)>
-                        @if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl))
-                        {
-                            <div class="product-picture">
-                                <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" title="@product.DefaultPictureModel.Title">
-                                    <img alt="@product.DefaultPictureModel.AlternateText" src="@product.DefaultPictureModel.ImageUrl" title="@product.DefaultPictureModel.Title" />
-                                </a>
-                            </div>
-                        }
-                        <a href="@Url.RouteUrl("Product", new { SeName = product.SeName })" class="product-name">@product.Name</a>
-                    </li>*@
+        @if (!String.IsNullOrEmpty(product.DefaultPictureModel.ImageUrl))
+        {
+            <div class="product-picture">
+                <a href="@Url.RouteUrl("Product", new { productId = product.Id })" title="@product.DefaultPictureModel.Title">
+                    <img alt="@product.DefaultPictureModel.AlternateText" src="@product.DefaultPictureModel.ImageUrl" title="@product.DefaultPictureModel.Title" />
+                </a>
+            </div>
+        }
+        <a href="@Url.RouteUrl("Product", new { productId = product.Id })" class="product-name">@product.Name</a>
+    </li>*@
                 }
               
               
