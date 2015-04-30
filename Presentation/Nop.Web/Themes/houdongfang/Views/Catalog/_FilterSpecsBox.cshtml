@@ -13,12 +13,12 @@
             var groupList = group.ToList();
 
             <div class="filter_box">
-                <i class="iconfont">&#xe60f;</i>@groupList[0].SpecificationAttributeName<i class="iconfont">&#xe602;</i>
+                <i class="iconfont">&#xe60f;</i>@T(groupList[0].SpecificationAttributeName)<i class="iconfont">&#xe602;</i>
                 <ul>
                     @foreach (var spec in groupList)
                     {
                         <li>
-                            <a href="@spec.FilterUrl">@spec.SpecificationAttributeOptionName</a>
+                            <a href="@spec.FilterUrl">@T(spec.SpecificationAttributeOptionName)</a>
                         </li>
                     }
                 </ul>

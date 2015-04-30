@@ -168,7 +168,7 @@
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\BackwardCompatibility1XController.cs" />
     <Compile Include="Controllers\BackwardCompatibility2XController.cs" />
-    <Compile Include="Controllers\PictureController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ReturnRequestController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
     <Compile Include="Controllers\ExternalAuthenticationController.cs" />
@@ -269,7 +269,6 @@
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
     <Compile Include="Models\Customer\MyProductModel.cs" />
-    <Compile Include="Models\Customer\MyProductListModel.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
     <Compile Include="Models\News\AddNewsCommentModel.cs" />
@@ -664,7 +663,6 @@
     <Content Include="Content\tinymce\themes\modern\theme.min.js" />
     <Content Include="Content\tinymce\tinymce.min.js" />
     <Content Include="Scripts\fineuploader\edit.gif" />
-    <Content Include="Scripts\fineuploader\fine-uploader-gallery.min.css" />
     <Content Include="Scripts\fineuploader\fineuploader-4.2.2.css" />
     <Content Include="Scripts\fineuploader\fineuploader-4.2.2.min.css" />
     <Content Include="Scripts\fineuploader\loading.gif" />
@@ -2302,9 +2300,6 @@
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DateNullable.cshtml" />
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\RichEditor.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Customer\_ProductPicture.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Customer\MyProducts.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Customer\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
