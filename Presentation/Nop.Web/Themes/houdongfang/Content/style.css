@@ -354,13 +354,14 @@ transition:all ease 0.6s;
 .product_intro_title a{ color:#ab2828;}
 .product_intro_title span{  padding:10px;}
 .gallery{ width:798px; border:1px solid #d2d2d2; border-right:none; height:618px; }
-.picture{ width:525px; height:525px; position:relative; margin:0 auto;}
+.picture{ width:500px; height:500px; position:relative; margin:0 auto 30px;}
 /*此部分为后端bug，商品图片点击需出现阴影效果，后端调整*/
-.picture img{ width:525px; height:525px; position:absolute;left:0; top:0; display:none;}
+.picture img{ width:500px; height:500px; position:absolute;left:0; top:0; display:none;}
 .picture img .hover{ display:block;}
-.picture_thumbs{ width:525px; height:60px; position:relative; text-align:center; margin:0 auto; line-height:60px;}
-.picture_thumbs img{ width:60px; height:60px; margin-right:10px; margin-left:10px;}
-.picture_thumbs img.hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
+.picture-thumbs{ width:525px; height:60px; position:relative; text-align:center; margin:0 auto; line-height:60px;}
+.thumb-popup-link{}
+.picture-thumbs img{ width:60px; height:60px; margin-right:10px; margin-left:10px;}
+.picture-thumbs img.hover{ box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.20);}
 .product_intro_prev img,.product_intro_next img{ width:15px; height:30px;}
 .product_intro_prev{ position:absolute; left:10px; top:15px;font-size:16px;}
 .product_intro_next{ position:absolute; right:10px; top:15px;}
