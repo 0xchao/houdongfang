@@ -51,6 +51,8 @@
         <div class="profile_cmb1">
             <div class="profile_cmb1_left">配送地址</div>
             <div style="margin-left: 110px;">
+            @if (Model.Order.ShippingAddress != null)
+            {
                 <table style="border: solid 1px black; padding: 5px;width:300px">
                     @if (Model.Order.ShippingAddress.FirstNameEnabled || Model.Order.ShippingAddress.LastNameEnabled)
                 {
@@ -62,7 +64,7 @@
                                 @Model.Order.ShippingAddress.FirstName @Model.Order.ShippingAddress.LastName
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.EmailEnabled)
                 {
                         <tr>
@@ -73,7 +75,7 @@
                                 @Model.Order.ShippingAddress.Email
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.PhoneEnabled)
                 {
                         <tr>
@@ -84,7 +86,7 @@
                                 @Model.Order.ShippingAddress.PhoneNumber
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.FaxEnabled)
                 {
                         <tr>
@@ -95,7 +97,7 @@
                                 @Model.Order.ShippingAddress.FaxNumber
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.CompanyEnabled)
                 {
                         <tr>
@@ -106,7 +108,7 @@
                                 @Model.Order.ShippingAddress.Company
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.StreetAddressEnabled)
                 {
                         <tr>
@@ -117,7 +119,7 @@
                                 @Model.Order.ShippingAddress.Address1
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.StreetAddress2Enabled)
                 {
                         <tr>
@@ -128,7 +130,7 @@
                                 @Model.Order.ShippingAddress.Address2
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.CityEnabled)
                 {
                         <tr>
@@ -139,7 +141,7 @@
                                 @Model.Order.ShippingAddress.City
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.StateProvinceEnabled)
                 {
                         <tr>
@@ -150,7 +152,7 @@
                                 @Model.Order.ShippingAddress.StateProvinceName
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.ZipPostalCodeEnabled)
                 {
                         <tr>
@@ -161,7 +163,7 @@
                                 @Model.Order.ShippingAddress.ZipPostalCode
                             </td>
                         </tr>
-                }
+                    }
                     @if (Model.Order.ShippingAddress.CountryEnabled)
                 {
                         <tr>
@@ -172,7 +174,7 @@
                                 @Model.Order.ShippingAddress.CountryName
                             </td>
                         </tr>
-                }
+                    }
                     @if (!Model.Order.IsLoggedInAsVendor)
                 {
                         <tr>
@@ -180,8 +182,9 @@
                                 <a href="@Url.Action("AddressEdit", new { addressId = Model.Order.ShippingAddress.Id, orderId = Model.Order.Id })" class="k-button">@T("Admin.Common.Edit")</a>
                             </td>
                         </tr>
-                }
+                    }
                 </table>
+            }
             </div>
         </div>
         <div class="profile_cmb1">

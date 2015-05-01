@@ -1188,7 +1188,7 @@ namespace Nop.Web.Controllers
                 return RedirectToAction("SoldList");
 
             var shipments = order.Shipments.ToList();
-            if(shipments.Count>0)
+            if (shipments.Count > 0)
             {
                 shipments[0].TrackingNumber = model.TrackingNumber;
                 _shipmentService.UpdateShipment(shipments[0]);
@@ -1489,34 +1489,35 @@ namespace Nop.Web.Controllers
             if (order.ShippingStatus != ShippingStatus.ShippingNotRequired)
             {
                 model.IsShippable = true;
-
-                model.ShippingAddress = order.ShippingAddress.ToModel();
-                model.ShippingAddress.FirstNameEnabled = true;
-                model.ShippingAddress.FirstNameRequired = true;
-                model.ShippingAddress.LastNameEnabled = true;
-                model.ShippingAddress.LastNameRequired = true;
-                model.ShippingAddress.EmailEnabled = true;
-                model.ShippingAddress.EmailRequired = true;
-                model.ShippingAddress.CompanyEnabled = _addressSettings.CompanyEnabled;
-                model.ShippingAddress.CompanyRequired = _addressSettings.CompanyRequired;
-                model.ShippingAddress.CountryEnabled = _addressSettings.CountryEnabled;
-                model.ShippingAddress.StateProvinceEnabled = _addressSettings.StateProvinceEnabled;
-                model.ShippingAddress.CityEnabled = _addressSettings.CityEnabled;
-                model.ShippingAddress.CityRequired = _addressSettings.CityRequired;
-                model.ShippingAddress.StreetAddressEnabled = _addressSettings.StreetAddressEnabled;
-                model.ShippingAddress.StreetAddressRequired = _addressSettings.StreetAddressRequired;
-                model.ShippingAddress.StreetAddress2Enabled = _addressSettings.StreetAddress2Enabled;
-                model.ShippingAddress.StreetAddress2Required = _addressSettings.StreetAddress2Required;
-                model.ShippingAddress.ZipPostalCodeEnabled = _addressSettings.ZipPostalCodeEnabled;
-                model.ShippingAddress.ZipPostalCodeRequired = _addressSettings.ZipPostalCodeRequired;
-                model.ShippingAddress.PhoneEnabled = _addressSettings.PhoneEnabled;
-                model.ShippingAddress.PhoneRequired = _addressSettings.PhoneRequired;
-                model.ShippingAddress.FaxEnabled = _addressSettings.FaxEnabled;
-                model.ShippingAddress.FaxRequired = _addressSettings.FaxRequired;
-
+                if (model.ShippingAddress != null)
+                {
+                    model.ShippingAddress = order.ShippingAddress.ToModel();
+                    model.ShippingAddress.FirstNameEnabled = true;
+                    model.ShippingAddress.FirstNameRequired = true;
+                    model.ShippingAddress.LastNameEnabled = true;
+                    model.ShippingAddress.LastNameRequired = true;
+                    model.ShippingAddress.EmailEnabled = true;
+                    model.ShippingAddress.EmailRequired = true;
+                    model.ShippingAddress.CompanyEnabled = _addressSettings.CompanyEnabled;
+                    model.ShippingAddress.CompanyRequired = _addressSettings.CompanyRequired;
+                    model.ShippingAddress.CountryEnabled = _addressSettings.CountryEnabled;
+                    model.ShippingAddress.StateProvinceEnabled = _addressSettings.StateProvinceEnabled;
+                    model.ShippingAddress.CityEnabled = _addressSettings.CityEnabled;
+                    model.ShippingAddress.CityRequired = _addressSettings.CityRequired;
+                    model.ShippingAddress.StreetAddressEnabled = _addressSettings.StreetAddressEnabled;
+                    model.ShippingAddress.StreetAddressRequired = _addressSettings.StreetAddressRequired;
+                    model.ShippingAddress.StreetAddress2Enabled = _addressSettings.StreetAddress2Enabled;
+                    model.ShippingAddress.StreetAddress2Required = _addressSettings.StreetAddress2Required;
+                    model.ShippingAddress.ZipPostalCodeEnabled = _addressSettings.ZipPostalCodeEnabled;
+                    model.ShippingAddress.ZipPostalCodeRequired = _addressSettings.ZipPostalCodeRequired;
+                    model.ShippingAddress.PhoneEnabled = _addressSettings.PhoneEnabled;
+                    model.ShippingAddress.PhoneRequired = _addressSettings.PhoneRequired;
+                    model.ShippingAddress.FaxEnabled = _addressSettings.FaxEnabled;
+                    model.ShippingAddress.FaxRequired = _addressSettings.FaxRequired;
+                    model.ShippingAddressGoogleMapsUrl = string.Format("http://maps.google.com/maps?f=q&hl=en&ie=UTF8&oe=UTF8&geocode=&q={0}", Server.UrlEncode(order.ShippingAddress.Address1 + " " + order.ShippingAddress.ZipPostalCode + " " + order.ShippingAddress.City + " " + (order.ShippingAddress.Country != null ? order.ShippingAddress.Country.Name : "")));
+                }
                 model.ShippingMethod = order.ShippingMethod;
 
-                model.ShippingAddressGoogleMapsUrl = string.Format("http://maps.google.com/maps?f=q&hl=en&ie=UTF8&oe=UTF8&geocode=&q={0}", Server.UrlEncode(order.ShippingAddress.Address1 + " " + order.ShippingAddress.ZipPostalCode + " " + order.ShippingAddress.City + " " + (order.ShippingAddress.Country != null ? order.ShippingAddress.Country.Name : "")));
                 model.CanAddNewShipments = order.HasItemsToAddToShipment();
             }
 
@@ -1749,7 +1750,9 @@ namespace Nop.Web.Controllers
 
                 //images
                 var productPictures = _productService.GetProductPicturesByProductId(product.Id);
-                List<string> imgids = new List<string>(model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                List<string> imgids = new List<string>();
+                if (!string.IsNullOrWhiteSpace(model.ImageIdList))
+                    imgids = new List<string>(model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
                 foreach (var pict in productPictures)
                 {
                     var idstr = pict.PictureId.ToString();
@@ -1826,7 +1829,11 @@ namespace Nop.Web.Controllers
                     Published = true,
                     VendorId = customer.VendorId,
                     ProductTypeId = model.ProductTypeId,
-                    ProductTemplateId = model.ProductTemplateId
+                    ProductTemplateId = model.ProductTemplateId,
+                    OrderMinimumQuantity = 1,
+                    OrderMaximumQuantity = 100,
+                    ManageInventoryMethodId = 1,
+                    IsShipEnabled = true
                 };
                 _productService.InsertProduct(product);
 
@@ -1860,20 +1867,22 @@ namespace Nop.Web.Controllers
                 _specificationAttributeService.InsertProductSpecificationAttribute(origin);
 
                 //images
-                string[] imgids = model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string imgid in imgids)
+                if (!string.IsNullOrWhiteSpace(model.ImageIdList))
                 {
-                    int id;
-                    if (int.TryParse(imgid, out id))
+                    string[] imgids = model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string imgid in imgids)
                     {
-                        _productService.InsertProductPicture(new ProductPicture()
+                        int id;
+                        if (int.TryParse(imgid, out id))
                         {
-                            PictureId = id,
-                            ProductId = product.Id
-                        });
+                            _productService.InsertProductPicture(new ProductPicture()
+                            {
+                                PictureId = id,
+                                ProductId = product.Id
+                            });
+                        }
                     }
                 }
-
                 //store mapping
                 var allStores = _storeService.GetAllStores();
                 _storeMappingService.InsertStoreMapping(product, allStores[0].Id);

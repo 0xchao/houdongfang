@@ -2,5 +2,12 @@
 @using Nop.Web.Models.ShoppingCart;
 <div class="shopping_state_total">
     <span class="shopping_state_span2">@T("ShoppingCart.Totals.SubTotal"):(含运费)</span>
-    <span class="shopping_state_span3">@Model.OrderTotal</span>
+    @if (String.IsNullOrWhiteSpace(Model.OrderTotal))
+    {
+        <span class="shopping_state_span3">@Model.SubTotal</span>
+    }
+    else
+    {
+        <span class="shopping_state_span3">@Model.OrderTotal</span>
+    }
 </div>

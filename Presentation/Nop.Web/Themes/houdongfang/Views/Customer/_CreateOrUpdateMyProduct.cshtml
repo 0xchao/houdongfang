@@ -57,6 +57,7 @@
     <div class="profile_cmb1_left">商品数量</div>
     @Html.EditorFor(model => model.StockQuantity)
     <div class="profile_cmb1_right">
+        @Html.RequiredHint()
         @Html.ValidationMessageFor(model => model.StockQuantity)
     </div>
 </div>
@@ -64,6 +65,7 @@
     <div class="profile_cmb1_left">商品价格(元)</div>
     @Html.EditorFor(model => model.Price)
     <div class="profile_cmb1_right">
+        @Html.RequiredHint()
         @Html.ValidationMessageFor(model => model.Price)
     </div>
 </div>
