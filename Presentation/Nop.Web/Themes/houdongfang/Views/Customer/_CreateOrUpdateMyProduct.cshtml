@@ -1,6 +1,5 @@
 ﻿@model MyProductModel
 @using Nop.Web.Models.Customer;
-@using Nop.Services.Catalog;
 @Html.ValidationSummary(false)
 @Html.HiddenFor(model => model.Id)
 
@@ -26,32 +25,13 @@
     <div class="profile_cmb1_left">规格</div>
     @Html.EditorFor(model => model.Sku)
 </div>
-@if (Model.OriginOptions != null)
-{
-    <div class="profile_cmb1">
-        <div class="profile_cmb1_left">产地</div>
-        <select name="OriginId" id="OriginId">
-            @foreach (var option in Model.OriginOptions)
-            {
-                string selected = Model.OriginId == option.Key ? "selected='selected'" : "";
-                <option value="@option.Key" @selected>@option.Value</option>
-            }
-        </select>
-    </div>
-}
+<div class="profile_cmb1">
+    <div class="profile_cmb1_left">产地</div>
+    @Html.EditorFor(model => model.Origin)
+</div>
 <div class="profile_cmb1">
     <div class="profile_cmb1_left">所属分类</div>
-    <select name="CategoryId" id="CategoryId">
-        @{
-            var categoryService = Nop.Core.Infrastructure.EngineContext.Current.Resolve<ICategoryService>();
-            var allCategories = categoryService.GetAllCategories(showHidden: true);
-            foreach (var category in allCategories)
-            {
-                string selected = Model.CategoryId == category.Id ? "selected='selected'" : "";
-                <option value="@category.Id" @selected>@(category.GetFormattedBreadCrumb(allCategories))</option>
-            }
-        }
-    </select>
+    @Html.EditorFor(model => model.CategoryId)
 </div>
 <div class="profile_cmb1">
     <div class="profile_cmb1_left">商品数量</div>
@@ -72,11 +52,26 @@
     <label></label>
 </div>
 <div class="profile_cmb1">
-    <span class="product_upload_hint">请上传 500k 以下的图片文件，最多上传五张</span>
+    <div class="product_upload_input">
+        <div class="profile_cmb1_left">上传图片</div>
+        <input type="text" class="input" id="pic_path" onclick="$('#avatar').trigger('click')" readonly>
+        <input type="file" name="face" id="avatar" style=" visibility:hidden;" onchange="document.getElementById('pic_path').value=this.value">
+    </div>
+    <a class="product_upload_hint" href="javascript:;">请上传分辨率800X800px以上的正方形图片，最多上传五张</a>
+    <button class="product_upload_button">上传</button>
 </div>
-<div class="profile_custome">
-    @Html.Partial("_ProductPicture", Model)
-</div>
+<ul class="product_upload_img clear">
+    <li><img src="../Content/Images/product02.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product03.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product04.png" /><span>X</span></li>
+    <li><img src="../Content/Images/product05.png" /><span>X</span></li>
+</ul>
+
+@*<div class="profile_cmb1">
+    @Html.EditorFor(model => model.AddPictureModel.PictureId)
+
+    <label class="product_upload_hint">请上传分辨率800X800px以上的正方形图片，最多上传五张</label>
+</div>*@
 <div class="checkout_title">
     商品详情
     <label></label>

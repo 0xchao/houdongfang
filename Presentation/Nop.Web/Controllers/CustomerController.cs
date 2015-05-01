@@ -1190,12 +1190,6 @@ namespace Nop.Web.Controllers
         #endregion
 
         #region Seller's Product
-        [NopHttpsRequirement(SslRequirement.Yes)]
-        public ActionResult DeleteProduct(int id)
-        {
-            var product = _productService.GetProductById(id);
-            if (product == null)
-                return new HttpNotFoundResult();
 
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
@@ -1211,150 +1205,6 @@ namespace Nop.Web.Controllers
         }
 
         [NopHttpsRequirement(SslRequirement.Yes)]
-        public ActionResult EditProduct(int id)
-        {
-            var product = _productService.GetProductById(id);
-            if (product == null)
-                return new HttpNotFoundResult();
-
-            if (!IsCurrentUserRegistered())
-                return new HttpUnauthorizedResult();
-
-            var customer = _workContext.CurrentCustomer;
-            if (customer.VendorId != product.VendorId
-                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
-                return new HttpUnauthorizedResult();
-
-            var model = new MyProductModel()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                ShortDescription = product.ShortDescription,
-                Sku = product.Sku,
-                StockQuantity = product.StockQuantity,
-                Price = product.Price,
-                FullDescription = product.FullDescription
-            };
-            //Category
-            var productCategories = _categoryService.GetProductCategoriesByProductId(product.Id);
-            if (productCategories.Count > 0)
-            {
-                model.CategoryId = productCategories[0].CategoryId;
-            }
-            //OriginId
-            var productSpecs = _specificationAttributeService.GetProductSpecificationAttributesByProductId(product.Id);
-            foreach (var spec in productSpecs)
-            {
-                var name = spec.SpecificationAttributeOption.SpecificationAttribute.Name;
-                if (name.ToLower() == "origin")
-                    model.OriginId = spec.SpecificationAttributeOptionId;
-            }
-
-            model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = CustomerNavigationEnum.MyProductList;
-            model.OriginOptions = LoadOriginsOfProduct();
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult EditProduct(MyProductModel model)
-        {
-            if (!IsCurrentUserRegistered())
-                return new HttpUnauthorizedResult();
-
-            var product = _productService.GetProductById(model.Id);
-            if (product == null || product.Deleted)
-                //No product found with the specified id
-                return RedirectToAction("MyProducts");
-
-            var customer = _workContext.CurrentCustomer;
-            if (customer.VendorId != product.VendorId || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
-                return new HttpUnauthorizedResult("当前用户无权修改商品，请联系管理员。");
-
-            if (ModelState.IsValid)
-            {
-                product = new Product()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    ShortDescription = model.ShortDescription,
-                    FullDescription = model.FullDescription,
-                    Sku = model.Sku,
-                    StockQuantity = model.StockQuantity,
-                    Price = model.Price,
-                    CreatedOnUtc = DateTime.UtcNow,
-                    UpdatedOnUtc = DateTime.UtcNow,
-                };
-                _productService.UpdateProduct(product);
-
-                //category
-                var existingProductCategories = _categoryService.GetProductCategoriesByProductId(model.Id);
-                if (existingProductCategories.Count > 0)
-                {
-                    var category = existingProductCategories[0];
-                    category.CategoryId = model.CategoryId;
-                    _categoryService.UpdateProductCategory(category);
-                }
-                else
-                {
-                    var productCategory = new ProductCategory()
-                    {
-                        ProductId = product.Id,
-                        CategoryId = model.CategoryId
-                    };
-                    _categoryService.InsertProductCategory(productCategory);
-                }
-
-                //Specification: Origin
-                var productSpecs = _specificationAttributeService.GetProductSpecificationAttributesByProductId(product.Id);
-                foreach (var spec in productSpecs)
-                {
-                    var name = spec.SpecificationAttributeOption.SpecificationAttribute.Name;
-                    if (name.ToLower() == "origin")
-                        _specificationAttributeService.DeleteProductSpecificationAttribute(spec);
-                }
-                _specificationAttributeService.InsertProductSpecificationAttribute(new ProductSpecificationAttribute()
-                {
-                    ProductId = product.Id,
-                    SpecificationAttributeOptionId = model.OriginId,
-                    AllowFiltering = true
-                });
-
-                //images
-                var productPictures = _productService.GetProductPicturesByProductId(product.Id);
-                List<string> imgids = new List<string>(model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-                foreach (var pict in productPictures)
-                {
-                    var idstr = pict.PictureId.ToString();
-                    if (imgids.Contains(idstr))
-                        imgids.Remove(idstr);
-                    else
-                    {
-                        _productService.DeleteProductPicture(pict);
-                        var picture = _pictureService.GetPictureById(pict.PictureId);
-                        if (picture != null)
-                            _pictureService.DeletePicture(picture);
-                    }
-                }
-
-                foreach (string imgid in imgids)
-                {
-                    int id;
-                    if (int.TryParse(imgid, out id))
-                    {
-                        _productService.InsertProductPicture(new ProductPicture()
-                        {
-                            PictureId = id,
-                            ProductId = product.Id
-                        });
-                    }
-                }
-            }
-            return RedirectToAction("MyProducts");
-        }
-
-        [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult PublishProduct()
         {
             if (!IsCurrentUserRegistered())
@@ -1362,13 +1212,11 @@ namespace Nop.Web.Controllers
 
             var customer = _workContext.CurrentCustomer;
             if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
-                return new HttpUnauthorizedResult();
+                throw new ArgumentException("Customer can not publish any product.");
 
             var model = new MyProductModel();
             model.NavigationModel = GetCustomerNavigationModel(customer);
             model.NavigationModel.SelectedTab = CustomerNavigationEnum.PublishProduct;
-
-            model.OriginOptions = LoadOriginsOfProduct();
             return View(model);
         }
 
@@ -1396,227 +1244,23 @@ namespace Nop.Web.Controllers
                     CreatedOnUtc = DateTime.UtcNow,
                     UpdatedOnUtc = DateTime.UtcNow,
                     //constant value
-                    VisibleIndividually = true,
                     Published = true,
                     VendorId = customer.VendorId,
-                    ProductTypeId = model.ProductTypeId,
-                    ProductTemplateId = model.ProductTemplateId
+                    ProductTypeId = 5,
+                    ProductTemplateId = 1
                 };
                 _productService.InsertProduct(product);
 
                 //category
-                var existingProductCategories = _categoryService.GetProductCategoriesByCategoryId(model.CategoryId, 0, int.MaxValue, true);
-                if (existingProductCategories.FindProductCategory(product.Id, model.CategoryId) == null)
-                {
-                    var productCategory = new ProductCategory()
-                    {
-                        ProductId = product.Id,
-                        CategoryId = model.CategoryId
-                    };
-                    _categoryService.InsertProductCategory(productCategory);
-                }
-
-                //Specification: OperationMode, Origin
-                var psa = new ProductSpecificationAttribute()
-                {
-                    ProductId = product.Id,
-                    SpecificationAttributeOptionId = model.OperationModeId,
-                    AllowFiltering = true
-                };
-                _specificationAttributeService.InsertProductSpecificationAttribute(psa);
-
-                var origin = new ProductSpecificationAttribute()
-                {
-                    ProductId = product.Id,
-                    SpecificationAttributeOptionId = model.OriginId,
-                    AllowFiltering = true
-                };
-                _specificationAttributeService.InsertProductSpecificationAttribute(origin);
-
+                //model.OperationMode
+                //Manufacturers
                 //images
-                string[] imgids = model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string imgid in imgids)
-                {
-                    int id;
-                    if (int.TryParse(imgid, out id))
-                    {
-                        _productService.InsertProductPicture(new ProductPicture()
-                        {
-                            PictureId = id,
-                            ProductId = product.Id
-                        });
-                    }
-                }
 
                 //store mapping
                 var allStores = _storeService.GetAllStores();
                 _storeMappingService.InsertStoreMapping(product, allStores[0].Id);
             }
             return RedirectToAction("MyProducts");
-        }
-
-        [NopHttpsRequirement(SslRequirement.Yes)]
-        public ActionResult MyProducts(CatalogPagingFilteringModel command)
-        {
-            if (!IsCurrentUserRegistered())
-                return new HttpUnauthorizedResult();
-
-            var customer = _workContext.CurrentCustomer;
-            if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
-                return new HttpUnauthorizedResult();
-
-            var vendor = _vendorService.GetVendorById(customer.VendorId);
-            if (vendor == null || vendor.Deleted || !vendor.Active)
-                return InvokeHttp404();
-
-            if (command.PageNumber <= 0) command.PageNumber = 1;
-
-            var model = new MyProductListModel()
-            {
-                Id = vendor.Id,
-                VendorName = vendor.GetLocalized(x => x.Name),
-                VendorDescription = vendor.GetLocalized(x => x.Description)
-            };
-            model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = CustomerNavigationEnum.MyProductList;
-
-            //sorting
-            model.PagingFilteringContext.AllowProductSorting = true;
-            if (model.PagingFilteringContext.AllowProductSorting)
-            {
-                foreach (ProductSortingEnum enumValue in Enum.GetValues(typeof(ProductSortingEnum)))
-                {
-                    var currentPageUrl = _webHelper.GetThisPageUrl(true);
-                    var sortUrl = _webHelper.ModifyQueryString(currentPageUrl, "orderby=" + ((int)enumValue).ToString(), null);
-
-                    var sortValue = enumValue.GetLocalizedEnum(_localizationService, _workContext);
-                    model.PagingFilteringContext.AvailableSortOptions.Add(new SelectListItem()
-                    {
-                        Text = sortValue,
-                        Value = sortUrl,
-                        Selected = enumValue == (ProductSortingEnum)command.OrderBy
-                    });
-                }
-            }
-
-            //page size
-            model.PagingFilteringContext.AllowCustomersToSelectPageSize = false;
-            //customer is not allowed to select a page size
-            command.PageSize = 10;
-            if (command.PageSize <= 0) command.PageSize = vendor.PageSize;
-
-            //products
-            IList<int> filterableSpecificationAttributeOptionIds = null;
-            var products = _productService.SearchProducts(out filterableSpecificationAttributeOptionIds, true,
-                vendorId: vendor.Id,
-                storeId: _storeContext.CurrentStore.Id,
-                visibleIndividuallyOnly: true,
-                featuredProducts: null,
-                priceMin: null,
-                priceMax: null,
-                orderBy: (ProductSortingEnum)command.OrderBy,
-                pageIndex: command.PageNumber - 1,
-                pageSize: command.PageSize);
-            model.Products = PrepareProductOverviewModels(products).ToList();
-
-            model.PagingFilteringContext.LoadPagedList(products);
-            model.PagingFilteringContext.LoadPagedList(products);
-
-            return View(model);
-        }
-
-        [NonAction]
-        protected IEnumerable<ProductOverviewModel> PrepareProductOverviewModels(IEnumerable<Product> products,
-    bool preparePriceModel = true, bool preparePictureModel = true,
-    int? productThumbPictureSize = null, bool prepareSpecificationAttributes = false,
-    bool forceRedirectionAfterAddingToCart = false)
-        {
-            if (products == null)
-                throw new ArgumentNullException("products");
-
-            var models = new List<ProductOverviewModel>();
-            foreach (var product in products)
-            {
-                var model = new ProductOverviewModel()
-                {
-                    Id = product.Id,
-                    Name = product.GetLocalized(x => x.Name),
-                    ShortDescription = product.GetLocalized(x => x.ShortDescription),
-                    FullDescription = product.GetLocalized(x => x.FullDescription),
-                    Sku = product.Sku,
-                    StockQuantity = product.StockQuantity
-                };
-                //price
-                if (preparePriceModel)
-                {
-                    #region Prepare product price
-
-                    var priceModel = new ProductOverviewModel.ProductPriceModel()
-                    {
-                        Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(product.Price))
-                    };
-
-                    model.ProductPrice = priceModel;
-
-                    #endregion
-                }
-
-                //picture
-                if (preparePictureModel)
-                {
-                    #region Prepare product picture
-
-                    //If a size has been set in the view, we use it in priority
-                    int pictureSize = productThumbPictureSize.HasValue ? productThumbPictureSize.Value : _mediaSettings.ProductThumbPictureSize;
-                    //prepare picture model
-                    var defaultProductPictureCacheKey = string.Format(ModelCacheEventConsumer.PRODUCT_DEFAULTPICTURE_MODEL_KEY, product.Id, pictureSize, true, _workContext.WorkingLanguage.Id, _webHelper.IsCurrentConnectionSecured(), _storeContext.CurrentStore.Id);
-                    model.DefaultPictureModel = _cacheManager.Get(defaultProductPictureCacheKey, () =>
-                    {
-                        var picture = _pictureService.GetPicturesByProductId(product.Id, 1).FirstOrDefault();
-                        var pictureModel = new PictureModel()
-                        {
-                            ImageUrl = _pictureService.GetPictureUrl(picture, pictureSize),
-                            FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
-                            Title = string.Format(_localizationService.GetResource("Media.Product.ImageLinkTitleFormat"), model.Name),
-                            AlternateText = string.Format(_localizationService.GetResource("Media.Product.ImageAlternateTextFormat"), model.Name)
-                        };
-                        return pictureModel;
-                    });
-
-                    #endregion
-                }
-
-                //specs
-                models.Add(model);
-            }
-            return models;
-        }
-
-        [NonAction]
-        private Dictionary<int, string> LoadOriginsOfProduct()
-        {
-            var dict = new Dictionary<int, string>();
-
-            int attributeId = 0;
-            var specificationAttributes = _specificationAttributeService.GetSpecificationAttributes();
-            foreach (var spec in specificationAttributes)
-            {
-                if (spec.Name.ToLower() == "origin")
-                {
-                    attributeId = spec.Id;
-                    break;
-                }
-            }
-
-            if (attributeId > 0)
-            {
-                var options = _specificationAttributeService.GetSpecificationAttributeOptionsBySpecificationAttribute(attributeId);
-                foreach (var option in options)
-                {
-                    dict.Add(option.Id, option.GetLocalized(o => o.Name));
-                }
-            }
-            return dict;
         }
         #endregion
 
