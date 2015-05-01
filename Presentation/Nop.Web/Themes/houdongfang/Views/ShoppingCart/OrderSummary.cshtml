@@ -96,8 +96,8 @@
             {
                 <div class="shopping_state_sil">
                     <div class="shopping_state_return">
-                        <button type="submit" name="updatecart">@T("ShoppingCart.UpdateCart")</button>
-                        <button type="submit" name="continueshopping">@T("ShoppingCart.ContinueShopping")</button>
+                        <input type="submit" name="updatecart" id="updatecart" value="@T("ShoppingCart.UpdateCart")" />
+                        <input type="submit" name="continueshopping" id="continueshopping" value="@T("ShoppingCart.ContinueShopping")" />
                     </div>
                     <div class="shopping_state_settle">
                         @if (String.IsNullOrEmpty(Model.MinOrderSubtotalWarning))

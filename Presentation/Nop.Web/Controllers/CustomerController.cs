@@ -40,7 +40,13 @@ using Nop.Web.Models.Catalog;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Core.Caching;
 using Nop.Web.Models.Media;
+using Nop.Admin;
 using Nop.Admin.Models.Orders;
+using Nop.Core.Domain.Directory;
+using Nop.Services.Security;
+using Nop.Services.Payments;
+using Nop.Core.Domain.Shipping;
+using Nop.Services.Shipping;
 
 namespace Nop.Web.Controllers
 {
@@ -99,6 +105,10 @@ namespace Nop.Web.Controllers
         private readonly IVendorService _vendorService;
         private readonly ICacheManager _cacheManager;
         private readonly IProductAttributeParser _productAttributeParser;
+        private readonly CurrencySettings _currencySettings;
+        private readonly IEncryptionService _encryptionService;
+        private readonly IPaymentService _paymentService;
+        private readonly IShipmentService _shipmentService;
 
         #endregion
 
@@ -136,7 +146,9 @@ namespace Nop.Web.Controllers
             IStoreService storeService, ICategoryService categoryService,
             IManufacturerService manufacturerService, ISpecificationAttributeService specificationAttributeService,
             IVendorService vendorService, ICacheManager cacheManager,
-            IProductAttributeParser productAttributeParser)
+            IProductAttributeParser productAttributeParser, CurrencySettings currencySettings,
+            IEncryptionService encryptionService, IPaymentService paymentService,
+            IShipmentService shipmentService)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -190,6 +202,10 @@ namespace Nop.Web.Controllers
             this._vendorService = vendorService;
             this._cacheManager = cacheManager;
             this._productAttributeParser = productAttributeParser;
+            this._currencySettings = currencySettings;
+            this._encryptionService = encryptionService;
+            this._paymentService = paymentService;
+            this._shipmentService = shipmentService;
         }
 
         #endregion
@@ -1107,7 +1123,100 @@ namespace Nop.Web.Controllers
         }
 
         #region Sold list
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult MySold(int id)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
 
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var order = _orderService.GetOrderById(id);
+            if (order == null || order.Deleted)
+                //No order found with the specified id
+                return RedirectToAction("SoldList");
+
+            bool isMySold = false;
+            foreach (var item in order.OrderItems)
+            {
+                if (item.Product.VendorId == customer.VendorId)
+                {
+                    isMySold = true;
+                    break;
+                }
+            }
+            if (!isMySold)
+                return new HttpUnauthorizedResult();
+
+            var om = new OrderModel();
+            PrepareOrderDetailsModel(om, order);
+
+            var mysold = new MySoldModel()
+            {
+                Id = om.Id,
+                Order = om
+            };
+            mysold.NavigationModel = GetCustomerNavigationModel(customer);
+            mysold.NavigationModel.SelectedTab = CustomerNavigationEnum.SoldList;
+
+            //shipment
+            var shipmentModels = new List<ShipmentModel>();
+            var shipments = order.Shipments.ToList();
+            if (shipments.Count > 0)
+                mysold.TrackingNumber = shipments[0].TrackingNumber;
+
+            return View(mysold);
+        }
+
+        [HttpPost]
+        public ActionResult MySold(MySoldModel model)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var order = _orderService.GetOrderById(model.Id);
+            if (order == null || order.Deleted)
+                //No order found with the specified id
+                return RedirectToAction("SoldList");
+
+            var shipments = order.Shipments.ToList();
+            if(shipments.Count>0)
+            {
+                shipments[0].TrackingNumber = model.TrackingNumber;
+                _shipmentService.UpdateShipment(shipments[0]);
+            }
+            else
+            {
+                var shipment = new Shipment()
+                {
+                    OrderId = order.Id,
+                    TrackingNumber = model.TrackingNumber,
+                    CreatedOnUtc = DateTime.UtcNow,
+                };
+                foreach (var orderItem in order.OrderItems)
+                {
+                    var shipmentItem = new ShipmentItem()
+                    {
+                        OrderItemId = orderItem.Id,
+                        Quantity = orderItem.Quantity
+                    };
+                    shipment.ShipmentItems.Add(shipmentItem);
+                }
+                _shipmentService.InsertShipment(shipment);
+                _orderProcessingService.Ship(shipment, true);
+            }
+            return RedirectToAction("SoldList");
+        }
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult SoldList()
         {
             if (!IsCurrentUserRegistered())
@@ -1187,6 +1296,327 @@ namespace Nop.Web.Controllers
 
             return View(model);
         }
+
+        [NonAction]
+        private void PrepareOrderDetailsModel(OrderModel model, Order order)
+        {
+            if (order == null)
+                throw new ArgumentNullException("order");
+
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            model.Id = order.Id;
+            model.OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _workContext);
+            model.OrderStatusId = order.OrderStatusId;
+            model.OrderGuid = order.OrderGuid;
+            var store = _storeService.GetStoreById(order.StoreId);
+            model.StoreName = store != null ? store.Name : "Unknown";
+            model.CustomerId = order.CustomerId;
+            var customer = order.Customer;
+            model.CustomerInfo = customer.IsRegistered() ? customer.Email : _localizationService.GetResource("Admin.Customers.Guest");
+            model.CustomerIp = order.CustomerIp;
+            model.VatNumber = order.VatNumber;
+            model.CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc);
+            model.AllowCustomersToSelectTaxDisplayType = _taxSettings.AllowCustomersToSelectTaxDisplayType;
+            model.TaxDisplayType = _taxSettings.TaxDisplayType;
+            model.AffiliateId = order.AffiliateId;
+            //a vendor should have access only to his products
+            model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+
+            #region Order totals
+
+            var primaryStoreCurrency = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId);
+            if (primaryStoreCurrency == null)
+                throw new Exception("Cannot load primary store currency");
+
+            //subtotal
+            model.OrderSubtotalInclTax = _priceFormatter.FormatPrice(order.OrderSubtotalInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            model.OrderSubtotalExclTax = _priceFormatter.FormatPrice(order.OrderSubtotalExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            model.OrderSubtotalInclTaxValue = order.OrderSubtotalInclTax;
+            model.OrderSubtotalExclTaxValue = order.OrderSubtotalExclTax;
+            //discount (applied to order subtotal)
+            string orderSubtotalDiscountInclTaxStr = _priceFormatter.FormatPrice(order.OrderSubTotalDiscountInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            string orderSubtotalDiscountExclTaxStr = _priceFormatter.FormatPrice(order.OrderSubTotalDiscountExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            if (order.OrderSubTotalDiscountInclTax > decimal.Zero)
+                model.OrderSubTotalDiscountInclTax = orderSubtotalDiscountInclTaxStr;
+            if (order.OrderSubTotalDiscountExclTax > decimal.Zero)
+                model.OrderSubTotalDiscountExclTax = orderSubtotalDiscountExclTaxStr;
+            model.OrderSubTotalDiscountInclTaxValue = order.OrderSubTotalDiscountInclTax;
+            model.OrderSubTotalDiscountExclTaxValue = order.OrderSubTotalDiscountExclTax;
+
+            //shipping
+            model.OrderShippingInclTax = _priceFormatter.FormatShippingPrice(order.OrderShippingInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            model.OrderShippingExclTax = _priceFormatter.FormatShippingPrice(order.OrderShippingExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            model.OrderShippingInclTaxValue = order.OrderShippingInclTax;
+            model.OrderShippingExclTaxValue = order.OrderShippingExclTax;
+
+            //payment method additional fee
+            if (order.PaymentMethodAdditionalFeeInclTax > decimal.Zero)
+            {
+                model.PaymentMethodAdditionalFeeInclTax = _priceFormatter.FormatPaymentMethodAdditionalFee(order.PaymentMethodAdditionalFeeInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+                model.PaymentMethodAdditionalFeeExclTax = _priceFormatter.FormatPaymentMethodAdditionalFee(order.PaymentMethodAdditionalFeeExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            }
+            model.PaymentMethodAdditionalFeeInclTaxValue = order.PaymentMethodAdditionalFeeInclTax;
+            model.PaymentMethodAdditionalFeeExclTaxValue = order.PaymentMethodAdditionalFeeExclTax;
+
+
+            //tax
+            model.Tax = _priceFormatter.FormatPrice(order.OrderTax, true, false);
+            SortedDictionary<decimal, decimal> taxRates = order.TaxRatesDictionary;
+            bool displayTaxRates = _taxSettings.DisplayTaxRates && taxRates.Count > 0;
+            bool displayTax = !displayTaxRates;
+            foreach (var tr in order.TaxRatesDictionary)
+            {
+                model.TaxRates.Add(new OrderModel.TaxRate()
+                {
+                    Rate = _priceFormatter.FormatTaxRate(tr.Key),
+                    Value = _priceFormatter.FormatPrice(tr.Value, true, false),
+                });
+            }
+            model.DisplayTaxRates = displayTaxRates;
+            model.DisplayTax = displayTax;
+            model.TaxValue = order.OrderTax;
+            model.TaxRatesValue = order.TaxRates;
+
+            //discount
+            if (order.OrderDiscount > 0)
+                model.OrderTotalDiscount = _priceFormatter.FormatPrice(-order.OrderDiscount, true, false);
+            model.OrderTotalDiscountValue = order.OrderDiscount;
+
+            //gift cards
+            foreach (var gcuh in order.GiftCardUsageHistory)
+            {
+                model.GiftCards.Add(new OrderModel.GiftCard()
+                {
+                    CouponCode = gcuh.GiftCard.GiftCardCouponCode,
+                    Amount = _priceFormatter.FormatPrice(-gcuh.UsedValue, true, false),
+                });
+            }
+
+            //reward points
+            if (order.RedeemedRewardPointsEntry != null)
+            {
+                model.RedeemedRewardPoints = -order.RedeemedRewardPointsEntry.Points;
+                model.RedeemedRewardPointsAmount = _priceFormatter.FormatPrice(-order.RedeemedRewardPointsEntry.UsedAmount, true, false);
+            }
+
+            //total
+            model.OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false);
+            model.OrderTotalValue = order.OrderTotal;
+
+            //refunded amount
+            if (order.RefundedAmount > decimal.Zero)
+                model.RefundedAmount = _priceFormatter.FormatPrice(order.RefundedAmount, true, false);
+
+            //used discounts
+
+            #endregion
+
+            #region Payment info
+
+            if (order.AllowStoringCreditCardNumber)
+            {
+                //card type
+                model.CardType = _encryptionService.DecryptText(order.CardType);
+                //cardholder name
+                model.CardName = _encryptionService.DecryptText(order.CardName);
+                //card number
+                model.CardNumber = _encryptionService.DecryptText(order.CardNumber);
+                //cvv
+                model.CardCvv2 = _encryptionService.DecryptText(order.CardCvv2);
+                //expiry date
+                string cardExpirationMonthDecrypted = _encryptionService.DecryptText(order.CardExpirationMonth);
+                if (!String.IsNullOrEmpty(cardExpirationMonthDecrypted) && cardExpirationMonthDecrypted != "0")
+                    model.CardExpirationMonth = cardExpirationMonthDecrypted;
+                string cardExpirationYearDecrypted = _encryptionService.DecryptText(order.CardExpirationYear);
+                if (!String.IsNullOrEmpty(cardExpirationYearDecrypted) && cardExpirationYearDecrypted != "0")
+                    model.CardExpirationYear = cardExpirationYearDecrypted;
+
+                model.AllowStoringCreditCardNumber = true;
+            }
+            else
+            {
+                string maskedCreditCardNumberDecrypted = _encryptionService.DecryptText(order.MaskedCreditCardNumber);
+                if (!String.IsNullOrEmpty(maskedCreditCardNumberDecrypted))
+                    model.CardNumber = maskedCreditCardNumberDecrypted;
+            }
+
+
+            //purchase order number (we have to find a better to inject this information because it's related to a certain plugin)
+            var pm = _paymentService.LoadPaymentMethodBySystemName(order.PaymentMethodSystemName);
+            if (pm != null && pm.PluginDescriptor.SystemName.Equals("Payments.PurchaseOrder", StringComparison.InvariantCultureIgnoreCase))
+            {
+                model.DisplayPurchaseOrderNumber = true;
+                model.PurchaseOrderNumber = order.PurchaseOrderNumber;
+            }
+
+            //payment transaction info
+            model.AuthorizationTransactionId = order.AuthorizationTransactionId;
+            model.CaptureTransactionId = order.CaptureTransactionId;
+            model.SubscriptionTransactionId = order.SubscriptionTransactionId;
+
+            //payment method info
+            model.PaymentMethod = pm != null ? pm.PluginDescriptor.FriendlyName : order.PaymentMethodSystemName;
+            model.PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext);
+
+            //payment method buttons
+            model.CanCancelOrder = _orderProcessingService.CanCancelOrder(order);
+            model.CanCapture = _orderProcessingService.CanCapture(order);
+            model.CanMarkOrderAsPaid = _orderProcessingService.CanMarkOrderAsPaid(order);
+            model.CanRefund = _orderProcessingService.CanRefund(order);
+            model.CanRefundOffline = _orderProcessingService.CanRefundOffline(order);
+            model.CanPartiallyRefund = _orderProcessingService.CanPartiallyRefund(order, decimal.Zero);
+            model.CanPartiallyRefundOffline = _orderProcessingService.CanPartiallyRefundOffline(order, decimal.Zero);
+            model.CanVoid = _orderProcessingService.CanVoid(order);
+            model.CanVoidOffline = _orderProcessingService.CanVoidOffline(order);
+
+            model.PrimaryStoreCurrencyCode = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
+            model.MaxAmountToRefund = order.OrderTotal - order.RefundedAmount;
+
+            //recurring payment record
+            var recurringPayment = _orderService.SearchRecurringPayments(0, 0, order.Id, null, 0, int.MaxValue, true).FirstOrDefault();
+            if (recurringPayment != null)
+            {
+                model.RecurringPaymentId = recurringPayment.Id;
+            }
+            #endregion
+
+            #region Billing & shipping info
+
+
+            model.ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext); ;
+            if (order.ShippingStatus != ShippingStatus.ShippingNotRequired)
+            {
+                model.IsShippable = true;
+
+                model.ShippingAddress = order.ShippingAddress.ToModel();
+                model.ShippingAddress.FirstNameEnabled = true;
+                model.ShippingAddress.FirstNameRequired = true;
+                model.ShippingAddress.LastNameEnabled = true;
+                model.ShippingAddress.LastNameRequired = true;
+                model.ShippingAddress.EmailEnabled = true;
+                model.ShippingAddress.EmailRequired = true;
+                model.ShippingAddress.CompanyEnabled = _addressSettings.CompanyEnabled;
+                model.ShippingAddress.CompanyRequired = _addressSettings.CompanyRequired;
+                model.ShippingAddress.CountryEnabled = _addressSettings.CountryEnabled;
+                model.ShippingAddress.StateProvinceEnabled = _addressSettings.StateProvinceEnabled;
+                model.ShippingAddress.CityEnabled = _addressSettings.CityEnabled;
+                model.ShippingAddress.CityRequired = _addressSettings.CityRequired;
+                model.ShippingAddress.StreetAddressEnabled = _addressSettings.StreetAddressEnabled;
+                model.ShippingAddress.StreetAddressRequired = _addressSettings.StreetAddressRequired;
+                model.ShippingAddress.StreetAddress2Enabled = _addressSettings.StreetAddress2Enabled;
+                model.ShippingAddress.StreetAddress2Required = _addressSettings.StreetAddress2Required;
+                model.ShippingAddress.ZipPostalCodeEnabled = _addressSettings.ZipPostalCodeEnabled;
+                model.ShippingAddress.ZipPostalCodeRequired = _addressSettings.ZipPostalCodeRequired;
+                model.ShippingAddress.PhoneEnabled = _addressSettings.PhoneEnabled;
+                model.ShippingAddress.PhoneRequired = _addressSettings.PhoneRequired;
+                model.ShippingAddress.FaxEnabled = _addressSettings.FaxEnabled;
+                model.ShippingAddress.FaxRequired = _addressSettings.FaxRequired;
+
+                model.ShippingMethod = order.ShippingMethod;
+
+                model.ShippingAddressGoogleMapsUrl = string.Format("http://maps.google.com/maps?f=q&hl=en&ie=UTF8&oe=UTF8&geocode=&q={0}", Server.UrlEncode(order.ShippingAddress.Address1 + " " + order.ShippingAddress.ZipPostalCode + " " + order.ShippingAddress.City + " " + (order.ShippingAddress.Country != null ? order.ShippingAddress.Country.Name : "")));
+                model.CanAddNewShipments = order.HasItemsToAddToShipment();
+            }
+
+            #endregion
+
+            #region Products
+            model.CheckoutAttributeInfo = order.CheckoutAttributeDescription;
+            bool hasDownloadableItems = false;
+            var products = order.OrderItems;
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null)
+            {
+                products = products
+                    .Where(orderItem => orderItem.Product.VendorId == _workContext.CurrentVendor.Id)
+                    .ToList();
+            }
+            foreach (var orderItem in products)
+            {
+                if (orderItem.Product.IsDownload)
+                    hasDownloadableItems = true;
+
+                var orderItemModel = new OrderModel.OrderItemModel()
+                {
+                    Id = orderItem.Id,
+                    ProductId = orderItem.ProductId,
+                    ProductName = orderItem.Product.Name,
+                    Sku = orderItem.Product.FormatSku(orderItem.AttributesXml, _productAttributeParser),
+                    Quantity = orderItem.Quantity,
+                    IsDownload = orderItem.Product.IsDownload,
+                    DownloadCount = orderItem.DownloadCount,
+                    DownloadActivationType = orderItem.Product.DownloadActivationType,
+                    IsDownloadActivated = orderItem.IsDownloadActivated
+                };
+                //license file
+                if (orderItem.LicenseDownloadId.HasValue)
+                {
+                    var licenseDownload = _downloadService.GetDownloadById(orderItem.LicenseDownloadId.Value);
+                    if (licenseDownload != null)
+                    {
+                        orderItemModel.LicenseDownloadGuid = licenseDownload.DownloadGuid;
+                    }
+                }
+                //vendor
+                var vendor = _vendorService.GetVendorById(orderItem.Product.VendorId);
+                orderItemModel.VendorName = vendor != null ? vendor.Name : "";
+
+                //unit price
+                orderItemModel.UnitPriceInclTaxValue = orderItem.UnitPriceInclTax;
+                orderItemModel.UnitPriceExclTaxValue = orderItem.UnitPriceExclTax;
+                orderItemModel.UnitPriceInclTax = _priceFormatter.FormatPrice(orderItem.UnitPriceInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.UnitPriceExclTax = _priceFormatter.FormatPrice(orderItem.UnitPriceExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+                //discounts
+                orderItemModel.DiscountInclTaxValue = orderItem.DiscountAmountInclTax;
+                orderItemModel.DiscountExclTaxValue = orderItem.DiscountAmountExclTax;
+                orderItemModel.DiscountInclTax = _priceFormatter.FormatPrice(orderItem.DiscountAmountInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.DiscountExclTax = _priceFormatter.FormatPrice(orderItem.DiscountAmountExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+                //subtotal
+                orderItemModel.SubTotalInclTaxValue = orderItem.PriceInclTax;
+                orderItemModel.SubTotalExclTaxValue = orderItem.PriceExclTax;
+                orderItemModel.SubTotalInclTax = _priceFormatter.FormatPrice(orderItem.PriceInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.SubTotalExclTax = _priceFormatter.FormatPrice(orderItem.PriceExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+
+                orderItemModel.AttributeInfo = orderItem.AttributeDescription;
+                if (orderItem.Product.IsRecurring)
+                    orderItemModel.RecurringInfo = string.Format(_localizationService.GetResource("Admin.Orders.Products.RecurringPeriod"), orderItem.Product.RecurringCycleLength, orderItem.Product.RecurringCyclePeriod.GetLocalizedEnum(_localizationService, _workContext));
+
+                //return requests
+                orderItemModel.ReturnRequestIds = _orderService.SearchReturnRequests(0, 0, orderItem.Id, null, 0, int.MaxValue)
+                    .Select(rr => rr.Id).ToList();
+
+                model.Items.Add(orderItemModel);
+            }
+            model.HasDownloadableProducts = hasDownloadableItems;
+            #endregion
+        }
+
+        [NonAction]
+        private bool HasAccessToShipment(Shipment shipment)
+        {
+            if (shipment == null)
+                throw new ArgumentNullException("shipment");
+
+
+            var hasVendorProducts = false;
+            var vendorId = _workContext.CurrentCustomer.Id;
+            foreach (var shipmentItem in shipment.ShipmentItems)
+            {
+                var orderItem = _orderService.GetOrderItemById(shipmentItem.OrderItemId);
+                if (orderItem != null)
+                {
+                    if (orderItem.Product.VendorId == vendorId)
+                    {
+                        hasVendorProducts = true;
+                        break;
+                    }
+                }
+            }
+            return hasVendorProducts;
+        }
+
         #endregion
 
         #region Seller's Product
@@ -1274,18 +1704,14 @@ namespace Nop.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                product = new Product()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    ShortDescription = model.ShortDescription,
-                    FullDescription = model.FullDescription,
-                    Sku = model.Sku,
-                    StockQuantity = model.StockQuantity,
-                    Price = model.Price,
-                    CreatedOnUtc = DateTime.UtcNow,
-                    UpdatedOnUtc = DateTime.UtcNow,
-                };
+                product.Id = model.Id;
+                product.Name = model.Name;
+                product.ShortDescription = model.ShortDescription;
+                product.FullDescription = model.FullDescription;
+                product.Sku = model.Sku;
+                product.StockQuantity = model.StockQuantity;
+                product.Price = model.Price;
+                product.UpdatedOnUtc = DateTime.UtcNow;
                 _productService.UpdateProduct(product);
 
                 //category

@@ -1,0 +1,204 @@
+﻿@model MySoldModel
+@using Nop.Web.Models.Customer;
+@using Nop.Web.Extensions;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    <div class="profile_slidebar_right2">
+        <div class="checkout_title">
+            交易详情
+            <label></label>
+        </div>
+@using (Html.BeginForm())
+{
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">订单编号</div>
+            <label>@Model.Order.Id</label>
+            @Html.HiddenFor(model => model.Id)
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">订单小计</div>
+            <label>@Model.Order.OrderSubtotalExclTax</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">运费</div>
+            <label>@Model.Order.OrderShippingExclTax</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">订单总额</div>
+            <label>@Model.Order.OrderTotal</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">付款方式</div>
+            <label>@Model.Order.PaymentMethod</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">付款状态</div>
+            <label>@Model.Order.PaymentStatus</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">创建日期</div>
+            <label>@Model.Order.CreatedOn</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">配送地址</div>
+            <div style="margin-left: 110px;">
+                <table style="border: solid 1px black; padding: 5px;width:300px">
+                    @if (Model.Order.ShippingAddress.FirstNameEnabled || Model.Order.ShippingAddress.LastNameEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.FullName"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.FirstName @Model.Order.ShippingAddress.LastName
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.EmailEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Email"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.Email
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.PhoneEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Phone"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.PhoneNumber
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.FaxEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Fax"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.FaxNumber
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.CompanyEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Company"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.Company
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.StreetAddressEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Address1"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.Address1
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.StreetAddress2Enabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Address2"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.Address2
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.CityEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.City"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.City
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.StateProvinceEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.StateProvince"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.StateProvinceName
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.ZipPostalCodeEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.ZipPostalCode"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.ZipPostalCode
+                            </td>
+                        </tr>
+                }
+                    @if (Model.Order.ShippingAddress.CountryEnabled)
+                {
+                        <tr>
+                            <td>
+                                @T("Admin.Orders.Address.Country"):
+                            </td>
+                            <td>
+                                @Model.Order.ShippingAddress.CountryName
+                            </td>
+                        </tr>
+                }
+                    @if (!Model.Order.IsLoggedInAsVendor)
+                {
+                        <tr>
+                            <td colspan="2">
+                                <a href="@Url.Action("AddressEdit", new { addressId = Model.Order.ShippingAddress.Id, orderId = Model.Order.Id })" class="k-button">@T("Admin.Common.Edit")</a>
+                            </td>
+                        </tr>
+                }
+                </table>
+            </div>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">配送方式</div>
+            <label>@Model.Order.ShippingMethod</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">配送状态</div>
+            <label>@Model.Order.ShippingStatus</label>
+        </div>
+        <div class="profile_cmb1">
+            <div class="profile_cmb1_left">运单号</div>
+            @Html.EditorFor(model=>model.TrackingNumber)
+        </div>
+        <div class="profile_cmb2">
+            <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
+        </div>
+}
+    </div>
+</div>

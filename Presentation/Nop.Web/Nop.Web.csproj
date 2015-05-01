@@ -268,6 +268,7 @@
     <Compile Include="Models\Customer\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Customer\MySoldModel.cs" />
     <Compile Include="Models\Customer\SoldListModel.cs" />
     <Compile Include="Models\Customer\MyProductModel.cs" />
     <Compile Include="Models\Customer\MyProductListModel.cs" />
@@ -2306,6 +2307,8 @@
     <Content Include="Themes\houdongfang\Views\Customer\MyProducts.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\EditProduct.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\SoldList.cshtml" />
+    <Content Include="Themes\houdongfang\Views\ShoppingCart\_CheckoutAttributes.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\MySold.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

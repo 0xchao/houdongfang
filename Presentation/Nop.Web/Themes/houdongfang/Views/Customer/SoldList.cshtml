@@ -45,9 +45,9 @@
                         <td class="profile_tab1_td1"><img src="@item.PictureUrl" /></td>
                         <td class="profile_tab1_td2"><h2>@item.ProductName</h2><h3>规格：@item.Sku</h3></td>
                         <td class="profile_tab1_td3">@item.Quantity</td>
-                        <td class="profile_tab1_td4">￥ <span>@item.UnitPriceInclTax</span></td>
+                        <td class="profile_tab1_td4" rowspan="@rowspan"><span>@order.OrderTotal</span></td>
                         <td class="profile_tab1_td5" rowspan="@rowspan"><h3>@order.OrderStatus</h3></td>
-                        <td class="profile_tab1_td6" rowspan="@rowspan"><h4><a href="/mysold/@order.Id">订单详情</a></h4></td>
+                        <td class="profile_tab1_td6" rowspan="@rowspan"><h4><a href="/customer/mysold/@order.Id">订单详情</a></h4></td>
                     </tr>
                     }
                  }
