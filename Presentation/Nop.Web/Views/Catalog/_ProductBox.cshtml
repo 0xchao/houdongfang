@@ -20,13 +20,13 @@
 }
 <div class="product-item" data-productid="@Model.Id">
     <div class="picture">
-        <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title">
+        <a href="@Url.RouteUrl("Product", new { productId = Model.Id } )" title="@Model.DefaultPictureModel.Title">
             <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
         </a>
     </div>
     <div class="details">
         <h2 class="product-title">
-            <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })">@Model.Name</a>
+            <a href="@Url.RouteUrl("Product", new { productId = Model.Id } )">@Model.Name</a>
         </h2>
         @if (Model.ReviewOverviewModel.AllowCustomerReviews)
         {
@@ -63,7 +63,7 @@
                     }
             </div>
             <div class="buttons">
-                @*<input type="button" value="@T("Products.Details")" class="button-1 product-box-detail-button" onclick="setLocation('@Url.RouteUrl("Product", new { SeName = Model.SeName })')" />*@
+                @*<input type="button" value="@T("Products.Details")" class="button-1 product-box-detail-button" onclick="setLocation('@Url.RouteUrl("Product", new { productId = Model.Id } )')" />*@
                 @if (!Model.ProductPrice.DisableBuyButton)
                 {
                     <input type="button" value="@(Model.ProductPrice.AvailableForPreOrder ? T("ShoppingCart.PreOrder") : T("ShoppingCart.AddToCart"))" class="button-2 product-box-add-to-cart-button" onclick="AjaxCart.addproducttocart_catalog('@addtocartlink    ');return false;" />

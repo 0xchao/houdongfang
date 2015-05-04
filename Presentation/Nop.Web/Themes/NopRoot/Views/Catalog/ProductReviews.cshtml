@@ -11,7 +11,7 @@
     <div class="panel panel-default form-panel">
         
         <div class="panel-heading">
-            <h3>@T("Reviews.ProductReviewsFor") <a href="@Url.RouteUrl("Product", new { SeName = Model.ProductSeName })">@Model.ProductName</a></h3>
+            <h3>@T("Reviews.ProductReviewsFor") <a href="@Url.RouteUrl("Product", new { productId = Model.ProductId })">@Model.ProductName</a></h3>
         </div>
         <div class="panel-body">
             @Html.Widget("productreviews_page_top")

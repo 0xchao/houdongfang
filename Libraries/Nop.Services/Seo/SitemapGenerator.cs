@@ -96,7 +96,7 @@ namespace Nop.Services.Seo
                 orderBy: ProductSortingEnum.CreatedOn);
             foreach (var product in products)
             {
-                var url = urlHelper.RouteUrl("Product", new { SeName = product.GetSeName() }, "http");
+                var url = urlHelper.RouteUrl("Product", new { productId = product.Id }, "http");
                 var updateFrequency = UpdateFrequency.Weekly;
                 var updateTime = product.UpdatedOnUtc;
                 WriteUrlLocation(url, updateFrequency, updateTime);

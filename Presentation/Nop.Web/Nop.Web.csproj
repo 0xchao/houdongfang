@@ -268,6 +268,7 @@
     <Compile Include="Models\Customer\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Customer\SoldListModel.cs" />
     <Compile Include="Models\Customer\MyProductModel.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
@@ -2287,7 +2288,6 @@
     <Content Include="Themes\houdongfang\Views\Customer\_CustomerAttributes.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\_CreateOrUpdateMyProduct.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\PublishProduct.cshtml" />
-    <Content Include="Themes\houdongfang\Views\Customer\EditMyProduct.cshtml" />
     <Content Include="Themes\houdongfang\Views\Common\Construction.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\_StoreForm.cshtml" />
     <Content Include="Themes\houdongfang\Views\Customer\SellerInfo.cshtml" />
@@ -2300,6 +2300,10 @@
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\DateNullable.cshtml" />
     <Content Include="Themes\houdongfang\Views\Shared\EditorTemplates\RichEditor.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\_ProductPicture.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\MyProducts.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\EditProduct.cshtml" />
+    <Content Include="Themes\houdongfang\Views\Customer\SoldList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

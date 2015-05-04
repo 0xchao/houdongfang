@@ -35,6 +35,12 @@ using Nop.Web.Framework.Security;
 using Nop.Web.Framework.UI.Captcha;
 using Nop.Web.Models.Common;
 using Nop.Web.Models.Customer;
+using Nop.Services.Vendors;
+using Nop.Web.Models.Catalog;
+using Nop.Web.Infrastructure.Cache;
+using Nop.Core.Caching;
+using Nop.Web.Models.Media;
+using Nop.Admin.Models.Orders;
 
 namespace Nop.Web.Controllers
 {
@@ -87,6 +93,12 @@ namespace Nop.Web.Controllers
         private readonly IProductService _productService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IStoreService _storeService;
+        private readonly ICategoryService _categoryService;
+        private readonly IManufacturerService _manufacturerService;
+        private readonly ISpecificationAttributeService _specificationAttributeService;
+        private readonly IVendorService _vendorService;
+        private readonly ICacheManager _cacheManager;
+        private readonly IProductAttributeParser _productAttributeParser;
 
         #endregion
 
@@ -121,7 +133,10 @@ namespace Nop.Web.Controllers
             IWorkflowMessageService workflowMessageService, LocalizationSettings localizationSettings,
             CaptchaSettings captchaSettings, ExternalAuthenticationSettings externalAuthenticationSettings,
             IProductService productService, IUrlRecordService urlRecordService,
-            IStoreService storeService)
+            IStoreService storeService, ICategoryService categoryService,
+            IManufacturerService manufacturerService, ISpecificationAttributeService specificationAttributeService,
+            IVendorService vendorService, ICacheManager cacheManager,
+            IProductAttributeParser productAttributeParser)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -169,6 +184,12 @@ namespace Nop.Web.Controllers
             this._productService = productService;
             this._urlRecordService = urlRecordService;
             this._storeService = storeService;
+            this._categoryService = categoryService;
+            this._manufacturerService = manufacturerService;
+            this._specificationAttributeService = specificationAttributeService;
+            this._vendorService = vendorService;
+            this._cacheManager = cacheManager;
+            this._productAttributeParser = productAttributeParser;
         }
 
         #endregion
@@ -1085,7 +1106,103 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
+        #region Sold list
+
+        public ActionResult SoldList()
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var model = new SoldListModel();
+
+            var orders = _orderService.SearchOrders(vendorId: customer.VendorId);
+            foreach (var order in orders)
+            {
+                var om = new OrderModel()
+                {
+                    Id = order.Id,
+                    OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false),
+                    OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _workContext),
+                    PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext),
+                    ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext),
+                    CustomerEmail = order.BillingAddress.Email,
+                    CustomerFullName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName),
+                    CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
+                    CheckoutAttributeInfo = order.CheckoutAttributeDescription
+                };
+
+                #region Products
+                var products = order.OrderItems
+                    .Where(orderItem => orderItem.Product.VendorId == customer.VendorId)
+                        .ToList(); ;
+                foreach (var orderItem in products)
+                {
+                    var orderItemModel = new OrderModel.OrderItemModel()
+                    {
+                        Id = orderItem.Id,
+                        ProductId = orderItem.ProductId,
+                        ProductName = orderItem.Product.Name,
+                        Sku = orderItem.Product.FormatSku(orderItem.AttributesXml, _productAttributeParser),
+                        Quantity = orderItem.Quantity,
+                        IsDownload = orderItem.Product.IsDownload,
+                        DownloadCount = orderItem.DownloadCount,
+                        DownloadActivationType = orderItem.Product.DownloadActivationType,
+                        IsDownloadActivated = orderItem.IsDownloadActivated
+                    };
+                    //picture url
+                    if (orderItem.Product.ProductPictures.Count > 0)
+                    {
+                        var pp = orderItem.Product.ProductPictures.First();
+                        orderItemModel.PictureUrl = _pictureService.GetPictureUrl(pp.Picture);
+                    }
+                    //unit price
+                    orderItemModel.UnitPriceInclTaxValue = orderItem.UnitPriceInclTax;
+
+                    //subtotal
+                    orderItemModel.SubTotalInclTaxValue = orderItem.PriceInclTax;
+                    orderItemModel.SubTotalExclTaxValue = orderItem.PriceExclTax;
+
+                    orderItemModel.AttributeInfo = orderItem.AttributeDescription;
+                    if (orderItem.Product.IsRecurring)
+                        orderItemModel.RecurringInfo = string.Format(_localizationService.GetResource("Admin.Orders.Products.RecurringPeriod"), orderItem.Product.RecurringCycleLength, orderItem.Product.RecurringCyclePeriod.GetLocalizedEnum(_localizationService, _workContext));
+
+                    //return requests
+                    orderItemModel.ReturnRequestIds = _orderService.SearchReturnRequests(0, 0, orderItem.Id, null, 0, int.MaxValue)
+                        .Select(rr => rr.Id).ToList();
+
+                    om.Items.Add(orderItemModel);
+                }
+                #endregion
+
+                model.Orders.Add(om);
+            }
+
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.SoldList;
+
+            return View(model);
+        }
+        #endregion
+
         #region Seller's Product
+
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId != product.VendorId
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            _productService.DeleteProduct(product);
+
+            return RedirectToAction("MyProducts");
+        }
 
         [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult PublishProduct()

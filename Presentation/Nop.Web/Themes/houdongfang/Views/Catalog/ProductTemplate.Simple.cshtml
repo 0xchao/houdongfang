@@ -14,7 +14,7 @@
     var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
     if (canonicalUrlsEnabled)
     {
-        var productUrl = Url.RouteUrl("Product", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        var productUrl = Url.RouteUrl("Product", new { productId = Model.Id }, this.Request.Url.Scheme);
         Html.AddCanonicalUrlParts(productUrl);
     }
 }
@@ -22,7 +22,7 @@
 <div class="product_intro">
     <div class="product_intro_title"></div>
     @Html.Partial("_ProductDetailsPictures", Model)
-    @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+    @using (Html.BeginRouteForm("Product", new { productId = Model.Id }, FormMethod.Post, new { id = "product-details-form" }))
     {
         <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
             <!--product pictures-->

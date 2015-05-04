@@ -231,6 +231,7 @@ namespace Nop.Admin.Models.Orders
             public string ProductName { get; set; }
             public string VendorName { get; set; }
             public string Sku { get; set; }
+            public string PictureUrl { get; set; }
 
             public string UnitPriceInclTax { get; set; }
             public string UnitPriceExclTax { get; set; }

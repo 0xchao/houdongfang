@@ -63,7 +63,7 @@
                 {
                     <div class="product-box">
                         <div class="item">
-                            <a href="@Url.RouteUrl("Product", new { SeName = item.SeName })">@item.Name</a>
+                            <a href="@Url.RouteUrl("Product", new { productId = item.Id } )">@item.Name</a>
                         </div>
                     </div>
                 }
