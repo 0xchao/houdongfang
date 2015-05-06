@@ -2073,20 +2073,24 @@ namespace Nop.Web.Controllers
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
 
+            var customer = _workContext.CurrentCustomer;
             try
             {
-                SaveCustomerStoreModel(_workContext.CurrentCustomer, model, CustomerNavigationEnum.SellerInfo);
+                SaveCustomerStoreModel(customer, model);
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
 
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.SellerInfo;
+
             return View(model);
         }
 
         [NonAction]
-        private void SaveCustomerStoreModel(Customer customer, CustomerStoreModel model, CustomerNavigationEnum navi)
+        private void SaveCustomerStoreModel(Customer customer, CustomerStoreModel model)
         {
             //custom customer attributes
             string customerAttributes = "";
@@ -2154,8 +2158,6 @@ namespace Nop.Web.Controllers
 
             }
             model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
-            model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = navi;
 
         }
 
@@ -2258,12 +2260,15 @@ namespace Nop.Web.Controllers
                 }
 
                 model.DocumentCopyUrl = _pictureService.GetPictureUrl(docCopy.Id, 0, false);
-                SaveCustomerStoreModel(customer, model, CustomerNavigationEnum.ApplySale);
+                SaveCustomerStoreModel(customer, model);
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
+
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
 
             return View(model);
         }
