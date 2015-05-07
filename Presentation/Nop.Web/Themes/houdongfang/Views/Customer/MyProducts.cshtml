@@ -1,0 +1,63 @@
+﻿@model MyProductListModel
+@using Nop.Web.Models.Customer;
+@using Nop.Web.Extensions;
+@{
+    Layout = "~/Themes/houdongfang/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Account").Text);
+}
+@section left
+{
+    @Html.Partial("MyAccountNavigation", Model.NavigationModel, new ViewDataDictionary())
+}
+<div class="profile_slidebar_right">
+    <div class="profile_slidebar_right2">
+        <div class="checkout_title">
+            商品管理
+            <label></label>
+        </div>
+        @*sorting*@
+        @if (Model.PagingFilteringContext.AllowProductSorting && Model.Products.Count > 0)
+        {
+            <div class="profile_cmb1">
+                <div class="profile_cmb1_left">排序</div>
+                @Html.DropDownList("products-orderby", Model.PagingFilteringContext.AvailableSortOptions, new { @class = "form-control dropdown-filter", onchange = "setLocation(this.value);" })
+            </div>
+        }
+        <table class="profile_tab1" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr class="profile_tab1_tr1">
+                    <td width="200" class="profile_tab1_td1"></td>
+                    <td width="170" class="profile_tab1_td2">商品名称</td>
+                    <td width="150" class="profile_tab1_td5">规格</td>
+                    <td width="130" class="profile_tab1_td3">数量</td>
+                    <td width="150" class="profile_tab1_td4">价格</td>
+                    <td width="150" class="profile_tab1_td6">操作</td>
+                </tr>
+            </tbody>
+
+            <tr class="profile_tab1_tr2"></tr>
+            <tbody class="profile_tab1_bg">
+                @foreach (var product in Model.Products)
+                {
+                    <tr class="profile_tab1_tr4">
+                        <td class="profile_tab1_td1"><img src="@product.DefaultPictureModel.ImageUrl" /></td>
+                        <td class="profile_tab1_td2"><h2>@product.Name</h2></td>
+                        <td class="profile_tab1_td3"><h3>@product.Sku</h3></td>
+                        <td class="profile_tab1_td4">@product.StockQuantity</td>
+                        <td class="profile_tab1_td5"><span>@product.ProductPrice.Price</span></td>
+                        <td class="profile_tab1_td6">
+                            <a href="/customer/editproduct/@product.Id" class="profile_tab1_btn1">编辑商品</a>
+                            <a href="/customer/deleteproduct/@product.Id" class="profile_tab1_btn2">删除商品</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="profile_cmb1">
+            @Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber")
+        </div>
+    </div>
+</div>

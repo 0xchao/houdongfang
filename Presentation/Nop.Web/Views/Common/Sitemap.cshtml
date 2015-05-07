@@ -70,7 +70,7 @@
                     <ul>
                         @foreach (var product in Model.Products)
                         { 
-                            <li><a href="@Url.RouteUrl("Product", new { productId = product.ProductId } )">@product.Name</a></li>
+                            <li><a href="@Url.RouteUrl("Product", new { productId = product.Id } )">@product.Name</a></li>
                         }
                     </ul>
                 </div>

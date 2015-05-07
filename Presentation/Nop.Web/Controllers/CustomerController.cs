@@ -40,7 +40,13 @@ using Nop.Web.Models.Catalog;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Core.Caching;
 using Nop.Web.Models.Media;
+using Nop.Admin;
 using Nop.Admin.Models.Orders;
+using Nop.Core.Domain.Directory;
+using Nop.Services.Security;
+using Nop.Services.Payments;
+using Nop.Core.Domain.Shipping;
+using Nop.Services.Shipping;
 
 namespace Nop.Web.Controllers
 {
@@ -99,6 +105,10 @@ namespace Nop.Web.Controllers
         private readonly IVendorService _vendorService;
         private readonly ICacheManager _cacheManager;
         private readonly IProductAttributeParser _productAttributeParser;
+        private readonly CurrencySettings _currencySettings;
+        private readonly IEncryptionService _encryptionService;
+        private readonly IPaymentService _paymentService;
+        private readonly IShipmentService _shipmentService;
 
         #endregion
 
@@ -136,7 +146,9 @@ namespace Nop.Web.Controllers
             IStoreService storeService, ICategoryService categoryService,
             IManufacturerService manufacturerService, ISpecificationAttributeService specificationAttributeService,
             IVendorService vendorService, ICacheManager cacheManager,
-            IProductAttributeParser productAttributeParser)
+            IProductAttributeParser productAttributeParser, CurrencySettings currencySettings,
+            IEncryptionService encryptionService, IPaymentService paymentService,
+            IShipmentService shipmentService)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -190,6 +202,10 @@ namespace Nop.Web.Controllers
             this._vendorService = vendorService;
             this._cacheManager = cacheManager;
             this._productAttributeParser = productAttributeParser;
+            this._currencySettings = currencySettings;
+            this._encryptionService = encryptionService;
+            this._paymentService = paymentService;
+            this._shipmentService = shipmentService;
         }
 
         #endregion
@@ -1107,7 +1123,100 @@ namespace Nop.Web.Controllers
         }
 
         #region Sold list
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult MySold(int id)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
 
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var order = _orderService.GetOrderById(id);
+            if (order == null || order.Deleted)
+                //No order found with the specified id
+                return RedirectToAction("SoldList");
+
+            bool isMySold = false;
+            foreach (var item in order.OrderItems)
+            {
+                if (item.Product.VendorId == customer.VendorId)
+                {
+                    isMySold = true;
+                    break;
+                }
+            }
+            if (!isMySold)
+                return new HttpUnauthorizedResult();
+
+            var om = new OrderModel();
+            PrepareOrderDetailsModel(om, order);
+
+            var mysold = new MySoldModel()
+            {
+                Id = om.Id,
+                Order = om
+            };
+            mysold.NavigationModel = GetCustomerNavigationModel(customer);
+            mysold.NavigationModel.SelectedTab = CustomerNavigationEnum.SoldList;
+
+            //shipment
+            var shipmentModels = new List<ShipmentModel>();
+            var shipments = order.Shipments.ToList();
+            if (shipments.Count > 0)
+                mysold.TrackingNumber = shipments[0].TrackingNumber;
+
+            return View(mysold);
+        }
+
+        [HttpPost]
+        public ActionResult MySold(MySoldModel model)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var order = _orderService.GetOrderById(model.Id);
+            if (order == null || order.Deleted)
+                //No order found with the specified id
+                return RedirectToAction("SoldList");
+
+            var shipments = order.Shipments.ToList();
+            if (shipments.Count > 0)
+            {
+                shipments[0].TrackingNumber = model.TrackingNumber;
+                _shipmentService.UpdateShipment(shipments[0]);
+            }
+            else
+            {
+                var shipment = new Shipment()
+                {
+                    OrderId = order.Id,
+                    TrackingNumber = model.TrackingNumber,
+                    CreatedOnUtc = DateTime.UtcNow,
+                };
+                foreach (var orderItem in order.OrderItems)
+                {
+                    var shipmentItem = new ShipmentItem()
+                    {
+                        OrderItemId = orderItem.Id,
+                        Quantity = orderItem.Quantity
+                    };
+                    shipment.ShipmentItems.Add(shipmentItem);
+                }
+                _shipmentService.InsertShipment(shipment);
+                _orderProcessingService.Ship(shipment, true);
+            }
+            return RedirectToAction("SoldList");
+        }
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult SoldList()
         {
             if (!IsCurrentUserRegistered())
@@ -1187,9 +1296,337 @@ namespace Nop.Web.Controllers
 
             return View(model);
         }
+
+        [NonAction]
+        private void PrepareOrderDetailsModel(OrderModel model, Order order)
+        {
+            if (order == null)
+                throw new ArgumentNullException("order");
+
+            if (model == null)
+                throw new ArgumentNullException("model");
+
+            model.Id = order.Id;
+            model.OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _workContext);
+            model.OrderStatusId = order.OrderStatusId;
+            model.OrderGuid = order.OrderGuid;
+            var store = _storeService.GetStoreById(order.StoreId);
+            model.StoreName = store != null ? store.Name : "Unknown";
+            model.CustomerId = order.CustomerId;
+            var customer = order.Customer;
+            model.CustomerInfo = customer.IsRegistered() ? customer.Email : _localizationService.GetResource("Admin.Customers.Guest");
+            model.CustomerIp = order.CustomerIp;
+            model.VatNumber = order.VatNumber;
+            model.CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc);
+            model.AllowCustomersToSelectTaxDisplayType = _taxSettings.AllowCustomersToSelectTaxDisplayType;
+            model.TaxDisplayType = _taxSettings.TaxDisplayType;
+            model.AffiliateId = order.AffiliateId;
+            //a vendor should have access only to his products
+            model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+
+            #region Order totals
+
+            var primaryStoreCurrency = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId);
+            if (primaryStoreCurrency == null)
+                throw new Exception("Cannot load primary store currency");
+
+            //subtotal
+            model.OrderSubtotalInclTax = _priceFormatter.FormatPrice(order.OrderSubtotalInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            model.OrderSubtotalExclTax = _priceFormatter.FormatPrice(order.OrderSubtotalExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            model.OrderSubtotalInclTaxValue = order.OrderSubtotalInclTax;
+            model.OrderSubtotalExclTaxValue = order.OrderSubtotalExclTax;
+            //discount (applied to order subtotal)
+            string orderSubtotalDiscountInclTaxStr = _priceFormatter.FormatPrice(order.OrderSubTotalDiscountInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            string orderSubtotalDiscountExclTaxStr = _priceFormatter.FormatPrice(order.OrderSubTotalDiscountExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            if (order.OrderSubTotalDiscountInclTax > decimal.Zero)
+                model.OrderSubTotalDiscountInclTax = orderSubtotalDiscountInclTaxStr;
+            if (order.OrderSubTotalDiscountExclTax > decimal.Zero)
+                model.OrderSubTotalDiscountExclTax = orderSubtotalDiscountExclTaxStr;
+            model.OrderSubTotalDiscountInclTaxValue = order.OrderSubTotalDiscountInclTax;
+            model.OrderSubTotalDiscountExclTaxValue = order.OrderSubTotalDiscountExclTax;
+
+            //shipping
+            model.OrderShippingInclTax = _priceFormatter.FormatShippingPrice(order.OrderShippingInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+            model.OrderShippingExclTax = _priceFormatter.FormatShippingPrice(order.OrderShippingExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            model.OrderShippingInclTaxValue = order.OrderShippingInclTax;
+            model.OrderShippingExclTaxValue = order.OrderShippingExclTax;
+
+            //payment method additional fee
+            if (order.PaymentMethodAdditionalFeeInclTax > decimal.Zero)
+            {
+                model.PaymentMethodAdditionalFeeInclTax = _priceFormatter.FormatPaymentMethodAdditionalFee(order.PaymentMethodAdditionalFeeInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true);
+                model.PaymentMethodAdditionalFeeExclTax = _priceFormatter.FormatPaymentMethodAdditionalFee(order.PaymentMethodAdditionalFeeExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false);
+            }
+            model.PaymentMethodAdditionalFeeInclTaxValue = order.PaymentMethodAdditionalFeeInclTax;
+            model.PaymentMethodAdditionalFeeExclTaxValue = order.PaymentMethodAdditionalFeeExclTax;
+
+
+            //tax
+            model.Tax = _priceFormatter.FormatPrice(order.OrderTax, true, false);
+            SortedDictionary<decimal, decimal> taxRates = order.TaxRatesDictionary;
+            bool displayTaxRates = _taxSettings.DisplayTaxRates && taxRates.Count > 0;
+            bool displayTax = !displayTaxRates;
+            foreach (var tr in order.TaxRatesDictionary)
+            {
+                model.TaxRates.Add(new OrderModel.TaxRate()
+                {
+                    Rate = _priceFormatter.FormatTaxRate(tr.Key),
+                    Value = _priceFormatter.FormatPrice(tr.Value, true, false),
+                });
+            }
+            model.DisplayTaxRates = displayTaxRates;
+            model.DisplayTax = displayTax;
+            model.TaxValue = order.OrderTax;
+            model.TaxRatesValue = order.TaxRates;
+
+            //discount
+            if (order.OrderDiscount > 0)
+                model.OrderTotalDiscount = _priceFormatter.FormatPrice(-order.OrderDiscount, true, false);
+            model.OrderTotalDiscountValue = order.OrderDiscount;
+
+            //gift cards
+            foreach (var gcuh in order.GiftCardUsageHistory)
+            {
+                model.GiftCards.Add(new OrderModel.GiftCard()
+                {
+                    CouponCode = gcuh.GiftCard.GiftCardCouponCode,
+                    Amount = _priceFormatter.FormatPrice(-gcuh.UsedValue, true, false),
+                });
+            }
+
+            //reward points
+            if (order.RedeemedRewardPointsEntry != null)
+            {
+                model.RedeemedRewardPoints = -order.RedeemedRewardPointsEntry.Points;
+                model.RedeemedRewardPointsAmount = _priceFormatter.FormatPrice(-order.RedeemedRewardPointsEntry.UsedAmount, true, false);
+            }
+
+            //total
+            model.OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false);
+            model.OrderTotalValue = order.OrderTotal;
+
+            //refunded amount
+            if (order.RefundedAmount > decimal.Zero)
+                model.RefundedAmount = _priceFormatter.FormatPrice(order.RefundedAmount, true, false);
+
+            //used discounts
+
+            #endregion
+
+            #region Payment info
+
+            if (order.AllowStoringCreditCardNumber)
+            {
+                //card type
+                model.CardType = _encryptionService.DecryptText(order.CardType);
+                //cardholder name
+                model.CardName = _encryptionService.DecryptText(order.CardName);
+                //card number
+                model.CardNumber = _encryptionService.DecryptText(order.CardNumber);
+                //cvv
+                model.CardCvv2 = _encryptionService.DecryptText(order.CardCvv2);
+                //expiry date
+                string cardExpirationMonthDecrypted = _encryptionService.DecryptText(order.CardExpirationMonth);
+                if (!String.IsNullOrEmpty(cardExpirationMonthDecrypted) && cardExpirationMonthDecrypted != "0")
+                    model.CardExpirationMonth = cardExpirationMonthDecrypted;
+                string cardExpirationYearDecrypted = _encryptionService.DecryptText(order.CardExpirationYear);
+                if (!String.IsNullOrEmpty(cardExpirationYearDecrypted) && cardExpirationYearDecrypted != "0")
+                    model.CardExpirationYear = cardExpirationYearDecrypted;
+
+                model.AllowStoringCreditCardNumber = true;
+            }
+            else
+            {
+                string maskedCreditCardNumberDecrypted = _encryptionService.DecryptText(order.MaskedCreditCardNumber);
+                if (!String.IsNullOrEmpty(maskedCreditCardNumberDecrypted))
+                    model.CardNumber = maskedCreditCardNumberDecrypted;
+            }
+
+
+            //purchase order number (we have to find a better to inject this information because it's related to a certain plugin)
+            var pm = _paymentService.LoadPaymentMethodBySystemName(order.PaymentMethodSystemName);
+            if (pm != null && pm.PluginDescriptor.SystemName.Equals("Payments.PurchaseOrder", StringComparison.InvariantCultureIgnoreCase))
+            {
+                model.DisplayPurchaseOrderNumber = true;
+                model.PurchaseOrderNumber = order.PurchaseOrderNumber;
+            }
+
+            //payment transaction info
+            model.AuthorizationTransactionId = order.AuthorizationTransactionId;
+            model.CaptureTransactionId = order.CaptureTransactionId;
+            model.SubscriptionTransactionId = order.SubscriptionTransactionId;
+
+            //payment method info
+            model.PaymentMethod = pm != null ? pm.PluginDescriptor.FriendlyName : order.PaymentMethodSystemName;
+            model.PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext);
+
+            //payment method buttons
+            model.CanCancelOrder = _orderProcessingService.CanCancelOrder(order);
+            model.CanCapture = _orderProcessingService.CanCapture(order);
+            model.CanMarkOrderAsPaid = _orderProcessingService.CanMarkOrderAsPaid(order);
+            model.CanRefund = _orderProcessingService.CanRefund(order);
+            model.CanRefundOffline = _orderProcessingService.CanRefundOffline(order);
+            model.CanPartiallyRefund = _orderProcessingService.CanPartiallyRefund(order, decimal.Zero);
+            model.CanPartiallyRefundOffline = _orderProcessingService.CanPartiallyRefundOffline(order, decimal.Zero);
+            model.CanVoid = _orderProcessingService.CanVoid(order);
+            model.CanVoidOffline = _orderProcessingService.CanVoidOffline(order);
+
+            model.PrimaryStoreCurrencyCode = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
+            model.MaxAmountToRefund = order.OrderTotal - order.RefundedAmount;
+
+            //recurring payment record
+            var recurringPayment = _orderService.SearchRecurringPayments(0, 0, order.Id, null, 0, int.MaxValue, true).FirstOrDefault();
+            if (recurringPayment != null)
+            {
+                model.RecurringPaymentId = recurringPayment.Id;
+            }
+            #endregion
+
+            #region Billing & shipping info
+
+
+            model.ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext); ;
+            if (order.ShippingStatus != ShippingStatus.ShippingNotRequired)
+            {
+                model.IsShippable = true;
+                if (model.ShippingAddress != null)
+                {
+                    model.ShippingAddress = order.ShippingAddress.ToModel();
+                    model.ShippingAddress.FirstNameEnabled = true;
+                    model.ShippingAddress.FirstNameRequired = true;
+                    model.ShippingAddress.LastNameEnabled = true;
+                    model.ShippingAddress.LastNameRequired = true;
+                    model.ShippingAddress.EmailEnabled = true;
+                    model.ShippingAddress.EmailRequired = true;
+                    model.ShippingAddress.CompanyEnabled = _addressSettings.CompanyEnabled;
+                    model.ShippingAddress.CompanyRequired = _addressSettings.CompanyRequired;
+                    model.ShippingAddress.CountryEnabled = _addressSettings.CountryEnabled;
+                    model.ShippingAddress.StateProvinceEnabled = _addressSettings.StateProvinceEnabled;
+                    model.ShippingAddress.CityEnabled = _addressSettings.CityEnabled;
+                    model.ShippingAddress.CityRequired = _addressSettings.CityRequired;
+                    model.ShippingAddress.StreetAddressEnabled = _addressSettings.StreetAddressEnabled;
+                    model.ShippingAddress.StreetAddressRequired = _addressSettings.StreetAddressRequired;
+                    model.ShippingAddress.StreetAddress2Enabled = _addressSettings.StreetAddress2Enabled;
+                    model.ShippingAddress.StreetAddress2Required = _addressSettings.StreetAddress2Required;
+                    model.ShippingAddress.ZipPostalCodeEnabled = _addressSettings.ZipPostalCodeEnabled;
+                    model.ShippingAddress.ZipPostalCodeRequired = _addressSettings.ZipPostalCodeRequired;
+                    model.ShippingAddress.PhoneEnabled = _addressSettings.PhoneEnabled;
+                    model.ShippingAddress.PhoneRequired = _addressSettings.PhoneRequired;
+                    model.ShippingAddress.FaxEnabled = _addressSettings.FaxEnabled;
+                    model.ShippingAddress.FaxRequired = _addressSettings.FaxRequired;
+                    model.ShippingAddressGoogleMapsUrl = string.Format("http://maps.google.com/maps?f=q&hl=en&ie=UTF8&oe=UTF8&geocode=&q={0}", Server.UrlEncode(order.ShippingAddress.Address1 + " " + order.ShippingAddress.ZipPostalCode + " " + order.ShippingAddress.City + " " + (order.ShippingAddress.Country != null ? order.ShippingAddress.Country.Name : "")));
+                }
+                model.ShippingMethod = order.ShippingMethod;
+
+                model.CanAddNewShipments = order.HasItemsToAddToShipment();
+            }
+
+            #endregion
+
+            #region Products
+            model.CheckoutAttributeInfo = order.CheckoutAttributeDescription;
+            bool hasDownloadableItems = false;
+            var products = order.OrderItems;
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null)
+            {
+                products = products
+                    .Where(orderItem => orderItem.Product.VendorId == _workContext.CurrentVendor.Id)
+                    .ToList();
+            }
+            foreach (var orderItem in products)
+            {
+                if (orderItem.Product.IsDownload)
+                    hasDownloadableItems = true;
+
+                var orderItemModel = new OrderModel.OrderItemModel()
+                {
+                    Id = orderItem.Id,
+                    ProductId = orderItem.ProductId,
+                    ProductName = orderItem.Product.Name,
+                    Sku = orderItem.Product.FormatSku(orderItem.AttributesXml, _productAttributeParser),
+                    Quantity = orderItem.Quantity,
+                    IsDownload = orderItem.Product.IsDownload,
+                    DownloadCount = orderItem.DownloadCount,
+                    DownloadActivationType = orderItem.Product.DownloadActivationType,
+                    IsDownloadActivated = orderItem.IsDownloadActivated
+                };
+                //license file
+                if (orderItem.LicenseDownloadId.HasValue)
+                {
+                    var licenseDownload = _downloadService.GetDownloadById(orderItem.LicenseDownloadId.Value);
+                    if (licenseDownload != null)
+                    {
+                        orderItemModel.LicenseDownloadGuid = licenseDownload.DownloadGuid;
+                    }
+                }
+                //vendor
+                var vendor = _vendorService.GetVendorById(orderItem.Product.VendorId);
+                orderItemModel.VendorName = vendor != null ? vendor.Name : "";
+
+                //unit price
+                orderItemModel.UnitPriceInclTaxValue = orderItem.UnitPriceInclTax;
+                orderItemModel.UnitPriceExclTaxValue = orderItem.UnitPriceExclTax;
+                orderItemModel.UnitPriceInclTax = _priceFormatter.FormatPrice(orderItem.UnitPriceInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.UnitPriceExclTax = _priceFormatter.FormatPrice(orderItem.UnitPriceExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+                //discounts
+                orderItemModel.DiscountInclTaxValue = orderItem.DiscountAmountInclTax;
+                orderItemModel.DiscountExclTaxValue = orderItem.DiscountAmountExclTax;
+                orderItemModel.DiscountInclTax = _priceFormatter.FormatPrice(orderItem.DiscountAmountInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.DiscountExclTax = _priceFormatter.FormatPrice(orderItem.DiscountAmountExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+                //subtotal
+                orderItemModel.SubTotalInclTaxValue = orderItem.PriceInclTax;
+                orderItemModel.SubTotalExclTaxValue = orderItem.PriceExclTax;
+                orderItemModel.SubTotalInclTax = _priceFormatter.FormatPrice(orderItem.PriceInclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, true, true);
+                orderItemModel.SubTotalExclTax = _priceFormatter.FormatPrice(orderItem.PriceExclTax, true, primaryStoreCurrency, _workContext.WorkingLanguage, false, true);
+
+                orderItemModel.AttributeInfo = orderItem.AttributeDescription;
+                if (orderItem.Product.IsRecurring)
+                    orderItemModel.RecurringInfo = string.Format(_localizationService.GetResource("Admin.Orders.Products.RecurringPeriod"), orderItem.Product.RecurringCycleLength, orderItem.Product.RecurringCyclePeriod.GetLocalizedEnum(_localizationService, _workContext));
+
+                //return requests
+                orderItemModel.ReturnRequestIds = _orderService.SearchReturnRequests(0, 0, orderItem.Id, null, 0, int.MaxValue)
+                    .Select(rr => rr.Id).ToList();
+
+                model.Items.Add(orderItemModel);
+            }
+            model.HasDownloadableProducts = hasDownloadableItems;
+            #endregion
+        }
+
+        [NonAction]
+        private bool HasAccessToShipment(Shipment shipment)
+        {
+            if (shipment == null)
+                throw new ArgumentNullException("shipment");
+
+
+            var hasVendorProducts = false;
+            var vendorId = _workContext.CurrentCustomer.Id;
+            foreach (var shipmentItem in shipment.ShipmentItems)
+            {
+                var orderItem = _orderService.GetOrderItemById(shipmentItem.OrderItemId);
+                if (orderItem != null)
+                {
+                    if (orderItem.Product.VendorId == vendorId)
+                    {
+                        hasVendorProducts = true;
+                        break;
+                    }
+                }
+            }
+            return hasVendorProducts;
+        }
+
         #endregion
 
         #region Seller's Product
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult DeleteProduct(int id)
+        {
+            var product = _productService.GetProductById(id);
+            if (product == null)
+                return new HttpNotFoundResult();
 
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
@@ -1205,6 +1642,148 @@ namespace Nop.Web.Controllers
         }
 
         [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult EditProduct(int id)
+        {
+            var product = _productService.GetProductById(id);
+            if (product == null)
+                return new HttpNotFoundResult();
+
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId != product.VendorId
+                || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var model = new MyProductModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ShortDescription = product.ShortDescription,
+                Sku = product.Sku,
+                StockQuantity = product.StockQuantity,
+                Price = product.Price,
+                FullDescription = product.FullDescription
+            };
+            //Category
+            var productCategories = _categoryService.GetProductCategoriesByProductId(product.Id);
+            if (productCategories.Count > 0)
+            {
+                model.CategoryId = productCategories[0].CategoryId;
+            }
+            //OriginId
+            var productSpecs = _specificationAttributeService.GetProductSpecificationAttributesByProductId(product.Id);
+            foreach (var spec in productSpecs)
+            {
+                var name = spec.SpecificationAttributeOption.SpecificationAttribute.Name;
+                if (name.ToLower() == "origin")
+                    model.OriginId = spec.SpecificationAttributeOptionId;
+            }
+
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.MyProductList;
+            model.OriginOptions = LoadOriginsOfProduct();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(MyProductModel model)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var product = _productService.GetProductById(model.Id);
+            if (product == null || product.Deleted)
+                //No product found with the specified id
+                return RedirectToAction("MyProducts");
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId != product.VendorId || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult("当前用户无权修改商品，请联系管理员。");
+
+            if (ModelState.IsValid)
+            {
+                product.Id = model.Id;
+                product.Name = model.Name;
+                product.ShortDescription = model.ShortDescription;
+                product.FullDescription = model.FullDescription;
+                product.Sku = model.Sku;
+                product.StockQuantity = model.StockQuantity;
+                product.Price = model.Price;
+                product.UpdatedOnUtc = DateTime.UtcNow;
+                _productService.UpdateProduct(product);
+
+                //category
+                var existingProductCategories = _categoryService.GetProductCategoriesByProductId(model.Id);
+                if (existingProductCategories.Count > 0)
+                {
+                    var category = existingProductCategories[0];
+                    category.CategoryId = model.CategoryId;
+                    _categoryService.UpdateProductCategory(category);
+                }
+                else
+                {
+                    var productCategory = new ProductCategory()
+                    {
+                        ProductId = product.Id,
+                        CategoryId = model.CategoryId
+                    };
+                    _categoryService.InsertProductCategory(productCategory);
+                }
+
+                //Specification: Origin
+                var productSpecs = _specificationAttributeService.GetProductSpecificationAttributesByProductId(product.Id);
+                foreach (var spec in productSpecs)
+                {
+                    var name = spec.SpecificationAttributeOption.SpecificationAttribute.Name;
+                    if (name.ToLower() == "origin")
+                        _specificationAttributeService.DeleteProductSpecificationAttribute(spec);
+                }
+                _specificationAttributeService.InsertProductSpecificationAttribute(new ProductSpecificationAttribute()
+                {
+                    ProductId = product.Id,
+                    SpecificationAttributeOptionId = model.OriginId,
+                    AllowFiltering = true
+                });
+
+                //images
+                var productPictures = _productService.GetProductPicturesByProductId(product.Id);
+                List<string> imgids = new List<string>();
+                if (!string.IsNullOrWhiteSpace(model.ImageIdList))
+                    imgids = new List<string>(model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                foreach (var pict in productPictures)
+                {
+                    var idstr = pict.PictureId.ToString();
+                    if (imgids.Contains(idstr))
+                        imgids.Remove(idstr);
+                    else
+                    {
+                        _productService.DeleteProductPicture(pict);
+                        var picture = _pictureService.GetPictureById(pict.PictureId);
+                        if (picture != null)
+                            _pictureService.DeletePicture(picture);
+                    }
+                }
+
+                foreach (string imgid in imgids)
+                {
+                    int id;
+                    if (int.TryParse(imgid, out id))
+                    {
+                        _productService.InsertProductPicture(new ProductPicture()
+                        {
+                            PictureId = id,
+                            ProductId = product.Id
+                        });
+                    }
+                }
+            }
+            return RedirectToAction("MyProducts");
+        }
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
         public ActionResult PublishProduct()
         {
             if (!IsCurrentUserRegistered())
@@ -1212,11 +1791,13 @@ namespace Nop.Web.Controllers
 
             var customer = _workContext.CurrentCustomer;
             if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
-                throw new ArgumentException("Customer can not publish any product.");
+                return new HttpUnauthorizedResult();
 
             var model = new MyProductModel();
             model.NavigationModel = GetCustomerNavigationModel(customer);
             model.NavigationModel.SelectedTab = CustomerNavigationEnum.PublishProduct;
+
+            model.OriginOptions = LoadOriginsOfProduct();
             return View(model);
         }
 
@@ -1244,23 +1825,233 @@ namespace Nop.Web.Controllers
                     CreatedOnUtc = DateTime.UtcNow,
                     UpdatedOnUtc = DateTime.UtcNow,
                     //constant value
+                    VisibleIndividually = true,
                     Published = true,
                     VendorId = customer.VendorId,
-                    ProductTypeId = 5,
-                    ProductTemplateId = 1
+                    ProductTypeId = model.ProductTypeId,
+                    ProductTemplateId = model.ProductTemplateId,
+                    OrderMinimumQuantity = 1,
+                    OrderMaximumQuantity = 100,
+                    ManageInventoryMethodId = 1,
+                    IsShipEnabled = true
                 };
                 _productService.InsertProduct(product);
 
                 //category
-                //model.OperationMode
-                //Manufacturers
-                //images
+                var existingProductCategories = _categoryService.GetProductCategoriesByCategoryId(model.CategoryId, 0, int.MaxValue, true);
+                if (existingProductCategories.FindProductCategory(product.Id, model.CategoryId) == null)
+                {
+                    var productCategory = new ProductCategory()
+                    {
+                        ProductId = product.Id,
+                        CategoryId = model.CategoryId
+                    };
+                    _categoryService.InsertProductCategory(productCategory);
+                }
 
+                //Specification: OperationMode, Origin
+                var psa = new ProductSpecificationAttribute()
+                {
+                    ProductId = product.Id,
+                    SpecificationAttributeOptionId = model.OperationModeId,
+                    AllowFiltering = true
+                };
+                _specificationAttributeService.InsertProductSpecificationAttribute(psa);
+
+                var origin = new ProductSpecificationAttribute()
+                {
+                    ProductId = product.Id,
+                    SpecificationAttributeOptionId = model.OriginId,
+                    AllowFiltering = true
+                };
+                _specificationAttributeService.InsertProductSpecificationAttribute(origin);
+
+                //images
+                if (!string.IsNullOrWhiteSpace(model.ImageIdList))
+                {
+                    string[] imgids = model.ImageIdList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string imgid in imgids)
+                    {
+                        int id;
+                        if (int.TryParse(imgid, out id))
+                        {
+                            _productService.InsertProductPicture(new ProductPicture()
+                            {
+                                PictureId = id,
+                                ProductId = product.Id
+                            });
+                        }
+                    }
+                }
                 //store mapping
                 var allStores = _storeService.GetAllStores();
                 _storeMappingService.InsertStoreMapping(product, allStores[0].Id);
             }
             return RedirectToAction("MyProducts");
+        }
+
+        [NopHttpsRequirement(SslRequirement.Yes)]
+        public ActionResult MyProducts(CatalogPagingFilteringModel command)
+        {
+            if (!IsCurrentUserRegistered())
+                return new HttpUnauthorizedResult();
+
+            var customer = _workContext.CurrentCustomer;
+            if (customer.VendorId <= 0 || customer.ApplyStoreState != (int)CustomerApplyStoreEnum.Approved)
+                return new HttpUnauthorizedResult();
+
+            var vendor = _vendorService.GetVendorById(customer.VendorId);
+            if (vendor == null || vendor.Deleted || !vendor.Active)
+                return InvokeHttp404();
+
+            if (command.PageNumber <= 0) command.PageNumber = 1;
+
+            var model = new MyProductListModel()
+            {
+                Id = vendor.Id,
+                VendorName = vendor.GetLocalized(x => x.Name),
+                VendorDescription = vendor.GetLocalized(x => x.Description)
+            };
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.MyProductList;
+
+            //sorting
+            model.PagingFilteringContext.AllowProductSorting = true;
+            if (model.PagingFilteringContext.AllowProductSorting)
+            {
+                foreach (ProductSortingEnum enumValue in Enum.GetValues(typeof(ProductSortingEnum)))
+                {
+                    var currentPageUrl = _webHelper.GetThisPageUrl(true);
+                    var sortUrl = _webHelper.ModifyQueryString(currentPageUrl, "orderby=" + ((int)enumValue).ToString(), null);
+
+                    var sortValue = enumValue.GetLocalizedEnum(_localizationService, _workContext);
+                    model.PagingFilteringContext.AvailableSortOptions.Add(new SelectListItem()
+                    {
+                        Text = sortValue,
+                        Value = sortUrl,
+                        Selected = enumValue == (ProductSortingEnum)command.OrderBy
+                    });
+                }
+            }
+
+            //page size
+            model.PagingFilteringContext.AllowCustomersToSelectPageSize = false;
+            //customer is not allowed to select a page size
+            command.PageSize = 10;
+            if (command.PageSize <= 0) command.PageSize = vendor.PageSize;
+
+            //products
+            IList<int> filterableSpecificationAttributeOptionIds = null;
+            var products = _productService.SearchProducts(out filterableSpecificationAttributeOptionIds, true,
+                vendorId: vendor.Id,
+                storeId: _storeContext.CurrentStore.Id,
+                visibleIndividuallyOnly: true,
+                featuredProducts: null,
+                priceMin: null,
+                priceMax: null,
+                orderBy: (ProductSortingEnum)command.OrderBy,
+                pageIndex: command.PageNumber - 1,
+                pageSize: command.PageSize);
+            model.Products = PrepareProductOverviewModels(products).ToList();
+
+            model.PagingFilteringContext.LoadPagedList(products);
+            model.PagingFilteringContext.LoadPagedList(products);
+
+            return View(model);
+        }
+
+        [NonAction]
+        protected IEnumerable<ProductOverviewModel> PrepareProductOverviewModels(IEnumerable<Product> products,
+    bool preparePriceModel = true, bool preparePictureModel = true,
+    int? productThumbPictureSize = null, bool prepareSpecificationAttributes = false,
+    bool forceRedirectionAfterAddingToCart = false)
+        {
+            if (products == null)
+                throw new ArgumentNullException("products");
+
+            var models = new List<ProductOverviewModel>();
+            foreach (var product in products)
+            {
+                var model = new ProductOverviewModel()
+                {
+                    Id = product.Id,
+                    Name = product.GetLocalized(x => x.Name),
+                    ShortDescription = product.GetLocalized(x => x.ShortDescription),
+                    FullDescription = product.GetLocalized(x => x.FullDescription),
+                    Sku = product.Sku,
+                    StockQuantity = product.StockQuantity
+                };
+                //price
+                if (preparePriceModel)
+                {
+                    #region Prepare product price
+
+                    var priceModel = new ProductOverviewModel.ProductPriceModel()
+                    {
+                        Price = String.Format(_localizationService.GetResource("Products.PriceRangeFrom"), _priceFormatter.FormatPrice(product.Price))
+                    };
+
+                    model.ProductPrice = priceModel;
+
+                    #endregion
+                }
+
+                //picture
+                if (preparePictureModel)
+                {
+                    #region Prepare product picture
+
+                    //If a size has been set in the view, we use it in priority
+                    int pictureSize = productThumbPictureSize.HasValue ? productThumbPictureSize.Value : _mediaSettings.ProductThumbPictureSize;
+                    //prepare picture model
+                    var defaultProductPictureCacheKey = string.Format(ModelCacheEventConsumer.PRODUCT_DEFAULTPICTURE_MODEL_KEY, product.Id, pictureSize, true, _workContext.WorkingLanguage.Id, _webHelper.IsCurrentConnectionSecured(), _storeContext.CurrentStore.Id);
+                    model.DefaultPictureModel = _cacheManager.Get(defaultProductPictureCacheKey, () =>
+                    {
+                        var picture = _pictureService.GetPicturesByProductId(product.Id, 1).FirstOrDefault();
+                        var pictureModel = new PictureModel()
+                        {
+                            ImageUrl = _pictureService.GetPictureUrl(picture, pictureSize),
+                            FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
+                            Title = string.Format(_localizationService.GetResource("Media.Product.ImageLinkTitleFormat"), model.Name),
+                            AlternateText = string.Format(_localizationService.GetResource("Media.Product.ImageAlternateTextFormat"), model.Name)
+                        };
+                        return pictureModel;
+                    });
+
+                    #endregion
+                }
+
+                //specs
+                models.Add(model);
+            }
+            return models;
+        }
+
+        [NonAction]
+        private Dictionary<int, string> LoadOriginsOfProduct()
+        {
+            var dict = new Dictionary<int, string>();
+
+            int attributeId = 0;
+            var specificationAttributes = _specificationAttributeService.GetSpecificationAttributes();
+            foreach (var spec in specificationAttributes)
+            {
+                if (spec.Name.ToLower() == "origin")
+                {
+                    attributeId = spec.Id;
+                    break;
+                }
+            }
+
+            if (attributeId > 0)
+            {
+                var options = _specificationAttributeService.GetSpecificationAttributeOptionsBySpecificationAttribute(attributeId);
+                foreach (var option in options)
+                {
+                    dict.Add(option.Id, option.GetLocalized(o => o.Name));
+                }
+            }
+            return dict;
         }
         #endregion
 
@@ -1282,20 +2073,24 @@ namespace Nop.Web.Controllers
             if (!IsCurrentUserRegistered())
                 return new HttpUnauthorizedResult();
 
+            var customer = _workContext.CurrentCustomer;
             try
             {
-                SaveCustomerStoreModel(_workContext.CurrentCustomer, model, CustomerNavigationEnum.SellerInfo);
+                SaveCustomerStoreModel(customer, model);
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
 
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.SellerInfo;
+
             return View(model);
         }
 
         [NonAction]
-        private void SaveCustomerStoreModel(Customer customer, CustomerStoreModel model, CustomerNavigationEnum navi)
+        private void SaveCustomerStoreModel(Customer customer, CustomerStoreModel model)
         {
             //custom customer attributes
             string customerAttributes = "";
@@ -1363,8 +2158,6 @@ namespace Nop.Web.Controllers
 
             }
             model.ApplyStoreState = (CustomerApplyStoreEnum)customer.ApplyStoreState;
-            model.NavigationModel = GetCustomerNavigationModel(customer);
-            model.NavigationModel.SelectedTab = navi;
 
         }
 
@@ -1467,12 +2260,15 @@ namespace Nop.Web.Controllers
                 }
 
                 model.DocumentCopyUrl = _pictureService.GetPictureUrl(docCopy.Id, 0, false);
-                SaveCustomerStoreModel(customer, model, CustomerNavigationEnum.ApplySale);
+                SaveCustomerStoreModel(customer, model);
             }
             catch (Exception exc)
             {
                 ModelState.AddModelError("", exc.Message);
             }
+
+            model.NavigationModel = GetCustomerNavigationModel(customer);
+            model.NavigationModel.SelectedTab = CustomerNavigationEnum.ApplySale;
 
             return View(model);
         }

@@ -108,7 +108,7 @@ $(function () {
     $('.shopping input').blur(function () {
         $(this).attr('placeholder', '');
         $(this).animate({ width: 22 }, function () {
-            $(this).css({ backgroundImage: 'url(../Content/Images/search.png)', textIndent: 30 });
+            $(this).css({ backgroundImage: 'url(../Themes/houdongfang/Content/Images/search.png)', textIndent: 30 });
             $(this).siblings('img').css({ display: 'none' });
         });
 
