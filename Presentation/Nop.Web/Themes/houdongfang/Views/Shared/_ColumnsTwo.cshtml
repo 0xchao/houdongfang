@@ -30,6 +30,9 @@
 }
 <div class="profile_slidebar clear">
     <div class="profile_slidebar_banner"><img src="~/Themes/houdongfang/Content/Images/ad_banner1@2x.jpg" /></div>
-    @RenderSection("left")
+    @if (IsSectionDefined("left"))
+    {
+        @RenderSection("left")
+    }
     @RenderBody()
 </div>

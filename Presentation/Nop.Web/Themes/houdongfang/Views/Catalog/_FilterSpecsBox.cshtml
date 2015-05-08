@@ -34,7 +34,7 @@
             @foreach (var item in Model.AlreadyFilteredItems)
             {
                 <div class="item">
-                    <strong>@T(item.SpecificationAttributeName):</strong> @T(item.SpecificationAttributeOptionName)
+                    <strong>@item.SpecificationAttributeName:</strong> @item.SpecificationAttributeOptionName
                 </div>
             }
         </div>
