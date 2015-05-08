@@ -7,9 +7,7 @@
   url('font_1422353160_120903_iconfont.svg') format('svg'); /* iOS 4.1- */
 }
 
-.clear {
-	zoom: 1;
-}
+.clear {zoom: 1;}
 
 .clear:after {
 	content: "";
