@@ -3,7 +3,6 @@ using FluentValidation.Attributes;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Validators.Customer;
-using System.Collections.Generic;
 
 namespace Nop.Web.Models.Customer
 {
@@ -24,15 +23,13 @@ namespace Nop.Web.Models.Customer
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Origin")]
         [AllowHtml]
-        public int OriginId { get; set; }
+        public string Origin { get; set; }
 
-        public Dictionary<int,string> OriginOptions { get; set; }
-
-        public int ProductTemplateId { get { return 1; } }
+        public int ProductTemplateId { get; set; }
 
         public int CategoryId { get; set; }
 
-        public int OperationModeId { get { return 13; } }
+        public string OperationMode { get { return "Student"; } }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Sku")]
         [AllowHtml]
@@ -44,11 +41,12 @@ namespace Nop.Web.Models.Customer
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Price")]
         public decimal Price { get; set; }
 
-        public int ProductTypeId { get { return 5; } }
+        [NopResourceDisplayName("Admin.Catalog.Products.Fields.ProductType")]
+        public int ProductTypeId { get; set; }
+        [NopResourceDisplayName("Admin.Catalog.Products.Fields.ProductType")]
+        public string ProductTypeName { get; set; }
 
         public CustomerNavigationModel NavigationModel { get; set; }
-
-        public string ImageIdList { get; set; }
 
     }
 
